@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/demo/src/main/resources/static/css/paginainicio.css">
-    <link rel="stylesheet" href="/demo/src/main/resources/javascript/animacion.js">
+    <link th:href="@{/css/paginainicio.css}" rel="stylesheet" />
+
     <title>Document</title>
 </head>
 <body>
@@ -29,21 +29,6 @@
             </div>
         </div>
     </header>
-
-    <!-- Navegación -->
-    <nav class="nav">
-        <div class="nav-content">
-            <ul class="nav-menu">
-                <li class="nav-item"><a href="#" class="nav-link active">INICIO</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">LENTES DE SOL</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">CONÓCENOS</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">CÓMO COMPRAR</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">CONTACTO</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">FAQ</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">MAYORISTAS</a></li>
-            </ul>
-        </div>
-    </nav>
 
     <!-- Sección principal de productos -->
     <main class="hero-section">
