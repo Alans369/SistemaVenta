@@ -4,33 +4,32 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Lob;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 
-
 //@Entity
-@Table(name = "usuarios")
+@Table(name = "marcas")
 @Getter @Setter @ToString
-public class User {
+public class Brand {
 
+   
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
-
+  
     private String nombre;
 
-   
-    private String correo;
-
     
-    private String contraseña;
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] imagen;
+
+   
+    private String descripcion;
 }
