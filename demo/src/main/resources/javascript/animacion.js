@@ -12,6 +12,18 @@
             });
         }, observerOptions);
 
+        // Efecto de entrada para el logo
+         const logo = document.querySelector('.logo');
+        logo.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.1)';
+            this.style.color = '#61C8B2';
+        });
+
+        logo.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+            this.style.color = '#333';
+        });
+
         // Observar las tarjetas de productos
         document.querySelectorAll('.product-card').forEach(card => {
             card.style.opacity = '0';
@@ -42,23 +54,4 @@
             });
         });
 
-        // Contador del carrito animado
-        const cartCount = document.querySelector('.cart-count');
-        const cart = document.querySelector('.cart');
-        
-        cart.addEventListener('click', function(e) {
-            e.preventDefault();
-            let count = parseInt(cartCount.textContent);
-            count++;
-            cartCount.textContent = count;
-            
-            // Animación del contador
-            cartCount.style.transform = 'scale(1.5)';
-            cartCount.style.background = '#49B6A1';
-            
-            setTimeout(() => {
-                cartCount.style.transform = 'scale(1)';
-                cartCount.style.background = '#61C8B2';0
-
-            }, 200);
-        });
+       
