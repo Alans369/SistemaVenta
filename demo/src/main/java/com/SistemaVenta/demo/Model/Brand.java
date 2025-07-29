@@ -17,14 +17,11 @@ import lombok.ToString;
 @Getter @Setter @ToString
 public class Brand {
 
-   
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-  
     private String nombre;
-
     
     @Lob
     @Column(columnDefinition = "LONGBLOB")
