@@ -18,7 +18,7 @@ import lombok.ToString;
 public class DetailsSale {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     
     @ManyToOne
     @JoinColumn(name = "venta_id")

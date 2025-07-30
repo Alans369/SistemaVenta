@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import jakarta.persistence.Entity;
+
 
 @Entity
 @Table(name = "ventas")
@@ -24,7 +24,7 @@ import jakarta.persistence.Entity;
 public class Sale {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     
     @ManyToOne
     @JoinColumn(name = "usuario_id")

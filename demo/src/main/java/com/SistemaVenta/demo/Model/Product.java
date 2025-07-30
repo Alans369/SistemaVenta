@@ -18,13 +18,13 @@ import lombok.ToString;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     
     @ManyToOne
     @JoinColumn(name = "categoria_id")
     private Category category;
     
-    private Long marcaId;
+    private Integer marcaId;
     
     private String nombre;
     
