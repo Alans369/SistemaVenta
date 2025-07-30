@@ -26,7 +26,7 @@ public class Product {
     
     @ManyToOne
     @JoinColumn(name = "marca_id")
-    private Brand marcaId;    private String nombre;
+    private Brand marca;    private String nombre;
     
     private String imagen;
     
