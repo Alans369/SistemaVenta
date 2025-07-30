@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-//@Entity
+@Entity
 @Table(name = "categorias")
 @Getter @Setter @ToString
 public class Category {

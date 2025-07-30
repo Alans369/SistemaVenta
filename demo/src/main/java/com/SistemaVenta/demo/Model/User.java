@@ -13,7 +13,7 @@ import lombok.ToString;
 
 
 
-//@Entity
+@Entity
 @Table(name = "usuarios")
 @Getter @Setter @ToString
 public class User {

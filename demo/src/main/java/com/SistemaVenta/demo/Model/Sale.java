@@ -16,6 +16,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import jakarta.persistence.Entity;
 
 @Entity
 @Table(name = "ventas")

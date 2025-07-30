@@ -12,7 +12,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 
-//@Entity
+@Entity
 @Table(name = "marcas")
 @Getter @Setter @ToString
 public class Brand {
