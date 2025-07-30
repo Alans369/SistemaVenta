@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - ModernApp</title>
+    <link th:href="@{/css/registrodiseño.css}" rel="stylesheet" />
+    <script th:src="@{/javascript/registroani.js}"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Elementos decorativos de fondo -->
+    <div class="bg-decoration">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+        <div class="floating-shape shape-4"></div>
+    </div>
+
+    <!-- Contenedor principal -->
+    <div class="register-container">
+        <!-- Header -->
+        <div class="register-header">
+            <div class="register-icon">
+                <i class="fas fa-user-plus"></i>
+            </div>
+            <h1 class="register-title">Registro</h1>
+            <p class="register-subtitle">Crea tu cuenta para comenzar</p>
+        </div>
+
+        <!-- Formulario -->
+        <form id="registerForm" novalidate>
+            <!-- Nombre -->
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-user"></i>
+                    Nombre
+                </label>
+                <input type="text" class="form-control" id="nombre" placeholder="Ingresa tu nombre" required>
+                <div class="invalid-feedback"></div>
+                <div class="valid-feedback">¡Perfecto!</div>
+            </div>
+
+            <!-- Apellido -->
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-user-tag"></i>
+                    Apellido
+                </label>
+                <input type="text" class="form-control" id="apellido" placeholder="Ingresa tu apellido" required>
+                <div class="invalid-feedback"></div>
+                <div class="valid-feedback">¡Excelente!</div>
+            </div>
+
+            <!-- Correo -->
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-envelope"></i>
+                    Correo Electrónico
+                </label>
+                <input type="email" class="form-control" id="correo" placeholder="ejemplo@correo.com" required>
+                <div class="invalid-feedback"></div>
+                <div class="valid-feedback">¡Email válido!</div>
+            </div>
+
+            <!-- Rol -->
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-user-cog"></i>
+                    Rol
+                </label>
+                <div class="role-selector">
+                    <div class="role-option">
+                        <input type="radio" class="role-input" id="cliente" name="rol" value="cliente" required>
+                        <label class="role-label" for="cliente">
+                            <i class="fas fa-shopping-cart"></i>
+                            Cliente
+                        </label>
+                    </div>
+                    <div class="role-option">
+                        <input type="radio" class="role-input" id="vendedor" name="rol" value="vendedor" required>
+                        <label class="role-label" for="vendedor">
+                            <i class="fas fa-store"></i>
+                            Vendedor
+                        </label>
+                    </div>
+                </div>
+                <div class="invalid-feedback" id="rolError"></div>
+            </div>
+
+            <!-- Contraseña -->
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-lock"></i>
+                    Contraseña
+                </label>
+                <div class="password-field">
+                    <input type="password" class="form-control" id="password" placeholder="Crea una contraseña segura" required>
+                    <button type="button" class="password-toggle" onclick="togglePassword()">
+                        <i class="fas fa-eye" id="passwordIcon"></i>
+                    </button>
+                </div>
+                <div class="password-strength">
+                    <div class="password-strength-bar" id="strengthBar"></div>
+                </div>
+                <div class="invalid-feedback" id="passwordError"></div>
+                <div class="valid-feedback">¡Contraseña segura!</div>
+            </div>
+
+            <!-- Botones -->
+            <div class="btn-group">
+                <button type="button" class="btn-custom btn-cancel" onclick="cancelForm()">
+                    <i class="fas fa-times"></i>
+                    Cancelar
+                </button>
+                <button type="submit" class="btn-custom btn-accept">
+                    <i class="fas fa-check"></i>
+                    Aceptar
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -18,7 +18,7 @@ public class GerraardoController {
 
     @GetMapping("/login")
     public String login() {
-        return "layouts/registrarse";
+        return "Registros/registrarse";
     }
 
     
