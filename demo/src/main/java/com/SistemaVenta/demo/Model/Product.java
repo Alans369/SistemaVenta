@@ -24,9 +24,9 @@ public class Product {
     @JoinColumn(name = "categoria_id")
     private Category category;
     
-    private Integer marcaId;
-    
-    private String nombre;
+    @ManyToOne
+    @JoinColumn(name = "marca_id")
+    private Brand marcaId;    private String nombre;
     
     private String imagen;
     
