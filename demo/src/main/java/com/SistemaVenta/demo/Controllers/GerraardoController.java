@@ -16,4 +16,11 @@ public class GerraardoController {
         return "layouts/_main_layout";
     }
 
+    @GetMapping("/login")
+    public String login() {
+        return "layouts/registrarse";
+    }
+
+    
+
 }
