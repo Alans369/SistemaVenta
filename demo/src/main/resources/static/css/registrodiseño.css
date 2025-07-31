@@ -260,26 +260,6 @@
             color: white;
         }
 
-        /* Indicador de fortaleza de contraseña */
-        .password-strength {
-            height: 4px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 2px;
-            margin-top: 8px;
-            overflow: hidden;
-        }
-
-        .password-strength-bar {
-            height: 100%;
-            width: 0%;
-            transition: all 0.3s ease;
-            border-radius: 2px;
-        }
-
-        .strength-weak { background: var(--danger-gradient); width: 25%; }
-        .strength-fair { background: #ffa500; width: 50%; }
-        .strength-good { background: #00bfff; width: 75%; }
-        .strength-strong { background: var(--success-gradient); width: 100%; }
 
         /* Botones */
         .btn-group {
