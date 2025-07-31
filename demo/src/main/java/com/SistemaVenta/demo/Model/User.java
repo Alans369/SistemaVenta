@@ -36,6 +36,9 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    
+    @Pattern(regexp = ".*[0-9].*", message = "La contraseña debe contener al menos un número")
+    @Pattern(regexp = ".*[a-z].*", message = "La contraseña debe contener al menos una letra minúscula")
+    @Pattern(regexp = ".*[A-Z].*", message = "La contraseña debe contener al menos una letra mayúscula")
+    @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres")
     private String contrasena;
 }
