@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - ModernApp</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+ 
+</head>
+<body>
+    <!-- Elementos decorativos de fondo -->
+    <div class="bg-decoration">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+        <div class="floating-shape shape-4"></div>
+        <div class="floating-shape shape-5"></div>
+    </div>
+
+    <!-- Contenedor principal -->
+    <div class="login-container fade-in">
+        <!-- Header -->
+        <div class="login-header">
+            <div class="login-icon">
+                <i class="fas fa-sign-in-alt"></i>
+            </div>
+            <h1 class="login-title">Bienvenido</h1>
+            <p class="login-subtitle">Inicia sesión en tu cuenta</p>
+        </div>
+
+        <!-- Formulario -->
+        <form id="loginForm" novalidate>
+            <!-- Correo o Usuario -->
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-envelope"></i>
+                    Correo Electrónico
+                </label>
+                <input type="email" class="form-control" id="email" placeholder="ejemplo@correo.com" required>
+                <div class="invalid-feedback"></div>
+                <div class="valid-feedback">¡Email válido!</div>
+            </div>
+
+            <!-- Contraseña -->
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-lock"></i>
+                    Contraseña
+                </label>
+                <div class="password-field">
+                    <input type="password" class="form-control" id="password" placeholder="Ingresa tu contraseña" required>
+                    <button type="button" class="password-toggle" onclick="togglePassword()">
+                        <i class="fas fa-eye" id="passwordIcon"></i>
+                    </button>
+                </div>
+                <div class="invalid-feedback" id="passwordError"></div>
+            </div>
+
+            <!-- Opciones del formulario -->
+            <div class="form-options">
+                <label class="remember-me">
+                    <input type="checkbox" class="remember-input" id="rememberMe">
+                    <div class="remember-checkbox"></div>
+                    <span>Recordarme</span>
+                </label>
+                <a href="#" class="forgot-password" onclick="forgotPassword()">
+                    ¿Olvidaste tu contraseña?
+                </a>
+            </div>
+
+            <!-- Botones -->
+            <div class="btn-group">
+                <button type="button" class="btn-custom btn-cancel" onclick="cancelLogin()">
+                    <i class="fas fa-times"></i>
+                    Cancelar
+                </button>
+                <button type="submit" class="btn-custom btn-login">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Iniciar Sesión
+                </button>
+            </div>
+        </form>
+
+        <!-- Divider -->
+        <div class="divider">
+            <span>¿No tienes cuenta?</span>
+        </div>
+
+        <!-- Link de registro -->
+        <div class="register-link">
+            <a href="#" onclick="goToRegister()">Crear cuenta nueva</a>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
