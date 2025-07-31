@@ -13,6 +13,7 @@ import com.SistemaVenta.demo.Model.Role;
 import com.SistemaVenta.demo.Model.User;
 import com.SistemaVenta.demo.Repositorios.IRoleRepository;
 import com.SistemaVenta.demo.Services.Implementation.UserServices;
+import com.SistemaVenta.demo.Services.Implementation.RolService;
 
 import jakarta.validation.Valid;
 
@@ -22,6 +23,9 @@ public class UserController {
     
     @Autowired
     private UserServices userServices;
+
+    @Autowired
+    private RolService roleService;
 
     @Autowired
     private IRoleRepository roleRepository;
@@ -42,9 +46,10 @@ public class UserController {
         if (result.hasErrors()) {
             return "Registros/registrarse";
         }
+        System.out.println("Rol recibido: " + rol);
 
         try {
-            Role role = roleRepository.findById(rol).get();
+            Role role = roleService.findById(rol);
             usuario.setRole(role);
             usuario = userServices.create(usuario);
             
