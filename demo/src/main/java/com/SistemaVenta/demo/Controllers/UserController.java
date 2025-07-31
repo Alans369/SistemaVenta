@@ -1,37 +1,52 @@
 package com.SistemaVenta.demo.Controllers;
 
-
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.SistemaVenta.demo.Model.Role;
 import com.SistemaVenta.demo.Model.User;
-
-import org.springframework.stereotype.*;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;;
+import com.SistemaVenta.demo.Services.Implementation.UserServices;
 
 
 @Controller
 public class UserController {
+    
+    @Autowired
+    private UserServices userServices;
 
-
-    @RequestMapping("/register")
-    public String register() {
+    @GetMapping("/register")
+    public String register(User user) {
+       
         return "Registros/registrarse";
     }
 
     @PostMapping("/save")
-    public String save(@RequestParam(value = "rol", defaultValue = "1") Integer rol, User usuario, BindingResult result, Model model, RedirectAttributes attributes) {
+    public String save(@RequestParam("rol") Integer rol, 
+                      @ModelAttribute("user") User usuario, 
+                      BindingResult result, 
+                      Model model, 
+                      RedirectAttributes attributes) {
         
-        System.out.println(usuario);
-        System.out.println("Rol seleccionado: " + rol);
+        if (result.hasErrors()) {
+            return "Registros/registrarse";
+        }
 
-        return "/Registros";
-
+        try {
+            // Usar el servicio para crear el usuario con el rol especificado
+            usuario = userServices.createWithRole(usuario, rol);
+            attributes.addFlashAttribute("success", "Usuario registrado correctamente");
+            return "redirect:/Registros/iniciar";
+        } catch (Exception e) {
+            attributes.addFlashAttribute("error", "Error al registrar: " + e.getMessage());
+            return "Registros/registrarse";
+        }   
         
 
         

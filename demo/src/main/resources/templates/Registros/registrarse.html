@@ -74,21 +74,21 @@ xmlns:th="http://www.thymeleaf.org"
                 </label>
                 <div class="role-selector">
                     <div class="role-option">
-                        <input type="radio" class="role-input" id="cliente" name="rol" value="2" >
+                        <input type="radio" class="role-input" id="cliente" name="rol" value="2" required>
                         <label class="role-label" for="cliente">
                             <i class="fas fa-shopping-cart"></i>
                             Cliente
                         </label>
                     </div>
                     <div class="role-option">
-                        <input type="radio" class="role-input" id="vendedor" name="rol" value="1" >
+                        <input type="radio" class="role-input" id="vendedor" name="rol" value="1" required>
                         <label class="role-label" for="vendedor">
                             <i class="fas fa-store"></i>
                             Vendedor
                         </label>
                     </div>
                 </div>
-                <div class="invalid-feedback" id="rolError"></div>
+                <div class="invalid-feedback" id="rolError">Por favor, selecciona un rol</div>
             </div>
 
             <!-- Contraseña -->
@@ -98,7 +98,7 @@ xmlns:th="http://www.thymeleaf.org"
                     Contraseña
                 </label>
                 <div class="password-field">
-                    <input type="password" class="form-control" id="password" placeholder="Crea una contraseña segura" th:field="*{contrasena}"/>
+                    <input type="password" class="form-control" id="password" placeholder="Crea una contraseña segura" th:field="*{contrasena}" required/>
                     <button type="button" class="password-toggle" onclick="togglePassword()">
                         <i class="fas fa-eye" id="passwordIcon"></i>
                     </button>
@@ -106,7 +106,7 @@ xmlns:th="http://www.thymeleaf.org"
                 <div class="password-strength">
                     <div class="password-strength-bar" id="strengthBar"></div>
                 </div>
-                <div class="invalid-feedback" id="passwordError"></div>
+                <div class="invalid-feedback" id="passwordError">La contraseña es requerida</div>
                 <div class="valid-feedback">¡Contraseña segura!</div>
             </div>
 
