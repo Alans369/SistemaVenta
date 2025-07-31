@@ -15,6 +15,8 @@ import com.SistemaVenta.demo.Model.User;
 import com.SistemaVenta.demo.Repositorios.IRoleRepository;
 import com.SistemaVenta.demo.Services.Implementation.UserServices;
 
+import jakarta.validation.Valid;
+
 
 @Controller
 public class UserController {
@@ -33,7 +35,7 @@ public class UserController {
 
     @PostMapping("/save")
     public String save(@RequestParam("rol") Integer rol, 
-                      @ModelAttribute("user") User usuario, 
+                      @ModelAttribute("user") @Valid User usuario, 
                       BindingResult result, 
                       Model model, 
                       RedirectAttributes attributes) {
