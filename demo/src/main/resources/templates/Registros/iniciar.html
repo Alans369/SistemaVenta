@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es"
+xmlns:th="http://www.thymeleaf.org"
+>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,15 +35,18 @@
         </div>
 
         <!-- Formulario -->
-        <form id="loginForm" novalidate>
+        <form id="loginForm" novalidate th:action="@{/save}" th:object="${user}" method="post">
             <!-- Correo o Usuario -->
             <div class="form-group">
                 <label class="form-label">
                     <i class="fas fa-envelope"></i>
                     Correo Electrónico
                 </label>
-                <input type="email" class="form-control" id="email" placeholder="ejemplo@correo.com" required>
-                <div class="invalid-feedback"></div>
+                <input type="text" class="form-control"
+                th:class="${#fields.hasErrors('correo')} ? 'form-control is-invalid' : 'form-control'"
+                id="correo" placeholder="ejemplo@correo.com" 
+                th:field="*{correo}" />
+                <div class="invalid-feedback" th:errors="*{correo}"></div>
                 <div class="valid-feedback">¡Email válido!</div>
             </div>
 
@@ -51,7 +57,7 @@
                     Contraseña
                 </label>
                 <div class="password-field">
-                    <input type="password" class="form-control" id="password" placeholder="Ingresa tu contraseña" required>
+                    <input type="password" class="form-control" id="password" placeholder="Ingresa tu contraseña" >
                     <button type="button" class="password-toggle" onclick="togglePassword()">
                         <i class="fas fa-eye" id="passwordIcon"></i>
                     </button>

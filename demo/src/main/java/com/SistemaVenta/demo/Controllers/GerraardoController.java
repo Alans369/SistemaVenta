@@ -21,6 +21,10 @@ public class GerraardoController {
         return "Registros/registrarse";
     }
 
+    @GetMapping("/login1")
+    public String iniciar(User user) {
+        return "Registros/iniciar";
+    }
     
 
 }
