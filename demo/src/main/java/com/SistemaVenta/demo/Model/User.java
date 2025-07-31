@@ -27,18 +27,23 @@ public class User {
     @NotBlank(message = "El nombre no puede estar vacío")
     private String nombre;
 
+    @NotBlank(message = "El apellido no puede estar vacío")
     private String apellido;
 
+
     @Email(message = "El correo debe ser válido")
+    @NotBlank(message = "El correo no puede estar vacío")
     private String correo;
 
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
 
-    @Pattern(regexp = ".*[0-9].*", message = "La contraseña debe contener al menos un número")
-    @Pattern(regexp = ".*[a-z].*", message = "La contraseña debe contener al menos una letra minúscula")
-    @Pattern(regexp = ".*[A-Z].*", message = "La contraseña debe contener al menos una letra mayúscula")
+    @NotBlank(message = "La contraseña no puede estar vacía")
     @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres")
+    @Pattern(
+        regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
+        message = "La contraseña debe tener al menos una mayúscula, una minúscula, un número y un carácter especial"
+    )
     private String contrasena;
 }
