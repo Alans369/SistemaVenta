@@ -11,8 +11,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.SistemaVenta.demo.Model.Role;
 import com.SistemaVenta.demo.Model.User;
-import com.SistemaVenta.demo.Repositorios.IRoleRepository;
+
 import com.SistemaVenta.demo.Services.Implementation.UserServices;
+import com.SistemaVenta.demo.Services.Implementation.RolService;
 
 import jakarta.validation.Valid;
 
@@ -24,7 +25,8 @@ public class UserController {
     private UserServices userServices;
 
     @Autowired
-    private IRoleRepository roleRepository;
+    private RolService roleService;
+
 
     @GetMapping("/register")
     public String register(User user) {
@@ -42,9 +44,10 @@ public class UserController {
         if (result.hasErrors()) {
             return "Registros/registrarse";
         }
+        System.out.println("Rol recibido: " + rol);
 
         try {
-            Role role = roleRepository.findById(rol).get();
+            Role role = roleService.findById(rol);
             usuario.setRole(role);
             usuario = userServices.create(usuario);
             
