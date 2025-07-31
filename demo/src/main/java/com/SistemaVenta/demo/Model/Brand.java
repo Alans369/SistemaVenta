@@ -12,6 +12,8 @@ import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import jakarta.validation.constraints.*;
+
 
 
 @Entity
@@ -29,10 +31,13 @@ public class Brand {
 
     private String nombre;
     
+
     @Lob
     @Column(columnDefinition = "LONGBLOB")
+    @NotBlank(message = "La imagen no puede estar vacía")
     private byte[] imagen;
 
    
+    @NotBlank(message = "La descripción no puede estar vacía")
     private String descripcion;
 }
