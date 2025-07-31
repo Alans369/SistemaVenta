@@ -24,15 +24,11 @@ public class UserServices implements IUser {
     }
 
     public User createWithRole(User user, Integer roleId) {
-
-        System.out.println(roleId);
-        
         Role role = roleRepository.findById(roleId)
-
             .orElseThrow(() -> new RuntimeException("Rol no encontrado con ID: " + roleId));
-        
          System.out.println(role);
         user.setRole(role);
+        
         return repository.save(user);
     }
 

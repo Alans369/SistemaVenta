@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.SistemaVenta.demo.Model.Role;
 import com.SistemaVenta.demo.Model.User;
+import com.SistemaVenta.demo.Repositorios.IRoleRepository;
 import com.SistemaVenta.demo.Services.Implementation.UserServices;
 
 
@@ -20,6 +21,9 @@ public class UserController {
     
     @Autowired
     private UserServices userServices;
+
+    @Autowired
+    private IRoleRepository roleRepository;
 
     @GetMapping("/register")
     public String register(User user) {
@@ -39,10 +43,12 @@ public class UserController {
         }
 
         try {
-            // Usar el servicio para crear el usuario con el rol especificado
-            usuario = userServices.createWithRole(usuario, rol);
-            attributes.addFlashAttribute("success", "Usuario registrado correctamente");
+            Role role = roleRepository.findById(rol).get();
+            usuario.setRole(role);
+            usuario = userServices.create(usuario);
+            
             return "redirect:/Registros/iniciar";
+            
         } catch (Exception e) {
             attributes.addFlashAttribute("error", "Error al registrar: " + e.getMessage());
             return "Registros/registrarse";
