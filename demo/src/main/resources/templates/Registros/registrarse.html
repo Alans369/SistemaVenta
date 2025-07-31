@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es"
+xmlns:th="http://www.thymeleaf.org"
+>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,14 +32,14 @@
         </div>
 
         <!-- Formulario -->
-        <form id="registerForm" novalidate>
+        <form id="registerForm" th:action="@{/save}" th:object="${user}" method="post">
             <!-- Nombre -->
             <div class="form-group">
                 <label class="form-label">
                     <i class="fas fa-user"></i>
                     Nombre
                 </label>
-                <input type="text" class="form-control" id="nombre" placeholder="Ingresa tu nombre" required>
+                <input type="text" class="form-control" id="nombre" placeholder="Ingresa tu nombre" th:field="*{nombre}" />
                 <div class="invalid-feedback"></div>
                 <div class="valid-feedback">¡Perfecto!</div>
             </div>
@@ -48,7 +50,7 @@
                     <i class="fas fa-user-tag"></i>
                     Apellido
                 </label>
-                <input type="text" class="form-control" id="apellido" placeholder="Ingresa tu apellido" required>
+                <input type="text" class="form-control" id="apellido" placeholder="Ingresa tu apellido" th:field="*{apellido}"/>
                 <div class="invalid-feedback"></div>
                 <div class="valid-feedback">¡Excelente!</div>
             </div>
@@ -59,7 +61,7 @@
                     <i class="fas fa-envelope"></i>
                     Correo Electrónico
                 </label>
-                <input type="email" class="form-control" id="correo" placeholder="ejemplo@correo.com" required>
+                <input type="email" class="form-control" id="correo" placeholder="ejemplo@correo.com" th:field="*{correo}"/>
                 <div class="invalid-feedback"></div>
                 <div class="valid-feedback">¡Email válido!</div>
             </div>
@@ -72,14 +74,14 @@
                 </label>
                 <div class="role-selector">
                     <div class="role-option">
-                        <input type="radio" class="role-input" id="cliente" name="rol" value="cliente" required>
+                        <input type="radio" class="role-input" id="cliente" name="rol" value="2" >
                         <label class="role-label" for="cliente">
                             <i class="fas fa-shopping-cart"></i>
                             Cliente
                         </label>
                     </div>
                     <div class="role-option">
-                        <input type="radio" class="role-input" id="vendedor" name="rol" value="vendedor" required>
+                        <input type="radio" class="role-input" id="vendedor" name="rol" value="1" >
                         <label class="role-label" for="vendedor">
                             <i class="fas fa-store"></i>
                             Vendedor
@@ -96,7 +98,7 @@
                     Contraseña
                 </label>
                 <div class="password-field">
-                    <input type="password" class="form-control" id="password" placeholder="Crea una contraseña segura" required>
+                    <input type="password" class="form-control" id="password" placeholder="Crea una contraseña segura" th:field="*{contrasena}"/>
                     <button type="button" class="password-toggle" onclick="togglePassword()">
                         <i class="fas fa-eye" id="passwordIcon"></i>
                     </button>

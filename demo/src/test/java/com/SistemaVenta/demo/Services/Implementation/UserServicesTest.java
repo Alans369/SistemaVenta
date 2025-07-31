@@ -34,13 +34,13 @@ class UserServicesTest {
         user.setId(1);
         user.setNombre("Test User");
         user.setCorreo("test@example.com");
-        user.setContraseña("password123");
+        user.setContrasena("password123");
 
         User otroUser = new User();
         otroUser.setId(1);
         otroUser.setNombre("Test User");
         otroUser.setCorreo("test@example.com");
-        otroUser.setContraseña("password123");
+        otroUser.setContrasena("password123");
 
         
            // Usando any() - funcionará con cualquier objeto User
@@ -68,7 +68,7 @@ class UserServicesTest {
         user.setId(1);
         user.setNombre("Test User");
         user.setCorreo("test@example.com");
-        user.setContraseña("password123");
+        user.setContrasena("password123");
         
         when(repository.findById(1)).thenReturn(Optional.of(user));
 

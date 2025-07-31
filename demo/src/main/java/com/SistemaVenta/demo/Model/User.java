@@ -22,15 +22,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
 
     private String nombre;
+
+    private String apellido;
 
    
     private String correo;
 
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
+
     
-    private String contraseña;
+    private String contrasena;
 }
