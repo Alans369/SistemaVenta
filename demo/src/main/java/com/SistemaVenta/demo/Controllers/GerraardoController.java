@@ -1,10 +1,10 @@
 package com.SistemaVenta.demo.Controllers;
 
-
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.SistemaVenta.demo.Model.User;
 
 @Controller
 @RequestMapping("/gerardo")
@@ -17,7 +17,7 @@ public class GerraardoController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(User user) {
         return "Registros/registrarse";
     }
 
