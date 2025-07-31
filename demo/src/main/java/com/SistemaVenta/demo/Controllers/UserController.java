@@ -35,7 +35,7 @@ public class UserController {
 
     @PostMapping("/save")
     public String save(@RequestParam("rol") Integer rol, 
-                      @ModelAttribute("user") @Valid User usuario, 
+                      @Valid User usuario, 
                       BindingResult result, 
                       Model model, 
                       RedirectAttributes attributes) {

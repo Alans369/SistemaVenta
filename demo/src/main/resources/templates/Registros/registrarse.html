@@ -39,8 +39,11 @@ xmlns:th="http://www.thymeleaf.org"
                     <i class="fas fa-user"></i>
                     Nombre
                 </label>
-                <input type="text" class="form-control" id="nombre" placeholder="Ingresa tu nombre" th:field="*{nombre}" />
-                <div class="invalid-feedback"></div>
+                <input type="text" class="form-control" 
+                       th:class="${#fields.hasErrors('nombre')} ? 'form-control is-invalid' : 'form-control'"
+                       id="nombre" placeholder="Ingresa tu nombre" 
+                       th:field="*{nombre}" />
+                <div class="invalid-feedback" th:errors="*{nombre}">Error en el nombre</div>
                 <div class="valid-feedback">¡Perfecto!</div>
             </div>
 
@@ -50,8 +53,11 @@ xmlns:th="http://www.thymeleaf.org"
                     <i class="fas fa-user-tag"></i>
                     Apellido
                 </label>
-                <input type="text" class="form-control" id="apellido" placeholder="Ingresa tu apellido" th:field="*{apellido}"/>
-                <div class="invalid-feedback"></div>
+                <input type="text" class="form-control"
+                       th:class="${#fields.hasErrors('apellido')} ? 'form-control is-invalid' : 'form-control'"
+                       id="apellido" placeholder="Ingresa tu apellido" 
+                       th:field="*{apellido}"/>
+                <div class="invalid-feedback" th:errors="*{apellido}">Error en el apellido</div>
                 <div class="valid-feedback">¡Excelente!</div>
             </div>
 
@@ -61,8 +67,11 @@ xmlns:th="http://www.thymeleaf.org"
                     <i class="fas fa-envelope"></i>
                     Correo Electrónico
                 </label>
-                <input type="email" class="form-control" id="correo" placeholder="ejemplo@correo.com" th:field="*{correo}"/>
-                <div class="invalid-feedback"></div>
+                <input type="email" class="form-control"
+                       th:class="${#fields.hasErrors('correo')} ? 'form-control is-invalid' : 'form-control'"
+                       id="correo" placeholder="ejemplo@correo.com" 
+                       th:field="*{correo}"/>
+                <div class="invalid-feedback" th:errors="*{correo}">Error en el correo</div>
                 <div class="valid-feedback">¡Email válido!</div>
             </div>
 
