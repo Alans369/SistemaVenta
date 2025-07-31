@@ -11,7 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.SistemaVenta.demo.Model.Role;
 import com.SistemaVenta.demo.Model.User;
-import com.SistemaVenta.demo.Repositorios.IRoleRepository;
+
 import com.SistemaVenta.demo.Services.Implementation.UserServices;
 import com.SistemaVenta.demo.Services.Implementation.RolService;
 
@@ -27,8 +27,6 @@ public class UserController {
     @Autowired
     private RolService roleService;
 
-    @Autowired
-    private IRoleRepository roleRepository;
 
     @GetMapping("/register")
     public String register(User user) {
