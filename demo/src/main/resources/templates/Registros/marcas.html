@@ -1,23 +1,374 @@
 <!DOCTYPE html>
-<html lang="en"
+<html lang="es"
 xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+    <title>Gestión de Marcas - ModernApp</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link th:href="@{/css/marcadiseño.css}" rel="stylesheet" />
+
+
+    </head>
 <body>
-    <form th:action="@{/save}" th:object="${marca}" method="post">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required>
+    <!-- Elementos decorativos de fondo -->
+    <div class="bg-decoration">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+        <div class="floating-shape shape-4"></div>
+        <div class="floating-shape shape-5"></div>
+        <div class="floating-shape shape-6"></div>
+    </div>
 
-        <label for="descripcion">Descripción:</label>
-        <textarea id="descripcion" name="descripcion" required></textarea>
+    <!-- Contenedor principal -->
+    <div class="brand-container fade-in">
+        <!-- Header -->
+        <div class="brand-header">
+            <div class="brand-icon">
+                <i class="fas fa-tags"></i>
+            </div>
+            <h1 class="brand-title">Gestión de Marcas</h1>
+            <p class="brand-subtitle">Crea y administra tu marca</p>
+        </div>
 
-        <label for="imagen">Imagen:</label>
-        <input type="file" id="imagen" name="imagen" accept="image/*" required>
+        <!-- Formulario -->
+        <form id="brandForm" novalidate th:action="@{/save}" th:object="${marca}" method="post">
+            <!-- Nombre de la marca -->
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-signature"></i>
+                    Nombre de la Marca
+                </label>
+                <input type="text" class="form-control" id="brandName" placeholder="Ingresa el nombre de tu marca" required>
+                <div class="invalid-feedback"></div>
+                <div class="valid-feedback">¡Nombre perfecto!</div>
+            </div>
 
-        <button type="submit">Registrar Marca</button>
-    </form>
-</body>
+            <!-- Upload de imagen -->
+            <div class="image-upload-container">
+                <label class="form-label">
+                    <i class="fas fa-image"></i>
+                    Logo de la Marca
+                </label>
+                
+                <!-- Área de upload -->
+                <div class="image-upload-area" id="uploadArea">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="upload-text">
+                        Arrastra tu imagen aquí o haz clic para seleccionar
+                    </div>
+                    <div class="upload-hint">
+                        Formatos: JPG, PNG, GIF (máximo 5MB)
+                    </div>
+                    <input type="file" class="file-input" id="imageInput" accept="image/*">
+                </div>
+
+                <!-- Preview de imagen -->
+                <div class="image-preview" id="imagePreview">
+                    <img class="preview-image" id="previewImg" alt="Preview">
+                    <div class="image-overlay">
+                        <div class="image-actions">
+                            <button type="button" class="image-action-btn btn-change" onclick="changeImage()" title="Cambiar imagen">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button type="button" class="image-action-btn btn-remove" onclick="removeImage()" title="Eliminar imagen">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="image-info" id="imageInfo"></div>
+                </div>
+            </div>
+
+            <!-- Descripción -->
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-align-left"></i>
+                    Descripción de la Marca
+                </label>
+                <textarea class="form-control textarea" id="brandDescription" placeholder="Describe tu marca, sus valores, productos o servicios..." required rows="5"></textarea>
+                <div class="invalid-feedback"></div>
+                <div class="valid-feedback">¡Descripción completa!</div>
+            </div>
+
+            <!-- Botones -->
+            <div class="btn-group">
+                <button type="button" class="btn-custom btn-cancel" onclick="cancelForm()">
+                    <i class="fas fa-times"></i>
+                    Cancelar
+                </button>
+                <button type="submit" class="btn-custom btn-save">
+                    <i class="fas fa-save"></i>
+                    Guardar Marca
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let selectedFile = null;
+
+        // Manejo del upload de imagen
+        const uploadArea = document.getElementById('uploadArea');
+        const imageInput = document.getElementById('imageInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const previewImg = document.getElementById('previewImg');
+        const imageInfo = document.getElementById('imageInfo');
+
+        // Eventos de drag and drop
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleImageSelect(files[0]);
+            }
+        });
+
+        // Evento de selección de archivo
+        imageInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleImageSelect(e.target.files[0]);
+            }
+        });
+
+        // Función para manejar la selección de imagen
+        function handleImageSelect(file) {
+            // Validar tipo de archivo
+            if (!file.type.startsWith('image/')) {
+                alert('Por favor selecciona un archivo de imagen válido');
+                return;
+            }
+
+            // Validar tamaño (5MB máximo)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('El archivo es demasiado grande. El tamaño máximo es 5MB');
+                return;
+            }
+
+            selectedFile = file;
+
+            // Mostrar preview
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImg.src = e.target.result;
+                uploadArea.style.display = 'none';
+                imagePreview.style.display = 'block';
+                
+                // Mostrar información del archivo
+                const fileSize = (file.size / 1024).toFixed(1);
+                imageInfo.innerHTML = `
+                    <strong>${file.name}</strong><br>
+                    Tamaño: ${fileSize} KB | Tipo: ${file.type}
+                `;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Función para cambiar imagen
+        function changeImage() {
+            imageInput.click();
+        }
+
+        // Función para eliminar imagen
+        function removeImage() {
+            if (confirm('¿Estás seguro de que quieres eliminar esta imagen?')) {
+                selectedFile = null;
+                previewImg.src = '';
+                uploadArea.style.display = 'block';
+                imagePreview.style.display = 'none';
+                imageInput.value = '';
+            }
+        }
+
+        // Validación de campos
+        function validateField(field) {
+            const value = field.value.trim();
+            
+            switch (field.id) {
+                case 'brandName':
+                    if (value.length < 2) {
+                        field.classList.add('is-invalid');
+                        field.classList.remove('is-valid');
+                        field.nextElementSibling.textContent = 'El nombre debe tener al menos 2 caracteres';
+                        return false;
+                    } else if (value.length > 50) {
+                        field.classList.add('is-invalid');
+                        field.classList.remove('is-valid');
+                        field.nextElementSibling.textContent = 'El nombre no puede exceder 50 caracteres';
+                        return false;
+                    } else {
+                        field.classList.add('is-valid');
+                        field.classList.remove('is-invalid');
+                        return true;
+                    }
+                    
+                case 'brandDescription':
+                    if (value.length < 10) {
+                        field.classList.add('is-invalid');
+                        field.classList.remove('is-valid');
+                        field.nextElementSibling.textContent = 'La descripción debe tener al menos 10 caracteres';
+                        return false;
+                    } else if (value.length > 500) {
+                        field.classList.add('is-invalid');
+                        field.classList.remove('is-valid');
+                        field.nextElementSibling.textContent = 'La descripción no puede exceder 500 caracteres';
+                        return false;
+                    } else {
+                        field.classList.add('is-valid');
+                        field.classList.remove('is-invalid');
+                        return true;
+                    }
+            }
+            return true;
+        }
+
+        // Validación en tiempo real
+        ['brandName', 'brandDescription'].forEach(id => {
+            document.getElementById(id).addEventListener('input', function() {
+                validateField(this);
+            });
+        });
+
+        // Contador de caracteres para descripción
+        document.getElementById('brandDescription').addEventListener('input', function() {
+            const maxLength = 500;
+            const currentLength = this.value.length;
+            const remaining = maxLength - currentLength;
+            
+            // Puedes agregar un contador visual aquí si quieres
+            if (remaining < 50) {
+                this.style.borderColor = remaining < 0 ? '#ff416c' : '#ffa500';
+            }
+        });
+
+        // Función de cancelar
+        function cancelForm() {
+            if (confirm('¿Estás seguro de que quieres cancelar? Se perderán todos los cambios.')) {
+                document.getElementById('brandForm').reset();
+                // Remover clases de validación
+                document.querySelectorAll('.form-control').forEach(field => {
+                    field.classList.remove('is-valid', 'is-invalid');
+                });
+                // Resetear imagen
+                removeImage();
+            }
+        }
+
+        // Manejo del formulario
+        document.getElementById('brandForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const brandName = document.getElementById('brandName');
+            const brandDescription = document.getElementById('brandDescription');
+            
+            let isValid = true;
+            
+            // Validar campos
+            isValid &= validateField(brandName);
+            isValid &= validateField(brandDescription);
+            
+            // Validar imagen (opcional pero recomendada)
+            if (!selectedFile) {
+                if (!confirm('No has seleccionado una imagen para la marca. ¿Deseas continuar sin imagen?')) {
+                    return;
+                }
+            }
+            
+            if (isValid) {
+                // Simular guardado
+                const saveBtn = document.querySelector('.btn-save');
+                const originalContent = saveBtn.innerHTML;
+                
+                saveBtn.innerHTML = '<div class="spinner"></div> Guardando...';
+                saveBtn.disabled = true;
+                document.body.classList.add('loading');
+                
+                setTimeout(() => {
+                    let message = `¡Marca guardada exitosamente!\n\n`;
+                    message += `Nombre: ${brandName.value}\n`;
+                    message += `Descripción: ${brandDescription.value.substring(0, 100)}${brandDescription.value.length > 100 ? '...' : ''}\n`;
+                    if (selectedFile) {
+                        message += `Imagen: ${selectedFile.name}\n`;
+                    }
+                    message += `\n¡Tu marca ha sido registrada correctamente!`;
+                    
+                    alert(message);
+                    
+                    // Resetear formulario
+                    this.reset();
+                    document.querySelectorAll('.form-control').forEach(field => {
+                        field.classList.remove('is-valid', 'is-invalid');
+                    });
+                    removeImage();
+                    
+                    // Restaurar botón
+                    saveBtn.innerHTML = originalContent;
+                    saveBtn.disabled = false;
+                    document.body.classList.remove('loading');
+                }, 2500);
+            }
+        });
+
+        // Efecto de typing en el placeholder
+        function typeWriterEffect() {
+            const descriptions = [
+                "Describe tu marca, sus valores, productos o servicios...",
+                "¿Qué hace única a tu marca? Cuéntanos su historia...",
+                "Comparte la visión y misión de tu marca...",
+                "¿Cuál es la propuesta de valor de tu marca?"
+            ];
+            
+            let currentIndex = 0;
+            const textarea = document.getElementById('brandDescription');
+            
+            setInterval(() => {
+                if (!textarea.value) { // Solo cambiar si el campo está vacío
+                    currentIndex = (currentIndex + 1) % descriptions.length;
+                    textarea.placeholder = descriptions[currentIndex];
+                }
+            }, 4000);
+        }
+
+        // Inicializar efectos
+        window.addEventListener('load', function() {
+            typeWriterEffect();
+        });
+
+        // Prevenir pérdida de datos al salir
+        window.addEventListener('beforeunload', function(e) {
+            const form = document.getElementById('brandForm');
+            const formData = new FormData(form);
+            let hasData = false;
+            
+            for (let [key, value] of formData.entries()) {
+                if (value && value.toString().trim()) {
+                    hasData = true;
+                    break;
+                }
+            }
+            
+            if (hasData || selectedFile) {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        });
+    </script>
+    </body>
 </html>
