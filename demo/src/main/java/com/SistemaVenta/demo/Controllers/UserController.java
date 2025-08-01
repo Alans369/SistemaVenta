@@ -1,6 +1,7 @@
 package com.SistemaVenta.demo.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +21,9 @@ import jakarta.validation.Valid;
 
 @Controller
 public class UserController {
+
+     @Autowired
+    private PasswordEncoder passwordEncoder;
     
     @Autowired
     private UserServices userServices;
@@ -35,11 +39,7 @@ public class UserController {
     }
 
     @PostMapping("/save")
-    public String save(@RequestParam("rol") Integer rol, 
-                      @Valid User usuario, 
-                      BindingResult result, 
-                      Model model, 
-                      RedirectAttributes attributes) {
+    public String save(@RequestParam("rol") Integer rol, @Valid User usuario, BindingResult result, Model model, RedirectAttributes attributes) {
         
         if (result.hasErrors()) {
             return "Registros/registrarse";
@@ -49,8 +49,10 @@ public class UserController {
         try {
             Role role = roleService.findById(rol);
             usuario.setRole(role);
+
+            String password = passwordEncoder.encode(usuario.getContrasena());
+            usuario.setContrasena(password);
             usuario = userServices.create(usuario);
-            
             return "redirect:/Registros/iniciar";
             
         } catch (Exception e) {
