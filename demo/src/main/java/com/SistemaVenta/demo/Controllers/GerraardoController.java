@@ -17,7 +17,7 @@ public class GerraardoController {
         return "layouts/_main_layout";
     }
 
-    @GetMapping("/login")
+    @GetMapping("/register")
     public String login(User user) {
         return "Registros/registrarse";
     }
