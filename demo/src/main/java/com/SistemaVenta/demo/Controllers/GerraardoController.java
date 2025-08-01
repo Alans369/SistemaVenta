@@ -31,4 +31,9 @@ public class GerraardoController {
     public String marcas(Brand marca) {
         return "Registros/marcas";
     }
+
+    @GetMapping("/admin")
+    public String admin1( ) {
+        return "Registros/admin";
+    }
 }
