@@ -56,8 +56,8 @@ public class UserController {
             Role role = roleService.findById(rol);
             usuario.setRole(role);
 
-            String password = passwordEncoder.encode(usuario.getContrasena());
-            usuario.setContrasena(password);
+            String password = passwordEncoder.encode(usuario.getPassword());
+            usuario.setPassword(password);
             usuario = userServices.create(usuario);
             return "redirect:/Registros/iniciar";
             

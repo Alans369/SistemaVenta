@@ -1,6 +1,7 @@
 package com.SistemaVenta.demo.Model;
 
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,7 +27,8 @@ public class User {
     private Integer id;
 
     @NotBlank(message = "El nombre no puede estar vacío")
-    private String nombre;
+   
+    private String username;
 
     @NotBlank(message = "El apellido no puede estar vacío")
     private String apellido;
@@ -44,7 +46,8 @@ public class User {
     @Size(min = 6, message = "La contraseña debe tener al menos 8 caracteres")
      
     @NotBlank(message = "La contraseña no puede estar vacía")
-    private String contrasena;
+   
+    private String password;
 
   
 

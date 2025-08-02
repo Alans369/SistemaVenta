@@ -40,10 +40,10 @@ xmlns:th="http://www.thymeleaf.org"
                     Nombre
                 </label>
                 <input type="text" class="form-control" 
-                       th:class="${#fields.hasErrors('nombre')} ? 'form-control is-invalid' : 'form-control'"
+                       th:class="${#fields.hasErrors('username')} ? 'form-control is-invalid' : 'form-control'"
                        id="nombre" placeholder="Ingresa tu nombre" 
-                       th:field="*{nombre}" />
-                <div class="invalid-feedback" th:errors="*{nombre}">Error en el nombre</div>
+                       th:field="*{username}" />
+                <div class="invalid-feedback" th:errors="*{username}">Error en el nombre</div>
                 <div class="valid-feedback">¡Perfecto!</div>
             </div>
 
@@ -108,9 +108,9 @@ xmlns:th="http://www.thymeleaf.org"
                 </label>
                 <div class="password-field">
                     <input type="password" class="form-control"
-                    th:class="${#fields.hasErrors('contrasena')} ? 'form-control is-invalid' : 'form-control'"
-                     id="password" placeholder="Crea una contraseña segura" th:field="*{contrasena}" />
-                     <div class="invalid-feedback" id="passwordError" th:errors="*{contrasena}">Requiere contrseña</div>
+                    th:class="${#fields.hasErrors('password')} ? 'form-control is-invalid' : 'form-control'"
+                     id="password" placeholder="Crea una contraseña segura" th:field="*{password}" />
+                     <div class="invalid-feedback" id="passwordError" th:errors="*{password}">Requiere contrseña</div>
                      <div class="valid-feedback">¡Contraseña segura!</div>
                     <button type="button" class="password-toggle" onclick="togglePassword()"></button>
                 </div>
