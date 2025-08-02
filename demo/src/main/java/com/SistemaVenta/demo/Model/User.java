@@ -9,15 +9,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+
 
 
 
 @Entity
+
 @Table(name = "usuarios")
-@Getter @Setter @ToString
+
+@Getter @Setter
 public class User {
 
     @Id
@@ -41,6 +42,11 @@ public class User {
 
     @NotBlank(message = "La contraseña no puede estar vacía")
     @Size(min = 6, message = "La contraseña debe tener al menos 8 caracteres")
- 
+     
+    @NotBlank(message = "La contraseña no puede estar vacía")
     private String contrasena;
+
+  
+
+
 }
