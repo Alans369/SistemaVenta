@@ -22,7 +22,7 @@ import jakarta.validation.Valid;
 @Controller
 public class UserController {
 
-     @Autowired
+    @Autowired
     private PasswordEncoder passwordEncoder;
     
     @Autowired
@@ -36,6 +36,12 @@ public class UserController {
     public String register(User user) {
        
         return "Registros/registrarse";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+       
+        return "Registros/iniciar";
     }
 
     @PostMapping("/save")

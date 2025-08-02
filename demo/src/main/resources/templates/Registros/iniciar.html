@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es"
-xmlns:th="http://www.thymeleaf.org"
+xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
 >
 
 <head>
@@ -34,8 +34,12 @@ xmlns:th="http://www.thymeleaf.org"
             <p class="login-subtitle">Inicia sesión en tu cuenta</p>
         </div>
 
+        <div th:if="${param.error}">
+            Invalid username and password.
+        </div>
+
         <!-- Formulario -->
-        <form id="loginForm" novalidate th:action="@{/save}" th:object="${user}" method="post">
+        <form id="loginForm" th:action="@{/login}" method="post">
             <!-- Correo o Usuario -->
             <div class="form-group">
                 <label class="form-label">
@@ -43,10 +47,10 @@ xmlns:th="http://www.thymeleaf.org"
                     Correo Electrónico
                 </label>
                 <input type="text" class="form-control"
-                th:class="${#fields.hasErrors('correo')} ? 'form-control is-invalid' : 'form-control'"
-                id="correo" placeholder="ejemplo@correo.com" 
-                th:field="*{correo}" />
-                <div class="invalid-feedback" th:errors="*{correo}"></div>
+               
+                id="correo" name="username" placeholder="ejemplo@correo.com" 
+                >
+                <div class="invalid-feedback" ></div>
                 <div class="valid-feedback">¡Email válido!</div>
             </div>
 
@@ -57,7 +61,7 @@ xmlns:th="http://www.thymeleaf.org"
                     Contraseña
                 </label>
                 <div class="password-field">
-                    <input type="password" class="form-control" id="password" placeholder="Ingresa tu contraseña" >
+                    <input type="password" name="password" class="form-control" id="password" placeholder="Ingresa tu contraseña" >
                     <button type="button" class="password-toggle" onclick="togglePassword()">
                         <i class="fas fa-eye" id="passwordIcon"></i>
                     </button>

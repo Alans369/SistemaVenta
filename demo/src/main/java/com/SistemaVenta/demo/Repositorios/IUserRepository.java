@@ -1,14 +1,12 @@
 package com.SistemaVenta.demo.Repositorios;
 import com.SistemaVenta.demo.Model.User;
+
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface IUserRepository extends JpaRepository<User, Integer> {
     
-    // Custom query methods can be defined here if needed
-    // For example:
-    // Optional<User> findByUsername(String username);
+   
     
-    // You can also use Spring Data JPA's derived query methods
-    // to automatically implement common queries.
-
 }

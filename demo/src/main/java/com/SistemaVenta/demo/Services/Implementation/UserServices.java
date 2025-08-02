@@ -26,4 +26,10 @@ public class UserServices implements IUser {
     public User finById(Integer id) {
         return repository.findById(id).get();
     }
+
+
+
+    
+              
+
 }
