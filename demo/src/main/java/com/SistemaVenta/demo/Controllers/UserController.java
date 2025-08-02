@@ -44,6 +44,12 @@ public class UserController {
         return "Registros/iniciar";
     }
 
+    @GetMapping("/admin")
+    public String admin() {
+       
+        return "Registros/admin";
+    }
+
     @PostMapping("/save")
     public String save(@RequestParam("rol") Integer rol, @Valid User usuario, BindingResult result, Model model, RedirectAttributes attributes) {
         
