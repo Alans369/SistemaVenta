@@ -1,12 +1,13 @@
 package com.SistemaVenta.demo.Controllers;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.http.ResponseEntity;
+
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller 
@@ -20,18 +21,22 @@ public class LoginController {
 
 
     @PostMapping("/login1")
-	public ResponseEntity<Void> login(@RequestParam String username, @RequestParam String password) {
+	public String login(@RequestParam String username, @RequestParam String password) {
+        try {
         System.out.println("Attempting to authenticate user: " + username);
-        
-        Authentication authenticationRequest = UsernamePasswordAuthenticationToken.unauthenticated(username, password);
-		Authentication authenticationResponse =this.authenticationManager.authenticate(authenticationRequest);
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
+        Authentication authentication = this.authenticationManager.authenticate(token);
 
-        if (authenticationResponse.isAuthenticated()) {
-            System.out.println("User authenticated successfully: " + authenticationResponse.getName());
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.status(401).build(); // Unauthorized
-        }
+        // Si la autenticación es exitosa, Spring Security guarda el contexto.
+        // Aquí puedes redirigir.
+        System.out.println("User authenticated successfully");
+        return "Registros/admin"; // Redirige a la página de admin
+
+    } catch (AuthenticationException e) {
+        // Esto se ejecuta si las credenciales son incorrectas
+        System.out.println("Authentication failed: " + e.getMessage());
+        return "index"; // Redirige a index con un parámetro de error
+    }
 
         
 		// ...
