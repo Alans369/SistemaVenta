@@ -8,6 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -32,9 +33,9 @@ public class LoginController {
         System.out.println("Attempting to authenticate user: " + username);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authentication = this.authenticationManager.authenticate(token);
+        String role = "ROLE_ADMIN";
 
-
-        String tokens = JwtUtil.generateToken(username);
+        String tokens = JwtUtil.generateToken(token.getName(),role);
         System.out.println("Generated Token: " + tokens);
 
         Cookie cookie = new Cookie("JWT_TOKEN",tokens);
@@ -58,6 +59,22 @@ public class LoginController {
         
 		// ...
 	}
+
+
+    @GetMapping("/logout")
+    public String logout(HttpServletResponse response) {
+    // Crear una cookie vacía con el mismo nombre y maxAge = 0 para eliminarla
+    Cookie cookie = new Cookie("JWT_TOKEN", null);
+    cookie.setPath("/");
+    cookie.setHttpOnly(true);
+    cookie.setMaxAge(0); // Expira inmediatamente
+
+    // Añadir la cookie a la respuesta (borrará la existente)
+    response.addCookie(cookie);
+
+    // Redirigir al login o a donde prefieras
+    return "redirect:/Registros/iniciar";
+}
 
 	
 
