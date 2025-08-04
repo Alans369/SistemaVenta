@@ -42,7 +42,6 @@ public class WebSecurityConfig {
 				.requestMatchers("/**").permitAll()
                 .requestMatchers("/admin").hasAnyAuthority("ROLE_ADMIN")
 				.anyRequest().authenticated()
-				
 			).exceptionHandling(ex -> ex
             .accessDeniedHandler((request, response, accessDeniedException) -> {
                 response.setContentType("application/json");
@@ -53,7 +52,6 @@ public class WebSecurityConfig {
                 );
             })
         )
-			.addFilterBefore(new JwtAuthenticationFilter(), org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class)
 			.formLogin((form) -> form
 				.loginPage("/login")
 				.permitAll()
