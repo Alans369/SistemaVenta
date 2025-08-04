@@ -3,10 +3,19 @@ package com.SistemaVenta.demo.Controllers;
 
 
 
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.SistemaVenta.demo.Security.JwtUtil;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Controller 
@@ -33,10 +43,22 @@ public class LoginController {
         System.out.println("Attempting to authenticate user: " + username);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authentication = this.authenticationManager.authenticate(token);
-        String role = "ROLE_ADMIN";
+        
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        // ✅ Extraer el rol del usuario (toma el primer rol)
+            String role = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .findFirst()
+                .orElse("ROLE_USER"); // Rol por defecto
+            
+            System.out.println("User authenticated successfully: " + username);
+            System.out.println("User role: " + role);
+            System.out.println("All authorities: " + userDetails.getAuthorities());
 
         String tokens = JwtUtil.generateToken(token.getName(),role);
         System.out.println("Generated Token: " + tokens);
+
 
         Cookie cookie = new Cookie("JWT_TOKEN",tokens);
         cookie.setHttpOnly(true); // HttpOnly para que no sea accesible por JavaScript
@@ -55,7 +77,7 @@ public class LoginController {
         
         return "Registros/iniciar"; // Redirige a index con un parámetro de error
     }
-
+    
         
 		// ...
 	}
@@ -75,6 +97,25 @@ public class LoginController {
     // Redirigir al login o a donde prefieras
     return "redirect:/Registros/iniciar";
 }
+
+ @GetMapping("/access-denied")
+    public ResponseEntity<Map<String, Object>> accessDenied(
+            @RequestParam(required = false) String url,
+            HttpServletRequest request) {
+        
+        // Info del usuario actual
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("error", "403 Forbidden");
+        response.put("message", "No tienes permisos para acceder a este recurso");
+        response.put("attemptedUrl", url != null ? url : "unknown");
+        response.put("user", auth != null ? auth.getName() : "anonymous");
+        response.put("authorities", auth != null ? auth.getAuthorities() : "none");
+        response.put("timestamp", LocalDateTime.now());
+        
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+    }
 
 	
 

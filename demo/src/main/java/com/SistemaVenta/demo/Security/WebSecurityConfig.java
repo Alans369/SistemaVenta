@@ -18,6 +18,8 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import com.SistemaVenta.demo.Services.Implementation.UserDetailsServiceImpl;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 
 
 @Configuration
@@ -38,10 +40,19 @@ public class WebSecurityConfig {
 			.authorizeHttpRequests((requests) -> requests
 				.requestMatchers("/register", "/templates/**","/static/**").permitAll()
 				.requestMatchers("/**").permitAll()
-                .requestMatchers("/admin").hasRole("ADMIN")
+                .requestMatchers("/admin").hasAnyAuthority("ROLE_ADMIN")
 				.anyRequest().authenticated()
 				
-			)
+			).exceptionHandling(ex -> ex
+            .accessDeniedHandler((request, response, accessDeniedException) -> {
+                response.setContentType("application/json");
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.getWriter().write(
+                    "{\"error\":\"403 Forbidden\",\"message\":\"Sin permisos para " + 
+                    request.getMethod() + " " + request.getRequestURI() + "\"}"
+                );
+            })
+        )
 			.addFilterBefore(new JwtAuthenticationFilter(), org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class)
 			.formLogin((form) -> form
 				.loginPage("/login")
@@ -75,6 +86,9 @@ public class WebSecurityConfig {
 
 		return new ProviderManager(authenticationProvider);
 	}
+
+	 
+
 
 
 	
