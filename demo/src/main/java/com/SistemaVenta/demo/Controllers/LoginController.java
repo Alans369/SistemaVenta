@@ -127,28 +127,13 @@ public class LoginController {
 
    
 
- @GetMapping("/access-denied")
-    public ResponseEntity<Map<String, Object>> accessDenied(
-            @RequestParam(required = false) String url,
-            HttpServletRequest request) {
-        
-        // Info del usuario actual
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        
-        Map<String, Object> response = new HashMap<>();
-        response.put("error", "403 Forbidden");
-        response.put("message", "No tienes permisos para acceder a este recurso");
-        response.put("attemptedUrl", url != null ? url : "unknown");
-        response.put("user", auth != null ? auth.getName() : "anonymous");
-        response.put("authorities", auth != null ? auth.getAuthorities() : "none");
-        response.put("timestamp", LocalDateTime.now());
-        
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+   @GetMapping("/access-denied")
+    public String accessDenied() {
+        return "error";
     }
-
+}
 	
 
 
 
 
-}
