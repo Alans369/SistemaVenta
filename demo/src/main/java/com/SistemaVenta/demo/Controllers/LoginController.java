@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.SistemaVenta.demo.Model.User;
 import com.SistemaVenta.demo.Security.JwtUtil;
 
 import jakarta.servlet.http.Cookie;
@@ -35,6 +36,21 @@ public class LoginController {
 	public LoginController(AuthenticationManager authenticationManager) {
 		this.authenticationManager = authenticationManager;
 	}
+
+     @GetMapping("/layout")
+    public String layout() {
+        return "layouts/_main_layout";
+    }
+
+    @GetMapping("/register")
+    public String login(User user) {
+        return "Registros/registrarse";
+    }
+
+    @GetMapping("/login")
+    public String iniciar() {
+        return "Registros/iniciar";
+    }
 
 
     @PostMapping("/login1")
