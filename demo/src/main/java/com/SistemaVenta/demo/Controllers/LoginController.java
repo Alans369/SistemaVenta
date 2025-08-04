@@ -7,29 +7,45 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.SistemaVenta.demo.Model.Role;
 import com.SistemaVenta.demo.Model.User;
 import com.SistemaVenta.demo.Security.JwtUtil;
+import com.SistemaVenta.demo.Services.Implementation.RolService;
+import com.SistemaVenta.demo.Services.Implementation.UserServices;
+import com.SistemaVenta.demo.Utils.AuthUtils;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 
 @Controller 
 public class LoginController {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    
+    @Autowired
+    private UserServices userServices;
+
+    @Autowired
+    private RolService roleService;
 
     private final AuthenticationManager authenticationManager;
 
@@ -56,63 +72,60 @@ public class LoginController {
     @PostMapping("/login1")
 	public String login(@RequestParam String username, @RequestParam String password, HttpServletResponse response) {
         try {
-        System.out.println("Attempting to authenticate user: " + username);
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
-        Authentication authentication = this.authenticationManager.authenticate(token);
-        
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-        // ✅ Extraer el rol del usuario (toma el primer rol)
-            String role = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .findFirst()
-                .orElse("ROLE_USER"); // Rol por defecto
+        System.out.println("buscando al usario para el login" + username);
             
-            System.out.println("User authenticated successfully: " + username);
-            System.out.println("User role: " + role);
-            System.out.println("All authorities: " + userDetails.getAuthorities());
+        String token = AuthUtils.login(authenticationManager, username, password);
+    
 
-        String tokens = JwtUtil.generateToken(token.getName(),role);
-        System.out.println("Generated Token: " + tokens);
-
-
-        Cookie cookie = new Cookie("JWT_TOKEN",tokens);
-        cookie.setHttpOnly(true); // HttpOnly para que no sea accesible por JavaScript
-        cookie.setPath("/"); // Disponible en toda la aplicación
-        cookie.setMaxAge(60 * 60); // 1 hora de duración
-
-        // Añadir la cookie a la respuesta
+        Cookie cookie = new Cookie("JWT_TOKEN",token);
+        cookie.setHttpOnly(true); 
+        cookie.setPath("/"); 
         response.addCookie(cookie);
-
-        
-        return "Registros/admin"; // Redirige a la página de admin
+        return "redirect:/"; 
 
     } catch (AuthenticationException e) {
-        // Esto se ejecuta si las credenciales son incorrectas
         System.out.println("Authentication failed: " + e.getMessage());
         
-        return "Registros/iniciar"; // Redirige a index con un parámetro de error
+        return "Registros/iniciar";
     }
     
         
 		// ...
 	}
 
+    @PostMapping("/save")
+    public String save(@RequestParam("rol") Integer rol, @Valid User usuario, BindingResult result, Model model, RedirectAttributes attributes) {
+        
+        if (result.hasErrors()) {
+            return "Registros/registrarse";
+        }
+        System.out.println("Rol recibido: " + rol);
 
-    @GetMapping("/logout")
-    public String logout(HttpServletResponse response) {
-    // Crear una cookie vacía con el mismo nombre y maxAge = 0 para eliminarla
-    Cookie cookie = new Cookie("JWT_TOKEN", null);
-    cookie.setPath("/");
-    cookie.setHttpOnly(true);
-    cookie.setMaxAge(0); // Expira inmediatamente
+        try {
+            Role role = roleService.findById(rol);
+            usuario.setRole(role);
 
-    // Añadir la cookie a la respuesta (borrará la existente)
-    response.addCookie(cookie);
+            String password = passwordEncoder.encode(usuario.getPassword());
+            usuario.setPassword(password);
+            usuario = userServices.create(usuario);
 
-    // Redirigir al login o a donde prefieras
-    return "redirect:/Registros/iniciar";
-}
+            String tokens = JwtUtil.generateToken(usuario.getUsername(),"ROL_"+role.getNombre(), 1000 * 60 * 10);
+             System.out.println("token de registro de usario creado exitosamente: " + tokens);
+
+            return "redirect:/Registros/iniciar";
+
+            
+        } catch (Exception e) {
+            attributes.addFlashAttribute("error", "Error al registrar: " + e.getMessage());
+            return "Registros/registrarse";
+        }   
+        
+
+        
+    }
+
+
+   
 
  @GetMapping("/access-denied")
     public ResponseEntity<Map<String, Object>> accessDenied(
