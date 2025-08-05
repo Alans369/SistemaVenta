@@ -28,7 +28,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements IJw
    
     private static final List<String> PUBLIC_ROUTES = Arrays.asList(
         "/", "/home", "/login", "/login1", "/register", 
-        "/static/**", "/templates/**", "/js", "/images", "/save",
+        "/static/**", "/templates/**", "/javascript", "/images", "/save",
         "/access-denied");
 
 

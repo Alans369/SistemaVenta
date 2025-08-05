@@ -32,7 +32,7 @@ public class WebSecurityConfig {
         .csrf(csrf -> csrf.disable())
 		.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			.authorizeHttpRequests((requests) -> requests
-				.requestMatchers("/register", "/templates/**","/static/**","/access-denied","/login1","/login", "/save").permitAll()
+				.requestMatchers("/register", "/templates/**","/static/**","/javascript/**","/access-denied","/login1","/login", "/save").permitAll()
 				.requestMatchers("/").permitAll()
                 .requestMatchers("/admin/**").hasAnyAuthority("ROLE_VENDEDOR")
                 .requestMatchers("/user/**").hasAnyAuthority("ROLE_CLIENTE")
