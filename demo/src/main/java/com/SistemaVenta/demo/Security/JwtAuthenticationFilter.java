@@ -49,25 +49,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements IJw
         if (isPublicRoute(requestPath)) {
             if(requestPath.equals("/login") ){
                 System.out.println("✅ Ruta pública de login perotienes token: " + requestPath);
-                if(token!=null){
-                    System.out.println("reirigiendo seguntu rol");
-
-                    Claims claimsJws = JwtUtil.extractAllClaims(token);
-                    String role = claimsJws.get("role", String.class);
-
-                    if(role.equals("ROLE_CLIENTE")){
-                        response.sendRedirect("/user/dashboard");
-                        return;
-                    }
-                    if(role.equals("ROLE_VENDEDOR")){
-                        response.sendRedirect("/admin/admin");
-                        return;
-                    }
-
-
+                String ruta = redirect(token);
+                if(ruta !=null){
+                    response.sendRedirect(ruta);
+                    return ;
                 }
-                filterChain.doFilter(request, response);
-                return;
             }
            System.out.println("✅ Ruta pública: " + requestPath);
                 filterChain.doFilter(request, response);
@@ -170,6 +156,29 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements IJw
         return PROTECTED_ROUTES.stream().anyMatch(route -> 
             path.startsWith(route + "/") || path.equals(route)
         );
+    }
+
+    private String redirect(String token){
+        System.out.println("reirigiendo seguntu rol");
+
+        if(token==null){
+            return null;
+        }
+
+        String ruta = null;
+
+        Claims claimsJws = JwtUtil.extractAllClaims(token);
+        String role = claimsJws.get("role", String.class);
+
+        if(role.equals("ROLE_CLIENTE")){
+         ruta ="/user/dashboard";
+                        
+        }
+        if(role.equals("ROLE_VENDEDOR")){
+        ruta ="/admin/admin";
+        }
+                        
+        return ruta;
     }
 
     
