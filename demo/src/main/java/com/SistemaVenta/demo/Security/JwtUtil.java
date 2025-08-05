@@ -50,6 +50,7 @@ public class JwtUtil {
     }
 
     public static boolean isTokenExpired(String token) {
+        System.out.println("verificando si el token expior desde jwtutil: " + extractExpiration(token).before(new Date()));
         return extractExpiration(token).before(new Date());
     }
 

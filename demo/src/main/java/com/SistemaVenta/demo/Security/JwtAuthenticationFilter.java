@@ -27,14 +27,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements IJw
 
    
     private static final List<String> PUBLIC_ROUTES = Arrays.asList(
-        "/", "/home", "/login", "/login1", "/register", 
-        "/static/**", "/templates/**", "/javascript", "/images", "/save",
-        "/access-denied");
+        "/", "/home", "/login", "/login1", "/register",
+        "/css/**", "/js/**", "/images/**",
+        "/webjars/**", "/static/**", "/resources/**",
+        "/save", "/access-denied"
+    );
 
 
   
     private static final List<String> PROTECTED_ROUTES = Arrays.asList(
-        "/admin", "/admin/admin","/user");
+        "/admin", "/admin/admin","/user","/admin//marcaSave");
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -50,14 +52,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements IJw
             if(requestPath.equals("/login") ){
                 System.out.println("✅ Ruta pública de login perotienes token: " + requestPath);
                 String ruta = redirect(token);
-                if(ruta !=null){
+                if(ruta !=null ){
                     response.sendRedirect(ruta);
+                    
                     return ;
                 }
             }
            System.out.println("✅ Ruta pública: " + requestPath);
-                filterChain.doFilter(request, response);
-                return;
+            filterChain.doFilter(request, response);
+            return;
         }
 
          if (isProtectedRoute(requestPath)) {
@@ -65,22 +68,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements IJw
 
             
 
-            if (token == null) {
+            if (token == null || !isSignatureValid(token) || !isNotExpired(token) ) {
                 // ❌ No hay token - redirigir a login
-                System.out.println("❌ no hay token");
-                handleNoTokenOrInvalidToken(request, response,"");
-                return;
-            }
-
-            if (isNotExpired(token)) {
-                System.out.println("❌ el token a expi");
+                System.out.println("❌ no hay token o token invalido");
                 handleNoTokenOrInvalidToken(request, response,"login");
-                return;
-            }
-
-            if (!isSignatureValid(token)) {
-                System.out.println("❌ firma del token inválida");
-                handleNoTokenOrInvalidToken(request, response,"");
+              
                 return;
             }
 
@@ -104,52 +96,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements IJw
                 return;
             }
          }
-
-        /**String token = null;
-      
-
-      
-        if (request.getCookies() != null) {
-            token = Arrays.stream(request.getCookies())
-                    .filter(c -> c.getName().equals("JWT_TOKEN"))
-                    .map(Cookie::getValue)
-                    .findFirst()
-                    .orElse(null);
-        }
-
-        // Si hay token, validarlo
-        if (token != null) {
-            try {
-                Jws<Claims> claimsJws = Jwts.parserBuilder()
-                        .setSigningKey(key)
-                        .build()
-                        .parseClaimsJws(token);
-
-                String username = claimsJws.getBody().getSubject();
-                String role = claimsJws.getBody().get("role", String.class);
-
-                if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role);
-
-            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
-                    username, null, Collections.singleton(authority)
-            );
-            auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(auth);
-        }
-
-            } catch (Exception e) {
-                System.out.println("Token inválido o expirado: " + e.getMessage());
-            }
-        }*/
-
-     //   filterChain.doFilter(request, response);
     }
     // Verifica si la ruta es pública
      private boolean isPublicRoute(String path) {
-        return PUBLIC_ROUTES.stream().anyMatch(route -> 
-            path.equals(route) || path.startsWith(route + "/")
-        );
+        return PUBLIC_ROUTES.stream().anyMatch(route -> {
+            if (route.endsWith("/**")) {
+                // Si la ruta termina en /**, verificamos si el path comienza con la parte antes del **
+                String baseRoute = route.substring(0, route.length() - 2);
+                return path.startsWith(baseRoute);
+            }
+            return path.equals(route);
+        });
     }
 
     private boolean isProtectedRoute(String path) {
@@ -159,29 +116,32 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements IJw
     }
 
     private String redirect(String token){
-        System.out.println("reirigiendo seguntu rol");
+        System.out.println("redirigiendo según rol");
+        String ruta = null;
+        try {
+            // Si el token está expirado, retornamos null
+            if (token == null || !isNotExpired(token) || !isSignatureValid(token)) {
+                System.out.println("❌ token no existe o Token expirado o invalido");
+                return null;
+            }
 
-        if(token==null){
+            Claims claimsJws = JwtUtil.extractAllClaims(token);
+            String role = claimsJws.get("role", String.class);
+
+            if(role.equals("ROLE_CLIENTE")){
+                ruta = "/user/dashboard";
+            }
+            if(role.equals("ROLE_VENDEDOR")){
+                ruta = "/admin/admin";
+            }
+
+        } catch (Exception e) {
+            System.out.println("❌ Error al procesar el token: " + e.getMessage());
             return null;
         }
-
-        String ruta = null;
-
-        Claims claimsJws = JwtUtil.extractAllClaims(token);
-        String role = claimsJws.get("role", String.class);
-
-        if(role.equals("ROLE_CLIENTE")){
-         ruta ="/user/dashboard";
-                        
-        }
-        if(role.equals("ROLE_VENDEDOR")){
-        ruta ="/admin/admin";
-        }
-                        
+        
         return ruta;
     }
-
-    
 
     private void clearTokenCookie(HttpServletResponse response) {
         Cookie cookie = new Cookie("JWT_TOKEN", "");
@@ -223,8 +183,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements IJw
         return false;
     }
     @Override
+
     public boolean isNotExpired(String token) {
-        return JwtUtil.isTokenExpired(token);
+        try {
+            System.out.println("Verificando si el token está expirado: " + !JwtUtil.isTokenExpired(token));
+            return !JwtUtil.isTokenExpired(token); // Invertimos la lógica aquí
+        } catch (Exception e) {
+            System.out.println("❌ Error al verificar expiración del token: " + e.getMessage());
+            return false;
+        }
     }
     @Override
     public boolean isSignatureValid(String token) {
@@ -233,7 +200,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements IJw
         
     }
    
-
     @Override
     public String extractTokenFromCookie(HttpServletRequest request) {
         if (request.getCookies() != null) {
@@ -251,6 +217,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements IJw
         clearTokenCookie(response);
 
         if(type.equals("login")){
+             response.sendRedirect("/login");
 
         }else{
         response.sendRedirect("/login?error=token-expired&from=" + request.getRequestURI());

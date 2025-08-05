@@ -32,10 +32,17 @@ public class WebSecurityConfig {
         .csrf(csrf -> csrf.disable())
 		.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			.authorizeHttpRequests((requests) -> requests
-				.requestMatchers("/register", "/templates/**","/static/**","/javascript/**","/access-denied","/login1","/login", "/save").permitAll()
+				// Recursos estáticos
+				.requestMatchers("/css/*", "/js/*", "/images/*").permitAll()
+				.requestMatchers("/static/**").permitAll()
+				.requestMatchers("/webjars/**").permitAll()
+				// Rutas públicas específicas
+				.requestMatchers("/register", "/access-denied", "/login1", "/login", "/save").permitAll()
 				.requestMatchers("/").permitAll()
-                .requestMatchers("/admin/**").hasAnyAuthority("ROLE_VENDEDOR")
-                .requestMatchers("/user/**").hasAnyAuthority("ROLE_CLIENTE")
+				// Rutas protegidas por roles
+				.requestMatchers("/admin/**").hasAnyAuthority("ROLE_VENDEDOR")
+				.requestMatchers("/user/**").hasAnyAuthority("ROLE_CLIENTE")
+				// Cualquier otra ruta requiere autenticación
 				.anyRequest().authenticated()
 			).
             addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
