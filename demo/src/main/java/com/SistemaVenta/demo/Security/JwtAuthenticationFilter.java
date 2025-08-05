@@ -52,7 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements IJw
             if(requestPath.equals("/login") ){
                 System.out.println("✅ Ruta pública de login perotienes token: " + requestPath);
                 String ruta = redirect(token);
-                if(ruta !=null){
+                if(ruta !=null ){
                     response.sendRedirect(ruta);
                     
                     return ;
@@ -75,7 +75,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements IJw
                 return;
             }
 
-            if (isNotExpired(token)) {
+            if (!isNotExpired(token)) {
                 System.out.println("❌ el token a expi");
                 handleNoTokenOrInvalidToken(request, response,"login");
                 return;
@@ -167,27 +167,47 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements IJw
     }
 
     private String redirect(String token){
-        System.out.println("reirigiendo seguntu rol");
-
-        if(token==null){
+        System.out.println("redirigiendo según rol");
+        String ruta = null;
+        
+        if(token == null){
             return null;
         }
 
-        String ruta = null;
+        try {
+            // Si el token está expirado, retornamos null
+            if (!isNotExpired(token)) {
+                System.out.println("❌ Token expirado");
+                return null;
+            }
 
-        Claims claimsJws = JwtUtil.extractAllClaims(token);
-        String role = claimsJws.get("role", String.class);
+            // Si la firma no es válida, retornamos null
+            if (!isSignatureValid(token)) {
+                System.out.println("❌ Token inválido");
+                return null;
+            }
 
-        if(role.equals("ROLE_CLIENTE")){
-         ruta ="/user/dashboard";
-                        
+            Claims claimsJws = JwtUtil.extractAllClaims(token);
+            String role = claimsJws.get("role", String.class);
+
+            if(role.equals("ROLE_CLIENTE")){
+                ruta = "/user/dashboard";
+            }
+            if(role.equals("ROLE_VENDEDOR")){
+                ruta = "/admin/admin";
+            }
+
+        } catch (Exception e) {
+            System.out.println("❌ Error al procesar el token: " + e.getMessage());
+            return null;
         }
-        if(role.equals("ROLE_VENDEDOR")){
-        ruta ="/admin/admin";
-        }
-                        
+        
         return ruta;
     }
+
+                 
+        
+    
 
     
 
@@ -231,8 +251,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements IJw
         return false;
     }
     @Override
+
     public boolean isNotExpired(String token) {
-        return JwtUtil.isTokenExpired(token);
+        try {
+            System.out.println("Verificando si el token está expirado: " + !JwtUtil.isTokenExpired(token));
+            return !JwtUtil.isTokenExpired(token); // Invertimos la lógica aquí
+        } catch (Exception e) {
+            System.out.println("❌ Error al verificar expiración del token: " + e.getMessage());
+            return false;
+        }
     }
     @Override
     public boolean isSignatureValid(String token) {

@@ -34,7 +34,7 @@ xmlns:th="http://www.thymeleaf.org">
         </div>
 
         <!-- Formulario -->
-        <form id="brandForm" novalidate th:action="@{/save}" th:object="${marca}" method="post">
+        <form id="brandForm" th:action="@{/admin/marcaSave}" th:object="${marca}" enctype="multipart/form-data" method="post">
             <!-- Nombre de la marca -->
             <div class="form-group">
                 <label class="form-label">
@@ -64,7 +64,7 @@ xmlns:th="http://www.thymeleaf.org">
                     <div class="upload-hint">
                         Formatos: JPG, PNG, GIF (máximo 5MB)
                     </div>
-                    <input type="file" class="file-input" id="imageInput" accept="image/*">
+                    <input type="file" name="imagenFile" class="file-input" id="imageInput" accept="image/*">
                 </div>
 
                 <!-- Preview de imagen -->
