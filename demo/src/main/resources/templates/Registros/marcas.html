@@ -198,7 +198,7 @@ xmlns:th="http://www.thymeleaf.org">
         }
 
         // Validación de campos
-        function validateField(field) {
+        /**function validateField(field) {
             const value = field.value.trim();
             
             switch (field.id) {
@@ -258,6 +258,8 @@ xmlns:th="http://www.thymeleaf.org">
             }
         });
 
+        */
+
         // Función de cancelar
         function cancelForm() {
             if (confirm('¿Estás seguro de que quieres cancelar? Se perderán todos los cambios.')) {
@@ -272,7 +274,7 @@ xmlns:th="http://www.thymeleaf.org">
         }
 
         // Manejo del formulario
-        document.getElementById('brandForm').addEventListener('submit', function(e) {
+       /**document.getElementById('brandForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             const brandName = document.getElementById('brandName');
@@ -324,7 +326,7 @@ xmlns:th="http://www.thymeleaf.org">
                     document.body.classList.remove('loading');
                 }, 2500);
             }
-        });
+        });*/
 
         // Efecto de typing en el placeholder
         function typeWriterEffect() {
@@ -352,7 +354,7 @@ xmlns:th="http://www.thymeleaf.org">
         });
 
         // Prevenir pérdida de datos al salir
-        window.addEventListener('beforeunload', function(e) {
+       /** window.addEventListener('beforeunload', function(e) {
             const form = document.getElementById('brandForm');
             const formData = new FormData(form);
             let hasData = false;
@@ -368,7 +370,7 @@ xmlns:th="http://www.thymeleaf.org">
                 e.preventDefault();
                 e.returnValue = '';
             }
-        });
+        });*/
     </script>
     </body>
 </html>
