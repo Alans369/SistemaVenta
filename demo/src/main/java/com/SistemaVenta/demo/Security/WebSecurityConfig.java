@@ -34,7 +34,7 @@ public class WebSecurityConfig {
 			.authorizeHttpRequests((requests) -> requests
 				.requestMatchers("/register", "/templates/**","/static/**","/access-denied","/login1","/login", "/save").permitAll()
 				.requestMatchers("/").permitAll()
-                .requestMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN")
+                .requestMatchers("/admin/**").hasAnyAuthority("ROLE_VENDEDOR")
                 .requestMatchers("/user/**").hasAnyAuthority("ROLE_CLIENTE")
 				.anyRequest().authenticated()
 			).

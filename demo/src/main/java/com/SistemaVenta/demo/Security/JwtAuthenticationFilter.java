@@ -41,20 +41,43 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements IJw
 
         String requestPath = request.getRequestURI();
         String method = request.getMethod();
+        String token = extractTokenFromCookie(request);
         
         System.out.println("🔍 Filtering: " + method + " " + requestPath);
 
         // ✅ 1. Si es ruta pública, permitir sin token
         if (isPublicRoute(requestPath)) {
-            System.out.println("✅ Ruta pública: " + requestPath);
-            filterChain.doFilter(request, response);
-            return;
+            if(requestPath.equals("/login") ){
+                System.out.println("✅ Ruta pública de login perotienes token: " + requestPath);
+                if(token!=null){
+                    System.out.println("reirigiendo seguntu rol");
+
+                    Claims claimsJws = JwtUtil.extractAllClaims(token);
+                    String role = claimsJws.get("role", String.class);
+
+                    if(role.equals("ROLE_CLIENTE")){
+                        response.sendRedirect("/user/dashboard");
+                        return;
+                    }
+                    if(role.equals("ROLE_VENDEDOR")){
+                        response.sendRedirect("/admin/admin");
+                        return;
+                    }
+
+
+                }
+                filterChain.doFilter(request, response);
+                return;
+            }
+           System.out.println("✅ Ruta pública: " + requestPath);
+                filterChain.doFilter(request, response);
+                return;
         }
 
          if (isProtectedRoute(requestPath)) {
             System.out.println("🔒 Ruta protegida: " + requestPath);
 
-            String token = extractTokenFromCookie(request);
+            
 
             if (token == null) {
                 // ❌ No hay token - redirigir a login
@@ -229,6 +252,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements IJw
         
         
     }
+    
     
 
     
