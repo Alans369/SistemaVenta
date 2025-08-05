@@ -27,9 +27,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements IJw
 
    
     private static final List<String> PUBLIC_ROUTES = Arrays.asList(
-        "/", "/home", "/login", "/login1", "/register", 
-        "/static/**", "/templates/**", "/javascript", "/images", "/save",
-        "/access-denied");
+        "/", "/home", "/login", "/login1", "/register",
+        "/css/**", "/js/**", "/images/**",
+        "/webjars/**", "/static/**", "/resources/**",
+        "/save", "/access-denied"
+    );
 
 
   
@@ -52,12 +54,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements IJw
                 String ruta = redirect(token);
                 if(ruta !=null){
                     response.sendRedirect(ruta);
+                    
                     return ;
                 }
             }
            System.out.println("✅ Ruta pública: " + requestPath);
-                filterChain.doFilter(request, response);
-                return;
+            filterChain.doFilter(request, response);
+            return;
         }
 
          if (isProtectedRoute(requestPath)) {
@@ -147,9 +150,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements IJw
     }
     // Verifica si la ruta es pública
      private boolean isPublicRoute(String path) {
-        return PUBLIC_ROUTES.stream().anyMatch(route -> 
-            path.equals(route) || path.startsWith(route + "/")
-        );
+        return PUBLIC_ROUTES.stream().anyMatch(route -> {
+            if (route.endsWith("/**")) {
+                // Si la ruta termina en /**, verificamos si el path comienza con la parte antes del **
+                String baseRoute = route.substring(0, route.length() - 2);
+                return path.startsWith(baseRoute);
+            }
+            return path.equals(route);
+        });
     }
 
     private boolean isProtectedRoute(String path) {
