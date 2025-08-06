@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.SistemaVenta.demo.Model.Brand;
+
 
 
 @Controller
@@ -12,10 +12,7 @@ import com.SistemaVenta.demo.Model.Brand;
 public class AdminController {
 
     
-    @GetMapping("/marcas")
-    public String marcas(Brand marca) {
-        return "Registros/marcas";
-    }
+    
 
     @GetMapping("/admin")
     public String admin1( ) {

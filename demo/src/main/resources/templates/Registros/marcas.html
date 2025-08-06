@@ -33,16 +33,30 @@ xmlns:th="http://www.thymeleaf.org">
             <p class="brand-subtitle">Crea y administra tu marca</p>
         </div>
 
+        <!-- Mensajes de alerta -->
+        <div th:if="${msg_success}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
+            <span th:text="${msg_success}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <div th:if="${msg_error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            <span th:text="${msg_error}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
         <!-- Formulario -->
-        <form id="brandForm" th:action="@{/admin/marcaSave}"  enctype="multipart/form-data" method="post">
+        <form id="brandForm" th:action="@{/admin/marcaSave}" th:object="${brand}" enctype="multipart/form-data" method="post">
             <!-- Nombre de la marca -->
             <div class="form-group">
                 <label class="form-label">
                     <i class="fas fa-signature"></i>
                     Nombre de la Marca
                 </label>
-                <input type="text" class="form-control" id="brandName" name="nombre" placeholder="Ingresa el nombre de tu marca" >
-                <div class="invalid-feedback"></div>
+                <input type="text" class="form-control" id="brandName" th:field="*{nombre}" 
+                       th:class="${#fields.hasErrors('nombre')} ? 'form-control is-invalid' : 'form-control'" 
+                       placeholder="Ingresa el nombre de tu marca" >
+                <div class="invalid-feedback"  th:errors="*{nombre}"></div>
                 <div class="valid-feedback">¡Nombre perfecto!</div>
             </div>
 
@@ -90,8 +104,12 @@ xmlns:th="http://www.thymeleaf.org">
                     <i class="fas fa-align-left"></i>
                     Descripción de la Marca
                 </label>
-                <textarea class="form-control textarea" name="descripcion" id="brandDescription" placeholder="Describe tu marca, sus valores, productos o servicios..." rows="5"></textarea>
-                <div class="invalid-feedback"></div>
+                <textarea clas="form-control" class="form-control textarea" th:field="*{descripcion}" 
+                          th:class="${#fields.hasErrors('descripcion')} ? 'form-control is-invalid' : 'form-control'"
+                          id="brandDescription" 
+                          placeholder="Describe tu marca, sus valores, productos o servicios..." 
+                          rows="5" ></textarea>
+                <div class="invalid-feedback"  th:errors="*{descripcion}">eror</div>
                 <div class="valid-feedback">¡Descripción completa!</div>
             </div>
 

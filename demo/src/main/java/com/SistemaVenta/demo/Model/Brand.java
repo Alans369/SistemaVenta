@@ -29,14 +29,13 @@ public class Brand {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @NotBlank(message = "El nombre de la marca no puede estar vacío")
     private String nombre;
     
     @Lob
     @Column(columnDefinition = "LONGBLOB")
-    //@NotBlank(message = "La imagen no puede estar vacía")
     private byte[] imagen;
 
-   
-   // @NotBlank(message = "La descripción no puede estar vacía")
+    @NotBlank(message = "La descripción no puede estar vacía")
     private String descripcion;
 }
