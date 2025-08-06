@@ -33,10 +33,10 @@ public class Brand {
     
     @Lob
     @Column(columnDefinition = "LONGBLOB")
-    @NotBlank(message = "La imagen no puede estar vacía")
+    //@NotBlank(message = "La imagen no puede estar vacía")
     private byte[] imagen;
 
    
-    @NotBlank(message = "La descripción no puede estar vacía")
+   // @NotBlank(message = "La descripción no puede estar vacía")
     private String descripcion;
 }

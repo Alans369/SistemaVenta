@@ -34,14 +34,14 @@ xmlns:th="http://www.thymeleaf.org">
         </div>
 
         <!-- Formulario -->
-        <form id="brandForm" th:action="@{/admin/marcaSave}" th:object="${marca}" enctype="multipart/form-data" method="post">
+        <form id="brandForm" th:action="@{/admin/marcaSave}"  enctype="multipart/form-data" method="post">
             <!-- Nombre de la marca -->
             <div class="form-group">
                 <label class="form-label">
                     <i class="fas fa-signature"></i>
                     Nombre de la Marca
                 </label>
-                <input type="text" class="form-control" id="brandName" placeholder="Ingresa el nombre de tu marca" th:field="*{nombre}">
+                <input type="text" class="form-control" id="brandName" name="nombre" placeholder="Ingresa el nombre de tu marca" >
                 <div class="invalid-feedback"></div>
                 <div class="valid-feedback">¡Nombre perfecto!</div>
             </div>
@@ -90,7 +90,7 @@ xmlns:th="http://www.thymeleaf.org">
                     <i class="fas fa-align-left"></i>
                     Descripción de la Marca
                 </label>
-                <textarea class="form-control textarea" name="descripcion id="brandDescription" placeholder="Describe tu marca, sus valores, productos o servicios..." th:field="*{descripcion}" rows="5"></textarea>
+                <textarea class="form-control textarea" name="descripcion" id="brandDescription" placeholder="Describe tu marca, sus valores, productos o servicios..." rows="5"></textarea>
                 <div class="invalid-feedback"></div>
                 <div class="valid-feedback">¡Descripción completa!</div>
             </div>
