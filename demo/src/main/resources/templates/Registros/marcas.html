@@ -41,7 +41,7 @@ xmlns:th="http://www.thymeleaf.org">
                     <i class="fas fa-signature"></i>
                     Nombre de la Marca
                 </label>
-                <input type="text" class="form-control" id="brandName" placeholder="Ingresa el nombre de tu marca" required>
+                <input type="text" class="form-control" id="brandName" placeholder="Ingresa el nombre de tu marca" th:field="*{nombre}">
                 <div class="invalid-feedback"></div>
                 <div class="valid-feedback">¡Nombre perfecto!</div>
             </div>
@@ -90,7 +90,7 @@ xmlns:th="http://www.thymeleaf.org">
                     <i class="fas fa-align-left"></i>
                     Descripción de la Marca
                 </label>
-                <textarea class="form-control textarea" id="brandDescription" placeholder="Describe tu marca, sus valores, productos o servicios..." required rows="5"></textarea>
+                <textarea class="form-control textarea" name="descripcion id="brandDescription" placeholder="Describe tu marca, sus valores, productos o servicios..." th:field="*{descripcion}" rows="5"></textarea>
                 <div class="invalid-feedback"></div>
                 <div class="valid-feedback">¡Descripción completa!</div>
             </div>
