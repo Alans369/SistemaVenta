@@ -19,7 +19,7 @@ import lombok.*;
 
 @Entity
 @Table(name = "usuarios")
-@Getter @Setter
+@Getter @Setter @ToString
 public class User implements UserDetails {
 
     @Id

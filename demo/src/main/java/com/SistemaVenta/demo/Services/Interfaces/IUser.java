@@ -8,6 +8,8 @@ public interface IUser {
     
     User create(User user);
 
+    User findByUsername(String username);
+
     
 
 }

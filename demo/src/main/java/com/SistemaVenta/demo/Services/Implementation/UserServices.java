@@ -29,6 +29,14 @@ public class UserServices implements IUser {
 
 
 
+    @Override
+    public User findByUsername(String username) {
+        
+        return repository.findByUsername(username).orElse(null);
+    }
+
+
+
     
               
 
