@@ -7,9 +7,7 @@ public interface IProduct {
 
     Product CreateOrEdit(Product producto);
 
-
-
-     boolean  delet(Integer id);
+    boolean  delet(Integer id);
 
     Page<Product> selectAll(Integer marcaId, Pageable pageable);
 
