@@ -8,6 +8,6 @@ public interface IProduct {
 
     Product seleatAll(Product producto);
 
-    Product delet(Integer id);
+     boolean  delet(Integer id);
 
 }

@@ -17,16 +17,17 @@ public class ProductService implements IProduct {
     public Product CreateOrEdit(Product producto){
         return repository.save(producto);
     }
+    
 
     @Override
-    public Product delet(Integer id) {
-        // TODO Auto-generated method stub
-        return null;
+    public  boolean  delet(Integer id) {
+        int updatedRows = repository.softDeleteById(id);
+        return updatedRows > 0;
     }
+
 
     @Override
     public Product seleatAll(Product producto) {
-        // TODO Auto-generated method stub
         return null;
     }
 

@@ -1,5 +1,4 @@
 package com.SistemaVenta.demo.Security;
-
 import java.io.IOException;
 import java.security.Key;
 import java.util.Arrays;
@@ -97,6 +96,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements IJw
             }
          }
     }
+
     // Verifica si la ruta es pública
      private boolean isPublicRoute(String path) {
         return PUBLIC_ROUTES.stream().anyMatch(route -> {
@@ -193,6 +193,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements IJw
             return false;
         }
     }
+    
     @Override
     public boolean isSignatureValid(String token) {
 
@@ -228,8 +229,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements IJw
         
         
     }
-    
-    
-
-    
 }
