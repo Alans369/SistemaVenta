@@ -1,6 +1,8 @@
 package com.SistemaVenta.demo.Services.Implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.SistemaVenta.demo.Model.Product;
@@ -17,7 +19,7 @@ public class ProductService implements IProduct {
     public Product CreateOrEdit(Product producto){
         return repository.save(producto);
     }
-    
+
 
     @Override
     public  boolean  delet(Integer id) {
@@ -25,11 +27,12 @@ public class ProductService implements IProduct {
         return updatedRows > 0;
     }
 
-
     @Override
-    public Product seleatAll(Product producto) {
-        return null;
+    public Page<Product> selectAll(Integer marcaId, Pageable pageable) {
+        return repository.findByMarcaId(marcaId, pageable);
     }
+
+
 
 
 
