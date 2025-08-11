@@ -17,5 +17,6 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
     int softDeleteById(@Param("id") Integer id);
 
     Page<Product> findByMarcaId(Integer marcaId, Pageable pageable);
+    
 
 }
