@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" th:href="@{/css/pruducos.css}">
+
+    <title>Admin Productos - Gestión</title>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>SalesAdmin</h1>
+                <p>Gestión de Productos</p>
+            </div>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">📊</span>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active">
+                            <span class="nav-icon">📦</span>
+                            Productos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">🛒</span>
+                            Ventas
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">📋</span>
+                            Pedidos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">👥</span>
+                            Clientes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">📈</span>
+                            Reportes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">⚙️</span>
+                            Configuración
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <div class="welcome-section">
+                    <h2>Gestión de Productos</h2>
+                    <p>Administra el inventario y catálogo de productos</p>
+                </div>
+                <div class="user-info">
+                    <div class="avatar">
+                        AD
+                    </div>
+                    <div class="user-details">
+                        <h3>Admin</h3>
+                        <p>Administrador</p>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Form Container -->
+            <div class="form-container">
+                <h2 class="form-title">📦 Registro de Producto</h2>
+                
+                <form id="productoForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Categoría</label>
+                            <select class="form-select" id="categoria" required>
+                                <option value="">Seleccionar categoría...</option>
+                                <option value="electronica">Electrónicos</option>
+                                <option value="ropa">Ropa y Accesorios</option>
+                                <option value="hogar">Hogar y Jardín</option>
+                                <option value="deportes">Deportes</option>
+                                <option value="libros">Libros</option>
+                                <option value="juguetes">Juguetes</option>
+                                <option value="salud">Salud y Belleza</option>
+                                <option value="automovil">Automóvil</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Nombre del Producto</label>
+                            <input type="text" class="form-input" id="nombre" placeholder="Ej: Laptop Gaming HP" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Stock</label>
+                            <input type="number" class="form-input" id="stock" placeholder="Cantidad disponible" min="0" required>
+                        </div>
+                    </div>
+
+                    <!-- Image Upload Section -->
+                    <div class="image-upload">
+                        <h3>📷 Imagen del Producto</h3>
+                        <div class="image-preview" id="imagePreview">
+                            <div class="upload-placeholder">
+                                <span>📷</span>
+                                <p>Haz clic para subir imagen</p>
+                                <small>PNG, JPG hasta 5MB</small>
+                            </div>
+                        </div>
+                        <input type="file" class="file-input" id="imagen" accept="image/*">
+                        <button type="button" class="upload-btn" onclick="document.getElementById('imagen').click()">
+                            📁 Seleccionar Imagen
+                        </button>
+                    </div>
+
+                    <!-- Price Section -->
+                    <div class="price-section">
+                        <h3>💰 Configuración de Precios</h3>
+                        <div class="price-grid">
+                            <div class="form-group">
+                                <label class="form-label">Precio de Compra</label>
+                                <input type="number" class="form-input" id="precioCompra" placeholder="0.00" step="0.01" min="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Precio de Venta</label>
+                                <input type="number" class="form-input" id="precioVenta" placeholder="0.00" step="0.01" min="0" required>
+                            </div>
+                        </div>
+                        <div class="margin-info" id="marginInfo">
+                            <h4>Margen de Ganancia</h4>
+                            <div class="margin-value" id="marginValue">0%</div>
+                        </div>
+                    </div>
+
+                    <div class="stock-alert" id="stockAlert" style="display: none;"></div>
+
+                    <div class="button-group">
+                        <button type="submit" class="btn btn-primary">
+                            💾 Guardar Producto
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                            🔄 Limpiar Formulario
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- Floating particles -->
+    <div class="particle" style="width: 10px; height: 10px; top: 20%; left: 10%; animation-delay: 0s;"></div>
+    <div class="particle" style="width: 6px; height: 6px; top: 60%; left: 80%; animation-delay: 2s;"></div>
+    <div class="particle" style="width: 8px; height: 8px; top: 30%; left: 70%; animation-delay: 4s;"></div>
+    <div class="particle" style="width: 4px; height: 4px; top: 80%; left: 20%; animation-delay: 1s;"></div>
+
+    <script>
+        // Navigation functionality
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Image upload functionality
+        document.getElementById('imagen').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('imagePreview').innerHTML = `
+                        <img src="${e.target.result}" alt="Preview">
+                    `;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Price calculation
+        function calculateMargin() {
+            const compra = parseFloat(document.getElementById('precioCompra').value) || 0;
+            const venta = parseFloat(document.getElementById('precioVenta').value) || 0;
+            
+            if (compra > 0 && venta > 0) {
+                const margin = ((venta - compra) / compra) * 100;
+                document.getElementById('marginValue').textContent = margin.toFixed(1) + '%';
+                document.getElementById('marginValue').style.color = margin > 0 ? '#4ecdc4' : '#ff6b6b';
+            } else {
+                document.getElementById('marginValue').textContent = '0%';
+                document.getElementById('marginValue').style.color = '#4ecdc4';
+            }
+        }
+
+        // Stock alert
+        function checkStock() {
+            const stock = parseInt(document.getElementById('stock').value) || 0;
+            const alertDiv = document.getElementById('stockAlert');
+            
+            if (stock === 0) {
+                alertDiv.style.display = 'block';
+                alertDiv.className = 'stock-alert stock-empty';
+                alertDiv.textContent = '⚠️ PRODUCTO SIN STOCK - Reponer urgentemente';
+            } else if (stock < 10) {
+                alertDiv.style.display = 'block';
+                alertDiv.className = 'stock-alert stock-low';
+                alertDiv.textContent = '⚡ Stock bajo - Considerar reposición pronto';
+            } else {
+                alertDiv.style.display = 'block';
+                alertDiv.className = 'stock-alert stock-good';
+                alertDiv.textContent = '✅ Stock en buen nivel';
+            }
+        }
+
+        // Event listeners for calculations
+        document.getElementById('precioCompra').addEventListener('input', calculateMargin);
+        document.getElementById('precioVenta').addEventListener('input', calculateMargin);
+        document.getElementById('stock').addEventListener('input', checkStock);
+
+        // Reset form
+        function resetForm() {
+            document.getElementById('productoForm').reset();
+            document.getElementById('imagePreview').innerHTML = `
+                <div class="upload-placeholder">
+                    <span>📷</span>
+                    <p>Haz clic para subir imagen</p>
+                    <small>PNG, JPG hasta 5MB</small>
+                </div>
+            `;
+            document.getElementById('marginValue').textContent = '0%';
+            document.getElementById('stockAlert').style.display = 'none';
+        }
+
+        // Form submission
+        document.getElementById('productoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect form data
+            const formData = {
+                categoria: document.getElementById('categoria').value,
+                nombre: document.getElementById('nombre').value,
+                imagen: document.getElementById('imagen').files[0]?.name || 'Sin imagen',
+                precioCompra: parseFloat(document.getElementById('precioCompra').value),
+                precioVenta: parseFloat(document.getElementById('precioVenta').value),
+                stock: parseInt(document.getElementById('stock').value)
+            };
+
+            // Calculate additional data
+            const margin = formData.precioCompra > 0 ? 
+                ((formData.precioVenta - formData.precioCompra) / formData.precioCompra) * 100 : 0;
+
+            // Simulate form submission
+            console.log('Datos del producto:', {
+                ...formData,
+                margenGanancia: margin.toFixed(1) + '%'
+            });
+
+            let mensaje = `¡Producto registrado exitosamente!\n\n`;
+            mensaje += `Nombre: ${formData.nombre}\n`;
+            mensaje += `Categoría: ${formData.categoria}\n`;
+            mensaje += `Stock: ${formData.stock} unidades\n`;
+            mensaje += `Precio Compra: $${formData.precioCompra.toFixed(2)}\n`;
+            mensaje += `Precio Venta: $${formData.precioVenta.toFixed(2)}\n`;
+            mensaje += `Margen: ${margin.toFixed(1)}%`;
+
+            alert(mensaje);
+            
+            // Reset form after submission
+            resetForm();
+        });
+
+        // Initialize calculations on page load
+        calculateMargin();
+    </script>
+</body>
+</html>
