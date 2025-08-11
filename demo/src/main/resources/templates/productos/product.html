@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -86,26 +87,23 @@
             <div class="form-container">
                 <h2 class="form-title">📦 Registro de Producto</h2>
                 
-                <form id="productoForm">
+                <form id="productoForm" th:action="@{/admin/product/add}" th:object="${Product}" enctype="multipart/form-data" method="post">
                     <div class="form-grid">
                         <div class="form-group">
                             <label class="form-label">Categoría</label>
-                            <select class="form-select" id="categoria" required>
+                            <select class="form-select" id="categoria" >
                                 <option value="">Seleccionar categoría...</option>
                                 <option value="electronica">Electrónicos</option>
-                                <option value="ropa">Ropa y Accesorios</option>
-                                <option value="hogar">Hogar y Jardín</option>
-                                <option value="deportes">Deportes</option>
-                                <option value="libros">Libros</option>
-                                <option value="juguetes">Juguetes</option>
-                                <option value="salud">Salud y Belleza</option>
-                                <option value="automovil">Automóvil</option>
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Nombre del Producto</label>
-                            <input type="text" class="form-input" id="nombre" placeholder="Ej: Laptop Gaming HP" required>
+                            <input type="text" class="form-input" id="nombre" th:field="*{nombre}" 
+                                th:class="${#fields.hasErrors('nombre')} ? 'form-control is-invalid' : 'form-control'}" 
+                                placeholder="Ej: Laptop Gaming HP" required>
+                            <div class="invalid-feedback"  th:errors="*{nombre}"></div>
+                            <div class="valid-feedback">¡Nombre perfecto!</div>
                         </div>
 
                         <div class="form-group">
