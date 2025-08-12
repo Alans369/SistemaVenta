@@ -13,9 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.SistemaVenta.demo.Model.Brand;
 import com.SistemaVenta.demo.Model.Category;
 import com.SistemaVenta.demo.Model.Product;
+import com.SistemaVenta.demo.Model.User;
+import com.SistemaVenta.demo.Services.Implementation.BrandService;
 import com.SistemaVenta.demo.Services.Implementation.CategoryService;
+import com.SistemaVenta.demo.Services.Implementation.UserServices;
 import com.SistemaVenta.demo.Utils.Util;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,6 +31,12 @@ public class ProductController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private UserServices userServices;
+
+    @Autowired
+    private BrandService brandService;
 
     @GetMapping("/product/add")
     public String add(Product product, Model model){
@@ -43,7 +53,13 @@ public class ProductController {
 
         if (marca == null) {
             System.out.println("❌ Marca no encontrada en la cookie");
-            return "redirect:/admin/marcas";
+            String token = Util.extractTokenFromCookie(request,"JWT_TOKEN");
+            String username = Util.obtenerUser(token);
+            User user = userServices.findByUsername(username);
+            Brand brand = brandService.findByUserId(user.getId());
+            if (brand == null) {
+                 return "redirect:/admin/marcas";
+            }
         }
 
 

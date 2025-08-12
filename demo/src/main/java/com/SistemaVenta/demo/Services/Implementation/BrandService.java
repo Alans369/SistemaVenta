@@ -19,6 +19,9 @@ public class BrandService implements IBrand {
         return brandRepository.save(brand);
     }
 
-
+    @Override
+    public Brand findByUserId(Integer userId) {
+        return brandRepository.findByUserId(userId).orElse(null);
+    }
 
 }

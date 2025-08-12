@@ -6,4 +6,6 @@ public interface IBrand {
 
     Brand create(Brand brand);
 
+    Brand findByUserId(Integer userId);
+
 }
