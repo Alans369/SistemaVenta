@@ -99,16 +99,19 @@
                         <div class="form-group">
                             <label class="form-label">Nombre del Producto</label>
                             <input type="text" class="form-input" id="nombre" th:field="*{nombre}"
-
+                            th:class="${#fields.hasErrors('nombre')} ? 'form-input is-invalid' : 'form-input'"
                             placeholder="Ej: Laptop Gaming HP">
                             <div class="invalid-feedback"  th:errors="*{nombre}"></div>
                             <div class="valid-feedback">¡Nombre perfecto!</div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group"> 
                             <label class="form-label">Stock</label>
-                            <input type="number" class="form-input" id="stock"
-                            th:field="*{stock}" placeholder="Cantidad disponible">
+                            <input type="number" class="form-input" id="stock" th:field="*{stock}"
+                            th:class="${#fields.hasErrors('stock')} ? 'form-input is-invalid' : 'form-input'"
+                            placeholder="Cantidad disponible">
+                            <div class="invalid-feedback" th:errors="*{stock}"></div>
+                            <div class="valid-feedback">¡Stock perfecto!</div>
                         </div>
                     </div>
 
@@ -134,13 +137,19 @@
                         <div class="price-grid">
                             <div class="form-group">
                                 <label class="form-label">Precio de Compra</label>
-                                <input type="number" class="form-input" id="precioCompra"
-                                 th:field="*{precioCompra}" placeholder="0.00" >
+                                <input type="number" class="form-input" id="precioCompra" th:field="*{precioCompra}"
+                                th:class="${#fields.hasErrors('precioCompra')} ? 'form-input is-invalid' : 'form-input'"
+                                placeholder="0.00" >
+                                <div class="invalid-feedback" th:errors="*{precioCompra}"></div>
+                                <div class="valid-feedback">¡Precio de compra perfecto!</div>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Precio de Venta</label>
-                                <input type="number" class="form-input" id="precioVenta"
-                                 th:field="*{precioVenta}" placeholder="0.00" >
+                                <input type="number" class="form-input" id="precioVenta" th:field="*{precioVenta}"
+                                th:class="${#fields.hasErrors('precioVenta')} ? 'form-input is-invalid' : 'form-input'"
+                                placeholder="0.00" >
+                                <div class="invalid-feedback" th:errors="*{precioVenta}">error</div>
+                                <div class="valid-feedback">¡Precio de venta perfecto!</div>
                             </div>
                         </div>
                         <div class="margin-info" id="marginInfo">
