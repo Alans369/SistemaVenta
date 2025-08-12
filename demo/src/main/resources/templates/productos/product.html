@@ -92,7 +92,7 @@
                         <div class="form-group">
                             <label class="form-label">Categoría</label>
                             <select class="form-select" id="categoria" name="categoria">
-                                <option value="1">Seleccionar categoría...</option>
+                                  <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.nombre}"></option>
                             </select>
                         </div>
 

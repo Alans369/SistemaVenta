@@ -2,7 +2,9 @@ package com.SistemaVenta.demo.Controllers;
 
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.SistemaVenta.demo.Model.Category;
 import com.SistemaVenta.demo.Model.Product;
+import com.SistemaVenta.demo.Services.Implementation.CategoryService;
 
 import jakarta.validation.Valid;
 
@@ -20,14 +23,18 @@ import jakarta.validation.Valid;
 @RequestMapping("/admin")
 public class ProductController {
 
+    @Autowired
+    private CategoryService categoryService;
+
     @GetMapping("/product/add")
-    public String add(Product product){
+    public String add(Product product, Model model){
+        model.addAttribute("categories", categoryService.findAll());
         return "productos/product";
     }
 
     @PostMapping("/product/add")
     public String add(@Valid Product producto, BindingResult result, @RequestParam("imagenFile") MultipartFile imagenFile
-    ,@RequestParam Integer categoria){
+    ,@RequestParam Integer categoria, Model model){
 
 
 
@@ -51,6 +58,7 @@ public class ProductController {
 
         if (result.hasErrors()) {
             System.out.println("Errores en el formulario");
+            model.addAttribute("categories", categoryService.findAll());
             return "productos/product";
         }
 
