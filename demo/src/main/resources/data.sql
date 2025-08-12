@@ -26,3 +26,11 @@ CREATE TABLE IF NOT EXISTS usuarios (
 INSERT INTO usuarios (rol_id, apellido, contrasena, correo, nombre) VALUES
 (2, 'Gomez', '5678', 'gomez@example.com', 'Maria'),
 (3, 'Lopez', 'abcd', 'lopez@example.com', 'Carlos');
+
+
+INSERT INTO categorias (nombre, descripcion) VALUES
+('Electrónica', 'n/a'),
+('Ropa', 'n/a'),
+('Hogar', 'n/a'),
+('Alimentos', 'n/a'),
+('Deportes', 'n/a');

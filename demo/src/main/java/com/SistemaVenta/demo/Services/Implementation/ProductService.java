@@ -16,10 +16,9 @@ public class ProductService implements IProduct {
     private IProductRepository repository;
 
     @Override
-    public Product CreateOrEdit(Product producto){
+    public Product createOrEdit(Product producto){
         return repository.save(producto);
     }
-
 
     @Override
     public  boolean  delet(Integer id) {
@@ -31,6 +30,20 @@ public class ProductService implements IProduct {
     public Page<Product> selectAll(Integer marcaId, Pageable pageable) {
         return repository.findByMarcaId(marcaId, pageable);
     }
+
+    @Override
+    public Page<Product> searchBynameOrCategory(String nombre, Integer categoryId, Integer marcaId, Pageable page) {
+        return repository.findByFilters(nombre,categoryId,marcaId,page);
+    }
+
+    @Override
+    public Product selectById(Integer id) {
+        
+        return repository.findById(id).orElse(null);
+    }
+    
+
+    
 
 
 

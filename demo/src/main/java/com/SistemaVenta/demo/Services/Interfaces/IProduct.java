@@ -5,10 +5,13 @@ import com.SistemaVenta.demo.Model.Product;
 
 public interface IProduct {
 
-    Product CreateOrEdit(Product producto);
+    Product createOrEdit(Product producto);
 
     boolean  delet(Integer id);
 
     Page<Product> selectAll(Integer marcaId, Pageable pageable);
 
+    Page<Product> searchBynameOrCategory(String nombre,Integer categoryId, Integer marcaId,Pageable page);
+    
+     Product selectById(Integer id);
 }
