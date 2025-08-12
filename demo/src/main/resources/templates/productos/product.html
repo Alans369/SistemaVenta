@@ -87,28 +87,28 @@
             <div class="form-container">
                 <h2 class="form-title">📦 Registro de Producto</h2>
                 
-                <form id="productoForm" th:action="@{/admin/product/add}" th:object="${Product}" enctype="multipart/form-data" method="post">
+                <form id="productoForm" th:action="@{/admin/product/add}" th:object="${product}" enctype="multipart/form-data" method="post">
                     <div class="form-grid">
                         <div class="form-group">
                             <label class="form-label">Categoría</label>
-                            <select class="form-select" id="categoria" >
-                                <option value="">Seleccionar categoría...</option>
-                                <option value="electronica">Electrónicos</option>
+                            <select class="form-select" id="categoria" name="categoria">
+                                <option value="1">Seleccionar categoría...</option>
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Nombre del Producto</label>
-                            <input type="text" class="form-input" id="nombre" th:field="*{nombre}" 
-                                th:class="${#fields.hasErrors('nombre')} ? 'form-control is-invalid' : 'form-control'}" 
-                                placeholder="Ej: Laptop Gaming HP" required>
+                            <input type="text" class="form-input" id="nombre" th:field="*{nombre}"
+
+                            placeholder="Ej: Laptop Gaming HP">
                             <div class="invalid-feedback"  th:errors="*{nombre}"></div>
                             <div class="valid-feedback">¡Nombre perfecto!</div>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Stock</label>
-                            <input type="number" class="form-input" id="stock" placeholder="Cantidad disponible" min="0" required>
+                            <input type="number" class="form-input" id="stock"
+                            th:field="*{stock}" placeholder="Cantidad disponible">
                         </div>
                     </div>
 
@@ -122,7 +122,7 @@
                                 <small>PNG, JPG hasta 5MB</small>
                             </div>
                         </div>
-                        <input type="file" class="file-input" id="imagen" accept="image/*">
+                        <input type="file" class="file-input" id="imagen" accept="image/*" name="imagen">
                         <button type="button" class="upload-btn" onclick="document.getElementById('imagen').click()">
                             📁 Seleccionar Imagen
                         </button>
@@ -134,11 +134,13 @@
                         <div class="price-grid">
                             <div class="form-group">
                                 <label class="form-label">Precio de Compra</label>
-                                <input type="number" class="form-input" id="precioCompra" placeholder="0.00" step="0.01" min="0" required>
+                                <input type="number" class="form-input" id="precioCompra"
+                                 th:field="*{precioCompra}" placeholder="0.00" >
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Precio de Venta</label>
-                                <input type="number" class="form-input" id="precioVenta" placeholder="0.00" step="0.01" min="0" required>
+                                <input type="number" class="form-input" id="precioVenta"
+                                 th:field="*{precioVenta}" placeholder="0.00" >
                             </div>
                         </div>
                         <div class="margin-info" id="marginInfo">
@@ -246,44 +248,7 @@
             document.getElementById('stockAlert').style.display = 'none';
         }
 
-        // Form submission
-        document.getElementById('productoForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Collect form data
-            const formData = {
-                categoria: document.getElementById('categoria').value,
-                nombre: document.getElementById('nombre').value,
-                imagen: document.getElementById('imagen').files[0]?.name || 'Sin imagen',
-                precioCompra: parseFloat(document.getElementById('precioCompra').value),
-                precioVenta: parseFloat(document.getElementById('precioVenta').value),
-                stock: parseInt(document.getElementById('stock').value)
-            };
-
-            // Calculate additional data
-            const margin = formData.precioCompra > 0 ? 
-                ((formData.precioVenta - formData.precioCompra) / formData.precioCompra) * 100 : 0;
-
-            // Simulate form submission
-            console.log('Datos del producto:', {
-                ...formData,
-                margenGanancia: margin.toFixed(1) + '%'
-            });
-
-            let mensaje = `¡Producto registrado exitosamente!\n\n`;
-            mensaje += `Nombre: ${formData.nombre}\n`;
-            mensaje += `Categoría: ${formData.categoria}\n`;
-            mensaje += `Stock: ${formData.stock} unidades\n`;
-            mensaje += `Precio Compra: $${formData.precioCompra.toFixed(2)}\n`;
-            mensaje += `Precio Venta: $${formData.precioVenta.toFixed(2)}\n`;
-            mensaje += `Margen: ${margin.toFixed(1)}%`;
-
-            alert(mensaje);
-            
-            // Reset form after submission
-            resetForm();
-        });
-
+       
         // Initialize calculations on page load
         calculateMargin();
     </script>
