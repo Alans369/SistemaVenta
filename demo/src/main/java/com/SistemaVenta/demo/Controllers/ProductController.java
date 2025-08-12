@@ -41,6 +41,13 @@ public class ProductController {
             result.addError(new FieldError("product", "imagen", "la imagen no puede estar vacia"));
         }
 
+        if(producto.getPrecioCompra()<=0){
+            result.addError(new FieldError("product", "precioCompra", "el precio de compra debe ser mayor a 0"));
+        }
+
+        if(producto.getPrecioVenta()<=0){
+            result.addError(new FieldError("product", "precioVenta", "el precio de venta debe ser mayor a 0"));
+        }
 
         if (result.hasErrors()) {
             System.out.println("Errores en el formulario");
