@@ -22,7 +22,9 @@ import com.SistemaVenta.demo.Services.Implementation.CategoryService;
 import com.SistemaVenta.demo.Services.Implementation.UserServices;
 import com.SistemaVenta.demo.Utils.Util;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @Controller
@@ -46,7 +48,7 @@ public class ProductController {
 
     @PostMapping("/product/add")
     public String add(@Valid Product producto, BindingResult result, @RequestParam("imagenFile") MultipartFile imagenFile
-    ,@RequestParam Integer categoria, Model model,HttpServletRequest request){
+    ,@RequestParam Integer categoria, Model model,HttpServletRequest request,HttpServletResponse response){
 
         //buscando la marca del admin
         String marca = Util.extractTokenFromCookie(request,"marca");
@@ -60,8 +62,10 @@ public class ProductController {
             if (brand == null) {
                  return "redirect:/admin/marcas";
             }
+            Cookie cookie = Util.Crear_cokie("marca",brand.getId());
+            producto.setMarca(brand);
+            response.addCookie(cookie);
         }
-
 
 
 
@@ -96,6 +100,8 @@ public class ProductController {
       
         producto.setCategory(category);
         System.out.println(producto);
+
+        
 
         return "redirect:/admin/admin";
     }
