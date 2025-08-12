@@ -51,7 +51,7 @@ public class BrandController {
         System.out.println("📦 Marca recibida: " + marca);
         
         System.out.println("extraendo cookie");
-        String token = Util.extractTokenFromCookie(request);
+        String token = Util.extractTokenFromCookie(request,"JWT_TOKEN");
 
         String username = Util.obtenerUser(token);
         System.out.println("Usuario extraído del token buscandolo en base de datos: " + username);

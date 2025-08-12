@@ -16,7 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.SistemaVenta.demo.Model.Category;
 import com.SistemaVenta.demo.Model.Product;
 import com.SistemaVenta.demo.Services.Implementation.CategoryService;
+import com.SistemaVenta.demo.Utils.Util;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @Controller
@@ -34,7 +36,16 @@ public class ProductController {
 
     @PostMapping("/product/add")
     public String add(@Valid Product producto, BindingResult result, @RequestParam("imagenFile") MultipartFile imagenFile
-    ,@RequestParam Integer categoria, Model model){
+    ,@RequestParam Integer categoria, Model model,HttpServletRequest request){
+
+        //buscando la marca del admin
+        String marca = Util.extractTokenFromCookie(request,"marca");
+
+        if (marca == null) {
+            System.out.println("❌ Marca no encontrada en la cookie");
+            return "redirect:/admin/marcas";
+        }
+
 
 
 

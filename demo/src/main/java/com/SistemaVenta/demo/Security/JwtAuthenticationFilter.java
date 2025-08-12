@@ -29,7 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements IJw
         "/", "/home", "/login", "/login1", "/register",
         "/css/**", "/js/**", "/images/**",
         "/webjars/**", "/static/**", "/resources/**",
-        "/save", "/access-denied"
+        "/save", "/access-denied","layout"
     );
 
 

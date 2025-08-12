@@ -10,10 +10,10 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public class Util {
 
-    public static String extractTokenFromCookie(HttpServletRequest request) {
+    public static String extractTokenFromCookie(HttpServletRequest request, String cookieName) {
         if (request.getCookies() != null) {
             return Arrays.stream(request.getCookies())
-                    .filter(c -> c.getName().equals("JWT_TOKEN"))
+                    .filter(c -> c.getName().equals(cookieName))
                     .map(Cookie::getValue)
                     .findFirst()
                     .orElse(null);

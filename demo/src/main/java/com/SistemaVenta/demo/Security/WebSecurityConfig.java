@@ -37,7 +37,7 @@ public class WebSecurityConfig {
 				.requestMatchers("/static/**").permitAll()
 				.requestMatchers("/webjars/**").permitAll()
 				// Rutas públicas específicas
-				.requestMatchers("/register", "/access-denied", "/login1", "/login", "/save").permitAll()
+				.requestMatchers("/register", "/access-denied", "/login1", "/login", "/save","layout").permitAll()
 				.requestMatchers("/").permitAll()
 				// Rutas protegidas por roles
 				.requestMatchers("/admin/**").hasAnyAuthority("ROLE_VENDEDOR")
