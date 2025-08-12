@@ -26,21 +26,23 @@ public class ProductController {
     }
 
     @PostMapping("/product/add")
-    public String add(@Valid Product producto, BindingResult result, @RequestParam("imagen") MultipartFile imagenFile
+    public String add(@Valid Product producto, BindingResult result, @RequestParam("imagenFile") MultipartFile imagenFile
     ,@RequestParam Integer categoria){
+
+        System.out.println(producto);
 
         // Validaciones personalizadas
         if (categoria==null || categoria < 0) {
-            result.addError(new FieldError("producto", "category", "debes de selecionar una categoria al que pertenesera el producto"));
+            result.addError(new FieldError("product", "category", "debes de selecionar una categoria al que pertenesera el producto"));
         }
 
         if(!imagenFile.isEmpty() || imagenFile == null){ 
-            result.addError(new FieldError("producto", "imagen", "la imagen no puede estar vacia"));
+            result.addError(new FieldError("product", "imagen", "la imagen no puede estar vacia"));
         }
 
 
         if (result.hasErrors()) {
-            return "Registros/registrarse";
+            return "productos/product";
         }
 
         System.out.println(categoria);
@@ -51,7 +53,7 @@ public class ProductController {
         producto.setCategory(category);
         System.out.println(producto);
 
-        return "hello";
+        return "redirect:/admin/admin";
     }
 
 
