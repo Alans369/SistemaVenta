@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,10 +40,9 @@ public class Product {
     @Column(columnDefinition = "LONGBLOB")
     private byte[] imagen;
     
-    @NotBlank(message = "El precio de compra no puede estar vacío")
+  
     private double precioCompra;
     
-    @NotBlank(message = "El precio de venta no puede estar vacío")
     private double precioVenta;
     
     @NotBlank(message = "El stock no puede estar vacío")

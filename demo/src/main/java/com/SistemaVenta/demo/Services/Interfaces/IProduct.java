@@ -13,5 +13,5 @@ public interface IProduct {
 
     Page<Product> searchBynameOrCategory(String nombre,Integer categoryId, Integer marcaId,Pageable page);
     
-     Product selectById(Integer id);
+    Product selectById(Integer id);
 }
