@@ -29,7 +29,7 @@ public class ProductController {
     public String add(@Valid Product producto, BindingResult result, @RequestParam("imagenFile") MultipartFile imagenFile
     ,@RequestParam Integer categoria){
 
-        System.out.println(producto);
+
 
         // Validaciones personalizadas
         if (categoria==null || categoria < 0) {
