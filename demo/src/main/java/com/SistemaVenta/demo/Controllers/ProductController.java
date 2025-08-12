@@ -36,12 +36,14 @@ public class ProductController {
             result.addError(new FieldError("product", "category", "debes de selecionar una categoria al que pertenesera el producto"));
         }
 
-        if(!imagenFile.isEmpty() || imagenFile == null){ 
+        if(imagenFile.isEmpty()){ 
+            System.out.println("error en la imagen esta vacia "); 
             result.addError(new FieldError("product", "imagen", "la imagen no puede estar vacia"));
         }
 
 
         if (result.hasErrors()) {
+            System.out.println("Errores en el formulario");
             return "productos/product";
         }
 
