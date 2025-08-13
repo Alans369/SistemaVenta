@@ -9,8 +9,6 @@ public interface IProduct {
 
     boolean  delet(Integer id);
 
-   
-
     Page<Product> searchBynameOrCategory(String nombre,Integer categoryId, Integer marcaId,Pageable page);
     
     Product selectById(Integer id);

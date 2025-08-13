@@ -17,7 +17,6 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
     @Query("UPDATE Product p SET p.estado = false WHERE p.id = :id")
     int softDeleteById(@Param("id") Integer id);
 
-
     @Query("SELECT p FROM Product p WHERE " +
            "(:nombre IS NULL OR p.nombre LIKE (CONCAT(:nombre, '%'))) AND " +
            "(:categoryId IS NULL OR p.category.id = :categoryId) AND" +

@@ -41,6 +41,10 @@ public class Product {
     private double precioCompra;
     private double precioVenta;
     @NotBlank(message = "El stock no puede estar vacío")
-    private String stock;
+
+
+    private Integer stock;
+    
+
     private Boolean estado;
 }

@@ -31,7 +31,7 @@ public class DetailsSale {
     
     private double precio;
 
-    private double cantidad;
+    private Integer cantidad;
 
     private double subtotal;
 }
