@@ -3,6 +3,8 @@ package com.SistemaVenta.demo.Services.Implementation;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.SistemaVenta.demo.Model.DetailsSale;
 import com.SistemaVenta.demo.Model.Product;
@@ -60,6 +62,19 @@ public class SaleService implements ISale{
         // Guardar la venta
         return repository.save(venta);
     }
+
+    @Override
+    public Page<Sale> obtenerTodos(Integer marca,Pageable pageable) {
+        
+        return repository.findVentasByMarcaProducto(marca,pageable);
+    }
+
+    @Override
+    public Sale obtenerVentaPorId(Integer id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    
 
 
 
