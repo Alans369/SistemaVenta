@@ -4,4 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface IDetailsSaleRepository extends JpaRepository <DetailsSale,Integer>{
 
+
+  
+
 }

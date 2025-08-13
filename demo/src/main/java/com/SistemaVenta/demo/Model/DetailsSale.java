@@ -23,6 +23,7 @@ public class DetailsSale {
     @ManyToOne
     @JoinColumn(name = "venta_id")
     private Sale venta;
+
     
     @ManyToOne
     @JoinColumn(name = "producto_id")

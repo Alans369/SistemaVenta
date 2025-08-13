@@ -32,7 +32,13 @@ public class Sale {
     
     private LocalDateTime fecha;
     
-    @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL)
+    
+
+     @OneToMany(
+        mappedBy = "venta",        // 👈 CLAVE: Nombre del campo en DetailsSale
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
     private List<DetailsSale> detallesVenta = new ArrayList<>();
     
     @Column(name = "metodo_pago")
