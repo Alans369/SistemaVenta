@@ -15,7 +15,6 @@ public class BrandService implements IBrand {
 
     @Override
     public Brand create(Brand brand) {
-        // TODO Auto-generated method stub
         return brandRepository.save(brand);
     }
 
