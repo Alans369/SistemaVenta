@@ -64,99 +64,161 @@
             </nav>
         </aside>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <header class="header">
-                <div class="welcome-section">
-                    <h2>¡Bienvenido de vuelta!</h2>
-                    <p>Aquí está el resumen de tu negocio hoy</p>
+          <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <div>
+                <h1>¡Buenas noches, Admin!</h1>
+                <p>Aquí está el resumen de tu negocio hoy</p>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar">AD</div>
+                <div class="user-details">
+                    <h3>Admin</h3>
+                    <span>Administrador</span>
                 </div>
-                <div class="user-info">
-                    <div class="avatar">
-                        AD
-                    </div>
-                    <div class="user-details">
-                        <h3>Admin</h3>
-                        <p>Administrador</p>
-                    </div>
-                </div>
-            </header>
+            </div>
+        </div>
 
-            <!-- Stats Grid -->
-            <section class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span class="stat-title">Ventas Totales</span>
-                        <div class="stat-icon" style="background: linear-gradient(45deg, #ff6b6b, #ff8e8e);">💰</div>
-                    </div>
-                    <div class="stat-value">$24,567</div>
-                    <div class="stat-change positive">
-                        <span>↗</span>
-                        <span>+12.5% vs mes anterior</span>
-                    </div>
-                </div>
+        <!-- Table Container -->
+        <div class="table-container">
+            <div class="table-header">
+                <h2 class="table-title">Gestión de Productos</h2>
+                <button class="add-btn" onclick="openAddModal()">+ Agregar Producto</button>
+            </div>
 
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span class="stat-title">Pedidos Hoy</span>
-                        <div class="stat-icon" style="background: linear-gradient(45deg, #4ecdc4, #44a08d);">🛒</div>
-                    </div>
-                    <div class="stat-value">148</div>
-                    <div class="stat-change positive">
-                        <span>↗</span>
-                        <span>+8.2% vs ayer</span>
-                    </div>
-                </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Precio Venta</th>
+                        <th>Precio Compra</th>
+                        <th>Stock</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="productsTable">
+                    <tr>
+                        <td class="product-name">Laptop HP Pavilion</td>
+                        <td class="product-description">Laptop HP Pavilion 15.6" Intel i5, 8GB RAM, 256GB SSD</td>
+                        <td class="price">$899.99</td>
+                        <td class="price">$699.99</td>
+                        <td><span class="stock medium">15</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-edit" onclick="openEditModal(0)">✏️ Editar</button>
+                                <button class="btn btn-delete" onclick="openDeleteModal(0)">🗑️ Eliminar</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="product-name">Mouse Logitech MX</td>
+                        <td class="product-description">Mouse inalámbrico Logitech MX Master 3 con sensor de alta precisión</td>
+                        <td class="price">$89.99</td>
+                        <td class="price">$65.99</td>
+                        <td><span class="stock high">45</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-edit" onclick="openEditModal(1)">✏️ Editar</button>
+                                <button class="btn btn-delete" onclick="openDeleteModal(1)">🗑️ Eliminar</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="product-name">Teclado Mecánico</td>
+                        <td class="product-description">Teclado mecánico RGB con switches Cherry MX Blue</td>
+                        <td class="price">$129.99</td>
+                        <td class="price">$89.99</td>
+                        <td><span class="stock low">3</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-edit" onclick="openEditModal(2)">✏️ Editar</button>
+                                <button class="btn btn-delete" onclick="openDeleteModal(2)">🗑️ Eliminar</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span class="stat-title">Productos Activos</span>
-                        <div class="stat-icon" style="background: linear-gradient(45deg, #45b7d1, #96ceb4);">📦</div>
-                    </div>
-                    <div class="stat-value">1,247</div>
-                    <div class="stat-change positive">
-                        <span>↗</span>
-                        <span>+15 nuevos esta semana</span>
-                    </div>
+            <!-- Pagination -->
+            <div class="pagination-container">
+                <div class="pagination-info">
+                    <span id="paginationInfo">Mostrando 1-5 de 15 productos</span>
                 </div>
-
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span class="stat-title">Clientes Nuevos</span>
-                        <div class="stat-icon" style="background: linear-gradient(45deg, #f093fb, #f5576c);">👥</div>
+                <div class="pagination">
+                    <div class="page-size-selector">
+                        <label>Mostrar:</label>
+                        <select id="pageSize" onchange="changePageSize()">
+                            <option value="5" selected>5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span>por página</span>
                     </div>
-                    <div class="stat-value">89</div>
-                    <div class="stat-change positive">
-                        <span>↗</span>
-                        <span>+23% esta semana</span>
-                    </div>
+                    <button class="page-btn" id="prevBtn" onclick="prevPage()" disabled>
+                        ◀ Anterior
+                    </button>
+                    <div id="pageNumbers"></div>
+                    <button class="page-btn" id="nextBtn" onclick="nextPage()">
+                        Siguiente ▶
+                    </button>
                 </div>
-            </section>
-
-            <!-- Quick Actions -->
-            <section class="quick-actions">
-                <h3>Acciones Rápidas</h3>
-                <div class="actions-grid">
-                    <a href="#" class="action-btn">
-                        <span class="action-icon">➕</span>
-                        <div>Agregar Producto</div>
-                    </a>
-                    <a href="#" class="action-btn">
-                        <span class="action-icon">📋</span>
-                        <div>Ver Pedidos</div>
-                    </a>
-                    <a href="#" class="action-btn">
-                        <span class="action-icon">📊</span>
-                        <div>Generar Reporte</div>
-                    </a>
-                    <a href="#" class="action-btn">
-                        <span class="action-icon">💬</span>
-                        <div>Mensajes</div>
-                    </a>
-                </div>
-            </section>
-        </main>
+            </div>
+        </div>
     </div>
+
+    <!-- Edit/Add Product Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Agregar Producto</h2>
+                <button class="close" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="productForm">
+                <div class="form-group">
+                    <label for="productName">Nombre del Producto</label>
+                    <input type="text" id="productName" required>
+                </div>
+                <div class="form-group">
+                    <label for="productDescription">Descripción</label>
+                    <textarea id="productDescription" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="salePrice">Precio de Venta</label>
+                    <input type="number" id="salePrice" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="purchasePrice">Precio de Compra</label>
+                    <input type="number" id="purchasePrice" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="stock">Stock</label>
+                    <input type="number" id="stock" required>
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn-secondary" onclick="closeModal()">Cancelar</button>
+                    <button type="submit" class="btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal confirm-modal">
+        <div class="modal-content">
+            <div class="confirm-icon">⚠️</div>
+            <h2 class="modal-title">Confirmar Eliminación</h2>
+            <p class="confirm-message">¿Estás seguro de que quieres eliminar este producto?<br>Esta acción no se puede deshacer.</p>
+            <div class="modal-buttons">
+                <button type="button" class="btn-secondary" onclick="closeDeleteModal()">Cancelar</button>
+                <button type="button" class="btn-danger" onclick="confirmDelete()">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
     <!-- Floating particles -->
     <div class="particle" style="width: 10px; height: 10px; top: 20%; left: 10%; animation-delay: 0s;"></div>
@@ -176,53 +238,155 @@
             });
         });
 
-        // Add hover effects to stat cards
-        document.querySelectorAll('.stat-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-8px) scale(1.02)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
-            });
-        });
-
         // Dynamic greeting based on time
         const hour = new Date().getHours();
-        const welcomeText = document.querySelector('.welcome-section h2');
-        
-        if (hour < 12) {
-            welcomeText.textContent = '¡Buenos días, Admin!';
-        } else if (hour < 18) {
-            welcomeText.textContent = '¡Buenas tardes, Admin!';
-        } else {
-            welcomeText.textContent = '¡Buenas noches, Admin!';
+        // Cambia el saludo en el header principal
+        const headerTitle = document.querySelector('.header h1');
+        if (headerTitle) {
+            if (hour < 12) {
+                headerTitle.textContent = '¡Buenos días, Admin!';
+            } else if (hour < 18) {
+                headerTitle.textContent = '¡Buenas tardes, Admin!';
+            } else {
+                headerTitle.textContent = '¡Buenas noches, Admin!';
+            }
         }
 
-        // Animate numbers on load
-        function animateNumbers() {
-            const numbers = document.querySelectorAll('.stat-value');
-            numbers.forEach(num => {
-                const target = parseInt(num.textContent.replace(/[^0-9]/g, ''));
-                let current = 0;
-                const increment = target / 50;
-                const timer = setInterval(() => {
-                    current += increment;
-                    if (current >= target) {
-                        current = target;
-                        clearInterval(timer);
-                    }
-                    if (num.textContent.includes('$')) {
-                        num.textContent = '$' + Math.floor(current).toLocaleString();
-                    } else {
-                        num.textContent = Math.floor(current).toLocaleString();
-                    }
-                }, 30);
+        // Modal functions
+        let products = [
+            {
+                name: "Laptop HP Pavilion",
+                description: "Laptop HP Pavilion 15.6\" Intel i5, 8GB RAM, 256GB SSD",
+                salePrice: 899.99,
+                purchasePrice: 699.99,
+                stock: 15
+            },
+            {
+                name: "Mouse Logitech MX",
+                description: "Mouse inalámbrico Logitech MX Master 3 con sensor de alta precisión",
+                salePrice: 89.99,
+                purchasePrice: 65.99,
+                stock: 45
+            },
+            {
+                name: "Teclado Mecánico",
+                description: "Teclado mecánico RGB con switches Cherry MX Blue",
+                salePrice: 129.99,
+                purchasePrice: 89.99,
+                stock: 3
+            }
+        ];
+
+        let editIndex = -1;
+        let deleteIndex = -1;
+
+        function getStockClass(stock) {
+            if (stock > 20) return 'high';
+            if (stock > 10) return 'medium';
+            return 'low';
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('productsTable');
+            tbody.innerHTML = '';
+
+            products.forEach((product, index) => {
+                const row = `
+                    <tr>
+                        <td class="product-name">${product.name}</td>
+                        <td class="product-description">${product.description}</td>
+                        <td class="price">$${product.salePrice.toFixed(2)}</td>
+                        <td class="price">$${product.purchasePrice.toFixed(2)}</td>
+                        <td><span class="stock ${getStockClass(product.stock)}">${product.stock}</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-edit" onclick="openEditModal(${index})">✏️ Editar</button>
+                                <button class="btn btn-delete" onclick="openDeleteModal(${index})">🗑️ Eliminar</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
             });
         }
 
-        // Start animations when page loads
-        window.addEventListener('load', animateNumbers);
+        function openAddModal() {
+            document.getElementById('modalTitle').textContent = 'Agregar Producto';
+            document.getElementById('productForm').reset();
+            editIndex = -1;
+            document.getElementById('productModal').style.display = 'block';
+        }
+
+        function openEditModal(index) {
+            const product = products[index];
+            document.getElementById('modalTitle').textContent = 'Editar Producto';
+            document.getElementById('productName').value = product.name;
+            document.getElementById('productDescription').value = product.description;
+            document.getElementById('salePrice').value = product.salePrice;
+            document.getElementById('purchasePrice').value = product.purchasePrice;
+            document.getElementById('stock').value = product.stock;
+            editIndex = index;
+            document.getElementById('productModal').style.display = 'block';
+        }
+
+        function openDeleteModal(index) {
+            deleteIndex = index;
+            document.getElementById('deleteModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('productModal').style.display = 'none';
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+            deleteIndex = -1;
+        }
+
+        function confirmDelete() {
+            if (deleteIndex !== -1) {
+                products.splice(deleteIndex, 1);
+                renderTable();
+            }
+            closeDeleteModal();
+        }
+
+        document.getElementById('productForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const product = {
+                name: document.getElementById('productName').value,
+                description: document.getElementById('productDescription').value,
+                salePrice: parseFloat(document.getElementById('salePrice').value),
+                purchasePrice: parseFloat(document.getElementById('purchasePrice').value),
+                stock: parseInt(document.getElementById('stock').value)
+            };
+
+            if (editIndex === -1) {
+                products.push(product);
+            } else {
+                products[editIndex] = product;
+            }
+
+            renderTable();
+            closeModal();
+        });
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const productModal = document.getElementById('productModal');
+            const deleteModal = document.getElementById('deleteModal');
+            if (event.target === productModal) {
+                closeModal();
+            }
+            if (event.target === deleteModal) {
+                closeDeleteModal();
+            }
+        }
+
+        // Initial render
+        renderTable();
+    </script>
     </script>
 </body>
 </html>
