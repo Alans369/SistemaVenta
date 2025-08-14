@@ -24,6 +24,7 @@ import com.SistemaVenta.demo.Services.Implementation.BrandService;
 import com.SistemaVenta.demo.Services.Implementation.RolService;
 import com.SistemaVenta.demo.Services.Implementation.UserServices;
 import com.SistemaVenta.demo.Utils.AuthUtils;
+import com.SistemaVenta.demo.Utils.Util;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -78,7 +79,8 @@ public class LoginController {
 
         Brand brand = brandService.findByUserId(user.getId());
         if (brand != null) {
-                 
+            Cookie cookie = Util.Crear_cokie("marca",brand.getId());
+            response.addCookie(cookie);
         }
         
         Cookie cookie = new Cookie("JWT_TOKEN",token);
