@@ -26,7 +26,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements IJw
 
    
     private static final List<String> PUBLIC_ROUTES = Arrays.asList(
-        "/", "/home", "/login", "/login1", "/register",
+        "/", "/home", "/login", "/logout", "/register","/login1",
         "/css/**", "/js/**", "/images/**",
         "/webjars/**", "/static/**", "/resources/**",
         "/save", "/access-denied","layout"
@@ -45,6 +45,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements IJw
         String token = extractTokenFromCookie(request);
         
         System.out.println("🔍 Filtering: " + method + " " + requestPath);
+
+
 
         // ✅ 1. Si es ruta pública, permitir sin token
         if (isPublicRoute(requestPath)) {

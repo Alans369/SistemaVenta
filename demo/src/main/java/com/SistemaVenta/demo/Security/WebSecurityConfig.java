@@ -37,7 +37,7 @@ public class WebSecurityConfig {
 				.requestMatchers("/static/**").permitAll()
 				.requestMatchers("/webjars/**").permitAll()
 				// Rutas públicas específicas
-				.requestMatchers("/register", "/access-denied", "/login1", "/login", "/save","layout").permitAll()
+				.requestMatchers("/register", "/access-denied", "/logout", "/login", "/save","layout","/login1").permitAll()
 				.requestMatchers("/").permitAll()
 				// Rutas protegidas por roles
 				.requestMatchers("/admin/**").hasAnyAuthority("ROLE_VENDEDOR")
@@ -50,12 +50,8 @@ public class WebSecurityConfig {
             .accessDeniedHandler((request, response, accessDeniedException) -> {
                                 response.sendRedirect("/access-denied");
             })
-        )
-			.formLogin((form) -> form
-				.loginPage("/login")
-				.permitAll()
-			)
-			.logout((logout) -> logout.permitAll());
+        )   .logout(logout -> logout.disable()); // 🔥 Deshabilita el logout automático
+			
 
 		return http.build();
 	}
