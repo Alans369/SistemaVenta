@@ -19,12 +19,6 @@
             <nav>
                 <ul class="nav-menu">
                     <li class="nav-item">
-                        <a href="#" class="nav-link active">
-                            <span class="nav-icon">📊</span>
-                            Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a th:href="@{/admin/product/add}" class="nav-link">
                             <span class="nav-icon">📦</span>
                             Productos
@@ -33,7 +27,7 @@
                     <li class="nav-item">
                         <a th:href="@{/admin/marcas}" class="nav-link">
                             <span class="nav-icon">📃</span>
-                            Gestion 
+                            Gestion Marcas
                         </a>
                     </li>
                     <li class="nav-item">
@@ -92,7 +86,6 @@
                 <thead>
                     <tr>
                         <th>Nombre</th>
-                        <th>Descripción</th>
                         <th>Precio Venta</th>
                         <th>Precio Compra</th>
                         <th>Stock</th>
@@ -102,7 +95,6 @@
                 <tbody id="productsTable">
                     <tr>
                         <td class="product-name">Laptop HP Pavilion</td>
-                        <td class="product-description">Laptop HP Pavilion 15.6" Intel i5, 8GB RAM, 256GB SSD</td>
                         <td class="price">$899.99</td>
                         <td class="price">$699.99</td>
                         <td><span class="stock medium">15</span></td>
@@ -115,7 +107,6 @@
                     </tr>
                     <tr>
                         <td class="product-name">Mouse Logitech MX</td>
-                        <td class="product-description">Mouse inalámbrico Logitech MX Master 3 con sensor de alta precisión</td>
                         <td class="price">$89.99</td>
                         <td class="price">$65.99</td>
                         <td><span class="stock high">45</span></td>
@@ -128,7 +119,6 @@
                     </tr>
                     <tr>
                         <td class="product-name">Teclado Mecánico</td>
-                        <td class="product-description">Teclado mecánico RGB con switches Cherry MX Blue</td>
                         <td class="price">$129.99</td>
                         <td class="price">$89.99</td>
                         <td><span class="stock low">3</span></td>
@@ -181,10 +171,6 @@
                 <div class="form-group">
                     <label for="productName">Nombre del Producto</label>
                     <input type="text" id="productName" required>
-                </div>
-                <div class="form-group">
-                    <label for="productDescription">Descripción</label>
-                    <textarea id="productDescription" required></textarea>
                 </div>
                 <div class="form-group">
                     <label for="salePrice">Precio de Venta</label>
@@ -256,21 +242,18 @@
         let products = [
             {
                 name: "Laptop HP Pavilion",
-                description: "Laptop HP Pavilion 15.6\" Intel i5, 8GB RAM, 256GB SSD",
                 salePrice: 899.99,
                 purchasePrice: 699.99,
                 stock: 15
             },
             {
                 name: "Mouse Logitech MX",
-                description: "Mouse inalámbrico Logitech MX Master 3 con sensor de alta precisión",
                 salePrice: 89.99,
                 purchasePrice: 65.99,
                 stock: 45
             },
             {
                 name: "Teclado Mecánico",
-                description: "Teclado mecánico RGB con switches Cherry MX Blue",
                 salePrice: 129.99,
                 purchasePrice: 89.99,
                 stock: 3
@@ -294,7 +277,6 @@
                 const row = `
                     <tr>
                         <td class="product-name">${product.name}</td>
-                        <td class="product-description">${product.description}</td>
                         <td class="price">$${product.salePrice.toFixed(2)}</td>
                         <td class="price">$${product.purchasePrice.toFixed(2)}</td>
                         <td><span class="stock ${getStockClass(product.stock)}">${product.stock}</span></td>
@@ -321,7 +303,6 @@
             const product = products[index];
             document.getElementById('modalTitle').textContent = 'Editar Producto';
             document.getElementById('productName').value = product.name;
-            document.getElementById('productDescription').value = product.description;
             document.getElementById('salePrice').value = product.salePrice;
             document.getElementById('purchasePrice').value = product.purchasePrice;
             document.getElementById('stock').value = product.stock;
@@ -356,7 +337,6 @@
             
             const product = {
                 name: document.getElementById('productName').value,
-                description: document.getElementById('productDescription').value,
                 salePrice: parseFloat(document.getElementById('salePrice').value),
                 purchasePrice: parseFloat(document.getElementById('purchasePrice').value),
                 stock: parseInt(document.getElementById('stock').value)
