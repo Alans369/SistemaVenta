@@ -35,18 +35,16 @@ public class Product {
     
     @NotBlank(message = "el nombre no puede estar vacio")
     private String nombre;
-    
     @Lob
     @Column(columnDefinition = "LONGBLOB")
     private byte[] imagen;
-    
-  
     private double precioCompra;
-    
     private double precioVenta;
-    
     @NotBlank(message = "El stock no puede estar vacío")
-    private String stock;
+
+
+    private Integer stock;
     
+
     private Boolean estado;
 }

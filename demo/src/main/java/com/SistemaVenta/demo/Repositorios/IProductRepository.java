@@ -17,13 +17,11 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
     @Query("UPDATE Product p SET p.estado = false WHERE p.id = :id")
     int softDeleteById(@Param("id") Integer id);
 
-    Page<Product> findByMarcaId(Integer marcaId, Pageable pageable);
-
     @Query("SELECT p FROM Product p WHERE " +
            "(:nombre IS NULL OR p.nombre LIKE (CONCAT(:nombre, '%'))) AND " +
            "(:categoryId IS NULL OR p.category.id = :categoryId) AND" +
            "(p.marca.id = :marcaId)")
-    Page<Product> findByFilters(@Param("nombre") String nombre, 
+    Page<Product> findWithFilters(@Param("nombre") String nombre, 
                                @Param("categoryId") Integer categoryId,
                                @Param("marcaId") Integer marcaId,
                                Pageable pageable);
