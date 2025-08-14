@@ -38,9 +38,10 @@ public class Product {
     @Lob
     @Column(columnDefinition = "LONGBLOB")
     private byte[] imagen;
+
     private double precioCompra;
+
     private double precioVenta;
-    @NotBlank(message = "El stock no puede estar vacío")
 
 
     private Integer stock;

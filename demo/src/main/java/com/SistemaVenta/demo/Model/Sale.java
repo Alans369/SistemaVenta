@@ -31,8 +31,6 @@ public class Sale {
     private User usuario;
     
     private LocalDateTime fecha;
-    
-    
 
      @OneToMany(
         mappedBy = "venta",        // 👈 CLAVE: Nombre del campo en DetailsSale
