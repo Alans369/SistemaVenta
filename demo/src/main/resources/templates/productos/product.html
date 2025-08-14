@@ -20,7 +20,7 @@
             <nav>
                 <ul class="nav-menu">
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a th:href="@{/admin/admin}" class="nav-link">
                             <span class="nav-icon">📊</span>
                             Dashboard
                         </a>
@@ -28,13 +28,13 @@
                     <li class="nav-item">
                         <a href="#" class="nav-link active">
                             <span class="nav-icon">📦</span>
-                            Productos
+                            Gestion Productos
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a th:href="@{/admin/marcas}" class="nav-link">
                             <span class="nav-icon">🛒</span>
-                            Ventas
+                            Gestion Marcas
                         </a>
                     </li>
                     <li class="nav-item">
@@ -181,10 +181,12 @@
     <div class="particle" style="width: 4px; height: 4px; top: 80%; left: 20%; animation-delay: 1s;"></div>
 
     <script>
-        // Navigation functionality
+         // Add smooth interactions solo para enlaces con href="#"
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', function(e) {
-                e.preventDefault();
+                if (this.getAttribute('href') === '#') {
+                    e.preventDefault();
+                }
                 document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
                 this.classList.add('active');
             });

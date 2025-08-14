@@ -160,6 +160,35 @@
         </div>
     </div>
 
+        <!-- Detail Product Modal -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Detalles del Producto</h2>
+                <button class="close" onclick="closeDetailModal()">&times;</button>
+            </div>
+            <div class="form-group">
+                <label>Nombre:</label>
+                <div id="detailName"></div>
+            </div>
+            <div class="form-group">
+                <label>Precio de Venta:</label>
+                <div id="detailSalePrice"></div>
+            </div>
+            <div class="form-group">
+                <label>Precio de Compra:</label>
+                <div id="detailPurchasePrice"></div>
+            </div>
+            <div class="form-group">
+                <label>Stock:</label>
+                <div id="detailStock"></div>
+            </div>
+            <div class="modal-buttons">
+                <button type="button" class="btn-secondary" onclick="closeDetailModal()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Edit/Add Product Modal -->
     <div id="productModal" class="modal">
         <div class="modal-content">
@@ -282,6 +311,7 @@
                         <td><span class="stock ${getStockClass(product.stock)}">${product.stock}</span></td>
                         <td>
                             <div class="action-buttons">
+                                <button class="btn btn-edit" onclick="openDetailModal(${index})">🔍 Detalles</button>
                                 <button class="btn btn-edit" onclick="openEditModal(${index})">✏️ Editar</button>
                                 <button class="btn btn-delete" onclick="openDeleteModal(${index})">🗑️ Eliminar</button>
                             </div>
@@ -290,6 +320,20 @@
                 `;
                 tbody.innerHTML += row;
             });
+        }
+
+        // Modal de detalles
+        function openDetailModal(index) {
+            const product = products[index];
+            document.getElementById('detailName').textContent = product.name;
+            document.getElementById('detailSalePrice').textContent = `$${product.salePrice.toFixed(2)}`;
+            document.getElementById('detailPurchasePrice').textContent = `$${product.purchasePrice.toFixed(2)}`;
+            document.getElementById('detailStock').textContent = product.stock;
+            document.getElementById('detailModal').style.display = 'block';
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').style.display = 'none';
         }
 
         function openAddModal() {
