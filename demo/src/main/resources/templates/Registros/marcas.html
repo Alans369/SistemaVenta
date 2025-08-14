@@ -115,11 +115,11 @@ xmlns:th="http://www.thymeleaf.org">
 
             <!-- Botones -->
             <div class="btn-group">
-                <button type="button" class="btn-custom btn-cancel" onclick="cancelForm()">
+                <button type="button" class="btn-custom btn-cancel" onclick="window.location.href='/admin/admin'">
                     <i class="fas fa-times"></i>
                     Cancelar
                 </button>
-                <button type="submit" class="btn-custom btn-save">
+                <button  type="submit" class="btn-custom btn-save">
                     <i class="fas fa-save"></i>
                     Guardar Marca
                 </button>
@@ -277,19 +277,6 @@ xmlns:th="http://www.thymeleaf.org">
         });
 
         */
-
-        // Función de cancelar
-        function cancelForm() {
-            if (confirm('¿Estás seguro de que quieres cancelar? Se perderán todos los cambios.')) {
-                document.getElementById('brandForm').reset();
-                // Remover clases de validación
-                document.querySelectorAll('.form-control').forEach(field => {
-                    field.classList.remove('is-valid', 'is-invalid');
-                });
-                // Resetear imagen
-                removeImage();
-            }
-        }
 
         // Manejo del formulario
        /**document.getElementById('brandForm').addEventListener('submit', function(e) {
