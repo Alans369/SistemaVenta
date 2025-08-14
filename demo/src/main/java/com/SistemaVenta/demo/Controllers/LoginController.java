@@ -6,6 +6,7 @@ package com.SistemaVenta.demo.Controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,9 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.SistemaVenta.demo.Model.Brand;
 import com.SistemaVenta.demo.Model.Role;
 import com.SistemaVenta.demo.Model.User;
 import com.SistemaVenta.demo.Security.JwtUtil;
+import com.SistemaVenta.demo.Services.Implementation.BrandService;
 import com.SistemaVenta.demo.Services.Implementation.RolService;
 import com.SistemaVenta.demo.Services.Implementation.UserServices;
 import com.SistemaVenta.demo.Utils.AuthUtils;
@@ -37,6 +40,9 @@ public class LoginController {
 
     @Autowired
     private RolService roleService;
+
+    @Autowired
+    private BrandService brandService;
 
     private final AuthenticationManager authenticationManager;
 
@@ -65,9 +71,16 @@ public class LoginController {
         try {
         System.out.println("buscando al usario para el login" + username);
             
-        String token = AuthUtils.login(authenticationManager, username, password);
-    
+        User user = AuthUtils.auth(authenticationManager, username, password);
+        String token = AuthUtils.login(user);
 
+        System.out.println("buscando marca del usario: ");
+
+        Brand brand = brandService.findByUserId(user.getId());
+        if (brand != null) {
+                 
+        }
+        
         Cookie cookie = new Cookie("JWT_TOKEN",token);
         cookie.setHttpOnly(true); 
         cookie.setPath("/"); 
@@ -99,6 +112,7 @@ public class LoginController {
             String password = passwordEncoder.encode(usuario.getPassword());
             usuario.setPassword(password);
             usuario = userServices.create(usuario);
+
 
             String tokens = JwtUtil.generateToken(usuario.getUsername(),"ROL_"+role.getNombre(), 1000 * 60 * 10);
              System.out.println("token de registro de usario creado exitosamente: " + tokens);

@@ -21,7 +21,6 @@ import lombok.*;
 @Table(name = "usuarios")
 @Getter @Setter @ToString
 public class User implements UserDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
