@@ -4,11 +4,8 @@ package com.SistemaVenta.demo.Controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.security.authentication.AuthenticationManager;
-
 import org.springframework.security.core.AuthenticationException;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +23,6 @@ import com.SistemaVenta.demo.Services.Implementation.UserServices;
 import com.SistemaVenta.demo.Utils.AuthUtils;
 
 import jakarta.servlet.http.Cookie;
-
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
@@ -118,14 +114,32 @@ public class LoginController {
 
         
     }
-
-
    
 
    @GetMapping("/access-denied")
     public String accessDenied() {
         return "error";
     }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("JWT_TOKEN", "");
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(0); // Expira inmediatamente
+       
+
+        Cookie cookie1 = new Cookie("marca", "");
+        cookie.setHttpOnly(true);
+        cookie1.setPath("/");
+        cookie1.setMaxAge(0); 
+
+        response.addCookie(cookie1);
+        response.addCookie(cookie);
+
+        return "redirect:/";
+    }
+    
 }
 	
 
