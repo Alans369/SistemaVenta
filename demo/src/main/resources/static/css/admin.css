@@ -157,7 +157,7 @@
 
         .table-header {
             display: flex;
-            justify-content: between;
+            justify-content: space-between;
             align-items: center;
             margin-bottom: 2rem;
         }
@@ -166,6 +166,91 @@
             color: #333;
             font-size: 1.5rem;
             font-weight: 600;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .category-filter {
+            position: relative;
+        }
+
+        .select-wrapper {
+            position: relative;
+            width: 200px;
+        }
+
+        .custom-select {
+            width: 100%;
+            padding: 0.75rem 2rem 0.75rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            appearance: none;
+            -webkit-appearance: none;
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .custom-select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .select-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            font-size: 0.8rem;
+            color: #666;
+            transition: transform 0.3s ease;
+        }
+
+        .custom-select:hover + .select-icon {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        .search-form {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .search-input {
+            padding: 0.75rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            width: 250px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            background: #5a6fd6;
+            transform: translateY(-1px);
         }
 
         .add-btn {
@@ -177,7 +262,6 @@
             cursor: pointer;
             font-weight: 500;
             transition: all 0.3s ease;
-            margin-left: auto;
         }
 
         .add-btn:hover {
