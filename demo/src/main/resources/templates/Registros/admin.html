@@ -1,7 +1,8 @@
 
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es"
+xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -154,39 +155,16 @@
                     </tr>
                 </thead>
                 <tbody id="productsTable">
-                    <tr>
-                        <td class="product-name">Laptop HP Pavilion</td>
-                        <td class="price">$899.99</td>
-                        <td class="price">$699.99</td>
-                        <td><span class="stock medium">15</span></td>
+                    <tr   th:each="item : ${productos}">
+                        <td class="product-name" th:text="${item.nombre}"></td>
+                        <td class="price" th:text="${item.precioVenta}"></td>
+                        <td class="price" th:text="${item.precioCompra}"></td>
+                        <td><span class="stock medium" th:text="${item.stock}"></span></td>
                         <td>
                             <div class="action-buttons">
+                                 <button class="btn btn-edit" onclick="openDetailModal(${item})">🔍 Detalles</button>
                                 <button class="btn btn-edit" onclick="openEditModal(0)">✏️ Editar</button>
                                 <button class="btn btn-delete" onclick="openDeleteModal(0)">🗑️ Eliminar</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="product-name">Mouse Logitech MX</td>
-                        <td class="price">$89.99</td>
-                        <td class="price">$65.99</td>
-                        <td><span class="stock high">45</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="btn btn-edit" onclick="openEditModal(1)">✏️ Editar</button>
-                                <button class="btn btn-delete" onclick="openDeleteModal(1)">🗑️ Eliminar</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="product-name">Teclado Mecánico</td>
-                        <td class="price">$129.99</td>
-                        <td class="price">$89.99</td>
-                        <td><span class="stock low">3</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="btn btn-edit" onclick="openEditModal(2)">✏️ Editar</button>
-                                <button class="btn btn-delete" onclick="openDeleteModal(2)">🗑️ Eliminar</button>
                             </div>
                         </td>
                     </tr>
@@ -362,33 +340,11 @@
             return 'low';
         }
 
-        function renderTable() {
-            const tbody = document.getElementById('productsTable');
-            tbody.innerHTML = '';
-
-            products.forEach((product, index) => {
-                const row = `
-                    <tr>
-                        <td class="product-name">${product.name}</td>
-                        <td class="price">$${product.salePrice.toFixed(2)}</td>
-                        <td class="price">$${product.purchasePrice.toFixed(2)}</td>
-                        <td><span class="stock ${getStockClass(product.stock)}">${product.stock}</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="btn btn-edit" onclick="openDetailModal(${index})">🔍 Detalles</button>
-                                <button class="btn btn-edit" onclick="openEditModal(${index})">✏️ Editar</button>
-                                <button class="btn btn-delete" onclick="openDeleteModal(${index})">🗑️ Eliminar</button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-                tbody.innerHTML += row;
-            });
-        }
+      
 
         // Modal de detalles
         function openDetailModal(index) {
-            const product = products[index];
+            console.log(index);
             document.getElementById('detailName').textContent = product.name;
             document.getElementById('detailSalePrice').textContent = `$${product.salePrice.toFixed(2)}`;
             document.getElementById('detailPurchasePrice').textContent = `$${product.purchasePrice.toFixed(2)}`;
