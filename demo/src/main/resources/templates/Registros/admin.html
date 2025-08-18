@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -55,7 +57,7 @@
                         </a>
                     </li>
                      <li class="nav-item">
-                        <a th:href="@{/logout}" class="nav-link">
+                        <a href="#" class="nav-link" onclick="openLogoutModal()">
                             <span class="nav-icon">🔌</span>
                             Cerrar Sesión
                         </a>
@@ -63,6 +65,41 @@
                 </ul>
             </nav>
         </aside>
+
+            <!-- Modal de advertencia de cerrar sesión -->
+    <div id="logoutModal" class="modal confirm-modal">
+        <div class="modal-content">
+            <div class="confirm-icon">⚠️</div>
+            <h2 class="modal-title">¿Cerrar sesión?</h2>
+            <p class="confirm-message">¿Estás seguro de que deseas cerrar sesión?<br>Perderás el acceso a tu cuenta actual.</p>
+            <div class="modal-buttons">
+                <button type="button" class="btn-secondary" onclick="closeLogoutModal()">Cancelar</button>
+                <button type="button" class="btn-danger" onclick="confirmLogout()">Cerrar sesión</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funciones para el modal de cerrar sesión
+        function openLogoutModal() {
+            document.getElementById('logoutModal').style.display = 'block';
+        }
+
+        function closeLogoutModal() {
+            document.getElementById('logoutModal').style.display = 'none';
+        }
+
+        function confirmLogout() {
+            window.location.href = '/logout';
+        }
+
+        // Cerrar modal al hacer clic fuera de él
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('logoutModal')) {
+                closeLogoutModal();
+            }
+        }
+    </script>
 
           <!-- Main Content -->
     <div class="main-content">
@@ -258,6 +295,7 @@
                 this.classList.add('active');
             });
         });
+
 
         // Dynamic greeting based on time
         const hour = new Date().getHours();
