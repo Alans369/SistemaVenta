@@ -472,59 +472,8 @@
             }
         }
 
-        // Función de búsqueda
-        function filterByCategory(categoryId) {
-            // Aquí implementarás la lógica de filtrado por categoría
-            console.log('Filtrando por categoría:', categoryId);
-            // Por ahora solo refresca la tabla
-            renderTable();
-        }
 
-        function searchProducts(event) {
-            event.preventDefault();
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const selectedCategory = document.getElementById('categoria').value;
             
-            const filteredProducts = products.filter(product => 
-                product.name.toLowerCase().includes(searchTerm) ||
-                product.stock.toString().includes(searchTerm) ||
-                product.salePrice.toString().includes(searchTerm)
-            );
-
-            const tbody = document.getElementById('productsTable');
-            tbody.innerHTML = '';
-
-            if (filteredProducts.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="5" style="text-align: center; padding: 2rem;">
-                            No se encontraron productos que coincidan con la búsqueda
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-
-            filteredProducts.forEach((product, index) => {
-                const row = `
-                    <tr>
-                        <td class="product-name">${product.name}</td>
-                        <td class="price">$${product.salePrice.toFixed(2)}</td>
-                        <td class="price">$${product.purchasePrice.toFixed(2)}</td>
-                        <td><span class="stock ${getStockClass(product.stock)}">${product.stock}</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="btn btn-edit" onclick="openDetailModal(${index})">🔍 Detalles</button>
-                                <button class="btn btn-edit" onclick="openEditModal(${index})">✏️ Editar</button>
-                                <button class="btn btn-delete" onclick="openDeleteModal(${index})">🗑️ Eliminar</button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-                tbody.innerHTML += row;
-            });
-        }
-
         // Initial render
         renderTable();
     </script>
