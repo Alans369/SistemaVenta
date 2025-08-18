@@ -2,6 +2,8 @@ package com.SistemaVenta.demo.Controllers;
 
 
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,7 @@ import com.SistemaVenta.demo.Model.Product;
 import com.SistemaVenta.demo.Model.User;
 import com.SistemaVenta.demo.Services.Implementation.BrandService;
 import com.SistemaVenta.demo.Services.Implementation.CategoryService;
+import com.SistemaVenta.demo.Services.Implementation.ProductService;
 import com.SistemaVenta.demo.Services.Implementation.UserServices;
 import com.SistemaVenta.demo.Utils.Util;
 
@@ -40,6 +43,9 @@ public class ProductController {
     @Autowired
     private BrandService brandService;
 
+    @Autowired
+    private ProductService productService;
+
     @GetMapping("/product/add")
     public String add(Product product, Model model){
         model.addAttribute("categories", categoryService.findAll());
@@ -49,25 +55,6 @@ public class ProductController {
     @PostMapping("/product/add")
     public String add(@Valid Product producto, BindingResult result, @RequestParam("imagenFile") MultipartFile imagenFile
     ,@RequestParam Integer categoria, Model model,HttpServletRequest request,HttpServletResponse response){
-
-        //buscando la marca del admin
-        String marca = Util.extractTokenFromCookie(request,"marca");
-
-        if (marca == null) {
-            System.out.println("❌ Marca no encontrada en la cookie");
-            String token = Util.extractTokenFromCookie(request,"JWT_TOKEN");
-            String username = Util.obtenerUser(token);
-            User user = userServices.findByUsername(username);
-            Brand brand = brandService.findByUserId(user.getId());
-            if (brand == null) {
-                 return "redirect:/admin/marcas";
-            }
-            Cookie cookie = Util.Crear_cokie("marca",brand.getId());
-            producto.setMarca(brand);
-            response.addCookie(cookie);
-        }
-
-
 
         // Validaciones personalizadas
         if (categoria==null || categoria < 0) {
@@ -92,18 +79,55 @@ public class ProductController {
             model.addAttribute("categories", categoryService.findAll());
             return "productos/product";
         }
+    
 
-        System.out.println(categoria);
+         //buscando la marca del admin
+        String marca = Util.extractTokenFromCookie(request,"marca");
+        System.out.println("Marca extraída de la cookie: " + marca);
+
+        if (marca == null) {
+            System.out.println("❌ Marca no encontrada en la cookie");
+            String token = Util.extractTokenFromCookie(request,"JWT_TOKEN");
+            String username = Util.obtenerUser(token);
+            User user = userServices.findByUsername(username);
+            Brand brand = brandService.findByUserId(user.getId());
+            if (brand == null) {
+                 return "redirect:/admin/marcas";
+            }
+            Cookie cookie = Util.Crear_cokie("marca",brand.getId());
+            producto.setMarca(brand);
+            response.addCookie(cookie);
+        }
+
+        
+        Brand brand = new Brand();
+        brand.setId(Integer.parseInt(marca));
+
+        try {
+            if (!imagenFile.isEmpty()) {
+                producto.setImagen(imagenFile.getBytes());
+            }
+        } catch (IOException e) {
+           return "redirect:/admin/product/add";
+        }
 
         Category category = new Category();
         category.setId(categoria);
-      
+        producto.setMarca(brand);   
         producto.setCategory(category);
-        System.out.println(producto);
+      
+
+
+
+      try {
+          productService.createOrEdit(producto);
+          return "redirect:/admin/admin";
+      } catch (Exception e) {
+          System.out.println("Error al guardar el producto: " + e.getMessage());
+          return "redirect:/admin/product/add";
+      }
 
         
-
-        return "redirect:/admin/admin";
     }
 
 

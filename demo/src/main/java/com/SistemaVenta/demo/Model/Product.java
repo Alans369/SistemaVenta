@@ -10,7 +10,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
@@ -46,6 +45,6 @@ public class Product {
 
     private Integer stock;
     
-
-    private Boolean estado;
+    @Column(nullable = false)
+    private boolean estado = true;
 }
