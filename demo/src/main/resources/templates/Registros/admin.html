@@ -261,6 +261,16 @@
             </div>
             <form id="productForm">
                 <div class="form-group">
+                    <label for="productImage">Imagen del Producto</label>
+                    <div class="image-preview-container">
+                        <div class="image-preview" id="imagePreview">
+                            <p class="image-preview-text">Arrastra una imagen aquí o haz clic para seleccionar</p>
+                        </div>
+                        <input type="file" id="productImage" class="custom-file-input" accept="image/*">
+                        <label for="productImage" class="custom-file-label">Seleccionar Imagen</label>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="productName">Nombre del Producto</label>
                     <input type="text" id="productName" required>
                 </div>
@@ -305,6 +315,48 @@
     <div class="particle" style="width: 4px; height: 4px; top: 80%; left: 20%; animation-delay: 1s;"></div>
 
     <script>
+        // Manejo de la vista previa de imagen
+        const imagePreview = document.getElementById('imagePreview');
+        const productImage = document.getElementById('productImage');
+
+        // Función para mostrar la vista previa
+        function showImagePreview(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.innerHTML = `<img src="${e.target.result}" alt="Vista previa">`;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Manejo del input de archivo
+        productImage.addEventListener('change', function(e) {
+            const file = this.files[0];
+            if (file && file.type.startsWith('image/')) {
+                showImagePreview(file);
+            }
+        });
+
+        // Manejo del arrastrar y soltar
+        imagePreview.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('dragover');
+        });
+
+        imagePreview.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+        });
+
+        imagePreview.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                productImage.files = e.dataTransfer.files;
+                showImagePreview(file);
+            }
+        });
+
         // Add smooth interactions solo para enlaces con href="#"
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', function(e) {
