@@ -15,6 +15,11 @@ public class UserController {
     return "users/index";  
   }
 
+    @GetMapping("/principal")
+  public String principal() {
+    return "vistacliente/paginaprincipal";  
+  }
+
 
     
     
