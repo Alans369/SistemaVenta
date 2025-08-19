@@ -162,9 +162,24 @@ xmlns:th="http://www.thymeleaf.org">
                         <td><span class="stock medium" th:text="${item.stock}"></span></td>
                         <td>
                             <div class="action-buttons">
-                                 <button class="btn btn-edit" onclick="openDetailModal(${item})">🔍 Detalles</button>
-                                <button class="btn btn-edit" onclick="openEditModal(0)">✏️ Editar</button>
-                                <button class="btn btn-delete" onclick="openDeleteModal(0)">🗑️ Eliminar</button>
+                                <button type="button"  
+                                    class="detail-btn btn btn-edit"
+                                    th:data-nombre="${item.nombre}"
+                                    th:data-precio-venta="${item.precioVenta}"
+                                    th:data-precio-compra="${item.precioCompra}"
+                                    th:data-stock="${item.stock}">
+                                Detalles
+                                </button>
+                               <button class="edit-btn btn btn-edit" 
+                                    th:data-nombre="${item.nombre}"
+                                    th:data-precio-venta="${item.precioVenta}"
+                                    th:data-precio-compra="${item.precioCompra}"
+                                    th:data-imagen="${item.imagen}"
+                                    th:data-stock="${item.stock}"
+                                    th:onclick="openEditModal(this)">
+                                Editar
+                            </button>
+                                <button class="btn btn-delete" onclick="openDeleteModal()">🗑️ Eliminar</button>
                             </div>
                         </td>
                     </tr>
@@ -240,6 +255,7 @@ xmlns:th="http://www.thymeleaf.org">
             <form id="productForm">
                 <div class="form-group">
                     <label for="productImage">Imagen del Producto</label>
+
                     <div class="image-preview-container">
                         <div class="image-preview" id="imagePreview">
                             <p class="image-preview-text">Arrastra una imagen aquí o haz clic para seleccionar</p>
@@ -247,6 +263,7 @@ xmlns:th="http://www.thymeleaf.org">
                         <input type="file" id="productImage" class="custom-file-input" accept="image/*">
                         <label for="productImage" class="custom-file-label">Seleccionar Imagen</label>
                     </div>
+
                 </div>
                 <div class="form-group">
                     <label for="productName">Nombre del Producto</label>
@@ -395,14 +412,16 @@ xmlns:th="http://www.thymeleaf.org">
       
 
         // Modal de detalles
-        function openDetailModal(index) {
-            console.log(index);
-            document.getElementById('detailName').textContent = product.name;
-            document.getElementById('detailSalePrice').textContent = `$${product.salePrice.toFixed(2)}`;
-            document.getElementById('detailPurchasePrice').textContent = `$${product.purchasePrice.toFixed(2)}`;
-            document.getElementById('detailStock').textContent = product.stock;
+       document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('detail-btn')) {
+            const btn = e.target;
+            document.getElementById('detailName').textContent = btn.dataset.nombre;
+            document.getElementById('detailSalePrice').textContent = '$' + btn.dataset.precioVenta;
+            document.getElementById('detailPurchasePrice').textContent = '$' + btn.dataset.precioCompra;
+            document.getElementById('detailStock').textContent = btn.dataset.stock;
             document.getElementById('detailModal').style.display = 'block';
         }
+    });
 
         function closeDetailModal() {
             document.getElementById('detailModal').style.display = 'none';
@@ -415,14 +434,24 @@ xmlns:th="http://www.thymeleaf.org">
             document.getElementById('productModal').style.display = 'block';
         }
 
-        function openEditModal(index) {
-            const product = products[index];
+        function openEditModal(button) {
+    // Obtener los datos del botón clickeado
+            const nombre = button.dataset.nombre;
+            const precioVenta = button.dataset.precioVenta;
+            const precioCompra = button.dataset.precioCompra;
+            const stock = button.dataset.stock;
+            const imagen = button.dataset.imagen;
+            
+            // Establecer los valores en el modal
             document.getElementById('modalTitle').textContent = 'Editar Producto';
-            document.getElementById('productName').value = product.name;
-            document.getElementById('salePrice').value = product.salePrice;
-            document.getElementById('purchasePrice').value = product.purchasePrice;
-            document.getElementById('stock').value = product.stock;
-            editIndex = index;
+            document.getElementById('productName').value = nombre;
+            document.getElementById('salePrice').value = precioVenta;
+            document.getElementById('purchasePrice').value = precioCompra;
+            document.getElementById('stock').value = stock;
+            
+            // Si tienes un campo de imagen, también puedes manejarlo
+            // document.getElementById('productImage').value = imagen;
+            
             document.getElementById('productModal').style.display = 'block';
         }
 
