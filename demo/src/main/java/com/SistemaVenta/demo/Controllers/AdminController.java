@@ -1,6 +1,8 @@
 package com.SistemaVenta.demo.Controllers;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +20,8 @@ import com.SistemaVenta.demo.Utils.Util;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.util.stream.IntStream;
+
 
 
 
@@ -34,8 +38,8 @@ public class AdminController {
         Pageable pageable = PageRequest.of(currentPage, pageSize);
         String nombre = null;
         Integer categoriaId = null;
-         Integer marcaId = null;
-         String marca = Util.extractTokenFromCookie(request,"marca");
+        Integer marcaId = null;
+        String marca = Util.extractTokenFromCookie(request,"marca");
          System.out.println("Marca extraída de la cookie: " + marca);
          if (marca != null) {
              marcaId = Integer.parseInt(marca);
@@ -44,6 +48,15 @@ public class AdminController {
        Page<Product> productos = productService.searchBynameOrCategory(nombre, categoriaId, marcaId, pageable);
 
        model.addAttribute("productos", productos);
+       
+        int totalPages = productos.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
 
         return "Registros/admin";
 
