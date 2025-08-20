@@ -27,7 +27,7 @@
             <div class="cart-container">
                 <div class="cart-icon">
                     🛒
-                    <span class="cart-count">3</span>
+                    <span class="cart-count"></span>
                 </div>
             </div>
         </div>
@@ -41,7 +41,7 @@
                 <a href="#" class="category-item">📚 Libros</a>
                 <a href="#" class="category-item">🎮 Gaming</a>
                 <a href="#" class="category-item">⚽ Deportes</a>
-                <a href="#" class="category-item">🎵 Música</a>
+                
             </div>
         </nav>
     </header>
@@ -82,11 +82,7 @@
                 <h3 class="category-title">Gaming</h3>
                 <p class="category-count">5,123 productos</p>
             </div>
-            <div class="category-card">
-                <div class="category-icon">🎵</div>
-                <h3 class="category-title">Música</h3>
-                <p class="category-count">2,345 productos</p>
-            </div>
+           
         </section>
 
         <!-- Products Section -->
@@ -126,5 +122,127 @@
             </div>
         </section>
     </main>
+
+    <!-- Modal del Carrito -->
+<div id="carritoModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Tu Carrito de Compras</h2>
+        <div id="carritoItems">
+            <!-- Los items del carrito se mostrarán aquí dinámicamente -->
+        </div>
+        <div class="carrito-total">
+            <h3>Total a Pagar: <span id="totalPagar">$0.00</span></h3>
+        </div>
+        <button id="btnPagar" class="btn-pagar">Proceder al Pago</button>
+    </div>
+</div>
+
+<script>
+    // Variables globales
+    let carrito = [];
+    const modal = document.getElementById("carritoModal");
+    const btnCarrito = document.querySelector(".cart-icon");
+    const span = document.getElementsByClassName("close")[0];
+    const carritoItems = document.getElementById("carritoItems");
+    const totalElement = document.getElementById("totalPagar");
+
+    // Abrir modal
+    btnCarrito.onclick = function() {
+        actualizarCarritoModal();
+        modal.style.display = "block";
+    }
+
+    // Cerrar modal con X
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // Cerrar modal al hacer clic fuera
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    function agregarAlCarrito(nombre, precio, imagen) {
+        const productoExistente = carrito.find(item => item.nombre === nombre);
+        
+        if (productoExistente) {
+            productoExistente.cantidad++;
+        } else {
+            carrito.push({
+                nombre: nombre,
+                precio: precio,
+                imagen: imagen,
+                cantidad: 1
+            });
+        }
+        
+        actualizarContadorCarrito();
+    }
+
+    function actualizarContadorCarrito() {
+        const contador = document.querySelector('.cart-count');
+        const total = carrito.reduce((sum, item) => sum + item.cantidad, 0);
+        contador.textContent = total;
+    }
+
+    function actualizarCarritoModal() {
+        carritoItems.innerHTML = '';
+        let total = 0;
+
+        carrito.forEach(item => {
+            const subtotal = item.precio * item.cantidad;
+            total += subtotal;
+
+            carritoItems.innerHTML += `
+                <div class="carrito-item">
+                    <div class="item-imagen">${item.imagen}</div>
+                    <div class="item-nombre">${item.nombre}</div>
+                    <div class="cantidad-control">
+                        <button class="btn-cantidad" onclick="cambiarCantidad('${item.nombre}', -1)">-</button>
+                        <span>${item.cantidad}</span>
+                        <button class="btn-cantidad" onclick="cambiarCantidad('${item.nombre}', 1)">+</button>
+                    </div>
+                    <div class="item-precio">$${item.precio}</div>
+                    <button class="btn-eliminar" onclick="eliminarDelCarrito('${item.nombre}')">🗑️</button>
+                </div>
+            `;
+        });
+
+        totalElement.textContent = `$${total.toFixed(2)}`;
+    }
+
+    function cambiarCantidad(nombre, cambio) {
+        const producto = carrito.find(item => item.nombre === nombre);
+        if (producto) {
+            producto.cantidad += cambio;
+            if (producto.cantidad <= 0) {
+                eliminarDelCarrito(nombre);
+            } else {
+                actualizarCarritoModal();
+                actualizarContadorCarrito();
+            }
+        }
+    }
+
+    function eliminarDelCarrito(nombre) {
+        carrito = carrito.filter(item => item.nombre !== nombre);
+        actualizarCarritoModal();
+        actualizarContadorCarrito();
+    }
+
+    // Agregar eventos a los botones "Agregar al Carrito"
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const card = e.target.closest('.product-card');
+            const nombre = card.querySelector('.product-title').textContent;
+            const precio = parseFloat(card.querySelector('.product-price').textContent.replace('$', ''));
+            const imagen = card.querySelector('.product-image').textContent;
+            agregarAlCarrito(nombre, precio, imagen);
+        });
+    });
+</script>
 </body>
 </html>
