@@ -1,5 +1,7 @@
 package com.SistemaVenta.demo.Services.Implementation;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,14 +38,11 @@ public class ProductService implements IProduct {
         
         return repository.findById(id).orElse(null);
     }
-    
 
-    
-
-
-
-
-
+    @Override
+    public List<Product> findAll() {
+       return repository.findAll();
+    }
 
 
 }

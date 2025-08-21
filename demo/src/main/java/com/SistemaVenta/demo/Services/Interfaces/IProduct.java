@@ -1,6 +1,9 @@
 package com.SistemaVenta.demo.Services.Interfaces;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
 import com.SistemaVenta.demo.Model.Product;
 
 public interface IProduct {
@@ -12,4 +15,6 @@ public interface IProduct {
     Page<Product> searchBynameOrCategory(String nombre,Integer categoryId, Integer marcaId,Pageable page);
     
     Product selectById(Integer id);
+
+    List<Product> findAll();
 }

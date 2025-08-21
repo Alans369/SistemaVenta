@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
@@ -42,9 +43,11 @@ public class Product {
 
     private double precioVenta;
 
-
     private Integer stock;
     
     @Column(nullable = false)
     private boolean estado = true;
+
+    @Transient // Este campo no se guardará en la base de datos
+    private String nombreCompleto;
 }
