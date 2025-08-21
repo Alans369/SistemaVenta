@@ -32,12 +32,16 @@ public class AdminController {
     private ProductService productService;
 
     @GetMapping("/admin")
-    public String admin1( Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size, HttpServletRequest request) {
+    public String admin1( Model model, @RequestParam("page") Optional<Integer> page,
+     @RequestParam("nombre") Optional<String> nombre,
+     @RequestParam("categoria") Optional<Integer> categoriaId,
+      @RequestParam("size") Optional<Integer> size,
+       HttpServletRequest request) {
         int currentPage = page.orElse(1)-1; // si no está seteado se asigna 0
         int pageSize = size.orElse(5); // tamaño de la página, se asigna 5
         Pageable pageable = PageRequest.of(currentPage, pageSize);
-        String nombre = null;
-        Integer categoriaId = null;
+        
+        
         Integer marcaId = null;
         String marca = Util.extractTokenFromCookie(request,"marca");
          System.out.println("Marca extraída de la cookie: " + marca);
@@ -45,7 +49,7 @@ public class AdminController {
              marcaId = Integer.parseInt(marca);
          }
 
-       Page<Product> productos = productService.searchBynameOrCategory(nombre, categoriaId, marcaId, pageable);
+       Page<Product> productos = productService.searchBynameOrCategory(nombre.orElse(null), categoriaId.orElse(null), marcaId, pageable);
 
        model.addAttribute("productos", productos);
        
@@ -56,6 +60,7 @@ public class AdminController {
                     .collect(Collectors.toList());
             model.addAttribute("pageNumbers", pageNumbers);
         }
+        // model.addAttribute("nombre", nombre.orElse(null));
 
 
         return "Registros/admin";

@@ -126,10 +126,12 @@ xmlns:th="http://www.thymeleaf.org">
             <div class="table-header">
                 <h2 class="table-title">Gestión de Productos</h2>
                 <div class="header-actions">
+
+                     <form class="search-form" method="get" action="/admin/admin">
+
                     <div class="category-filter">
                         <div class="select-wrapper">
                             <select class="custom-select" id="categoria" name="categoria" onchange="filterByCategory(this.value)">
-                                <option value="">Todas las categorías</option>
                                 <option value="1">Electrónicos</option>
                                 <option value="2">Computadoras</option>
                                 <option value="3">Accesorios</option>
@@ -138,8 +140,10 @@ xmlns:th="http://www.thymeleaf.org">
                             <span class="select-icon">▼</span>
                         </div>
                     </div>
-                    <form class="search-form" onsubmit="searchProducts(event)">
-                        <input type="text" id="searchInput" placeholder="Buscar producto..." class="search-input">
+
+                   <!-- th:value="${nombre} ?: 'Valor por defecto'" -->
+
+                        <input type="text" id="searchInput"  placeholder="Buscar producto..." class="search-input" name="nombre" >
                         <button type="submit" class="search-btn">🔍 Buscar</button>
                     </form>
                     <button class="add-btn" onclick="openAddModal()">+ Agregar Producto</button>
