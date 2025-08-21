@@ -80,15 +80,7 @@ public class AdminController {
 
     }
 
-     public static String convertByteListToBase64(List<byte> byteList) throws IOException {
-        // Convertir la lista de bytes a un array de bytes
-        byte[] byteArray = new byte[byteList.size()];
-        for (int i = 0; i < byteList.size(); i++) {
-            byteArray[i] = byteList.get(i);
-        }
-        // Codificar el array de bytes a Base64
-        return Base64.getEncoder().encodeToString(byteArray);
-    }
+
 
 
        @GetMapping("/reporte/{visualizacion}")
@@ -97,12 +89,6 @@ public class AdminController {
             List<Product> product = productService.findAll();
           //  System.out.println("Productos encontrados: " + product);
 
-            for (Product p : product) {
-                System.out.println("Producto: " + p.getNombre());
-
-                String base64String = convertByteListToBase64(p.getImagen());
-                System.out.println("Cadena Base64: " + base64String);
-            }
 
             // Genera el PDF. Si hay un error aquí, la excepción será capturada.
             byte[] pdfBytes = pdfGeneratorService.generatePdfFromHtml("reportes/product", "productos", product);
