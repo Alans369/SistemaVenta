@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <link rel="stylesheet" th:href="@{/css/principal.css}">
+     <link rel="stylesheet" th:href="@{/css/carrito.css}">
     <title>TiendaMax - Tu Tienda Online</title>
 
     </head>
@@ -126,15 +127,39 @@
     <!-- Modal del Carrito -->
 <div id="carritoModal" class="modal">
     <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Tu Carrito de Compras</h2>
-        <div id="carritoItems">
-            <!-- Los items del carrito se mostrarán aquí dinámicamente -->
+        <div class="modal-header">
+            <h2>🛍️ Tu Carrito de Compras</h2>
+            <span class="close">&times;</span>
         </div>
-        <div class="carrito-total">
-            <h3>Total a Pagar: <span id="totalPagar">$0.00</span></h3>
+        <div class="modal-body">
+            <div id="carritoItems" class="carrito-items">
+                <!-- Los items del carrito se mostrarán aquí dinámicamente -->
+            </div>
+            <div class="carrito-total">
+                <div class="total-info">
+                    <div class="subtotal">
+                        <span>Subtotal:</span>
+                        <span id="subtotalPagar">$0.00</span>
+                    </div>
+                    <div class="envio">
+                        <span>Envío:</span>
+                        <span>Gratis</span>
+                    </div>
+                    <div class="total">
+                        <span>Total:</span>
+                        <span id="totalPagar">$0.00</span>
+                    </div>
+                </div>
+            </div>
         </div>
-        <button id="btnPagar" class="btn-pagar">Proceder al Pago</button>
+        <div class="modal-footer">
+            <button class="btn-seguir-comprando" onclick="document.getElementById('carritoModal').style.display='none'">
+                Seguir Comprando
+            </button>
+            <button id="btnPagar" class="btn-pagar">
+                Proceder al Pago
+            </button>
+        </div>
     </div>
 </div>
 
@@ -192,25 +217,46 @@
         carritoItems.innerHTML = '';
         let total = 0;
 
-        carrito.forEach(item => {
-            const subtotal = item.precio * item.cantidad;
-            total += subtotal;
-
-            carritoItems.innerHTML += `
-                <div class="carrito-item">
-                    <div class="item-imagen">${item.imagen}</div>
-                    <div class="item-nombre">${item.nombre}</div>
-                    <div class="cantidad-control">
-                        <button class="btn-cantidad" onclick="cambiarCantidad('${item.nombre}', -1)">-</button>
-                        <span>${item.cantidad}</span>
-                        <button class="btn-cantidad" onclick="cambiarCantidad('${item.nombre}', 1)">+</button>
-                    </div>
-                    <div class="item-precio">$${item.precio}</div>
-                    <button class="btn-eliminar" onclick="eliminarDelCarrito('${item.nombre}')">🗑️</button>
+        if (carrito.length === 0) {
+            carritoItems.innerHTML = `
+                <div class="carrito-vacio">
+                    <div class="carrito-vacio-icon">🛒</div>
+                    <p>Tu carrito está vacío</p>
+                    <span>¡Agrega algunos productos!</span>
                 </div>
             `;
-        });
+        } else {
+            carrito.forEach(item => {
+                const subtotal = item.precio * item.cantidad;
+                total += subtotal;
 
+                carritoItems.innerHTML += `
+                    <div class="carrito-item">
+                        <div class="item-imagen-container">
+                            <div class="item-imagen">${item.imagen}</div>
+                        </div>
+                        <div class="item-detalles">
+                            <div class="item-nombre">${item.nombre}</div>
+                            <div class="item-precio">$${item.precio}</div>
+                            <div class="cantidad-control">
+                                <button class="btn-cantidad" onclick="cambiarCantidad('${item.nombre}', -1)">−</button>
+                                <span class="cantidad">${item.cantidad}</span>
+                                <button class="btn-cantidad" onclick="cambiarCantidad('${item.nombre}', 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="item-subtotal">
+                            <div class="subtotal-label">Subtotal</div>
+                            <div class="subtotal-valor">$${(subtotal).toFixed(2)}</div>
+                        </div>
+                        <button class="btn-eliminar" onclick="eliminarDelCarrito('${item.nombre}')">
+                            <span class="eliminar-icon">×</span>
+                        </button>
+                    </div>
+                `;
+            });
+        }
+
+        document.getElementById('subtotalPagar').textContent = `$${total.toFixed(2)}`;
         totalElement.textContent = `$${total.toFixed(2)}`;
     }
 
