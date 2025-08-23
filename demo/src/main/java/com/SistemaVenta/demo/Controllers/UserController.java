@@ -32,6 +32,8 @@ public class UserController {
     return "vistacliente/paginaprincipal";  
   }
 
+  
+
 
     
     
