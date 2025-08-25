@@ -1,7 +1,6 @@
 package com.SistemaVenta.demo.Controllers;
 
 import java.io.IOException;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -11,9 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-
-//import org.esfe.servicios.utilerias.PdfGeneratorService;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -65,7 +61,12 @@ public class AdminController {
        Page<Product> productos = productService.searchBynameOrCategory(nombre.orElse(null), categoriaId.orElse(null), marcaId, pageable);
 
        model.addAttribute("productos", productos);
-       
+
+       for (Product producto : productos) {
+           String imagenBase64 = producto.getImagenDataUri();
+           producto.setImagenbase64(imagenBase64);
+       }
+
         int totalPages = productos.getTotalPages();
         if (totalPages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
