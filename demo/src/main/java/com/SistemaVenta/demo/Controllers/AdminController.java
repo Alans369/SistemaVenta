@@ -105,4 +105,12 @@ public class AdminController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-}
+
+    
+
+  @GetMapping("/ventasproductos")
+  public String ventasproductos() {
+    return "ventasproductos/ventasproducos";  
+  }
+  }
+
