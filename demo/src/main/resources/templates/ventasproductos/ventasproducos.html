@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/Ventas.css}">
+    <title>LuxeStore - Tienda Premium</title>>
+</head>
+<body>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="brand">LuxeStore</div>
+            <ul class="nav-menu">
+                <li><a th:href="@{/admin/admin}">Inicio</a></li>
+                <li><a href="#productos">Productos</a></li>
+                <li><a href="#categorias">Categorías</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <h1 class="page-title">Ventas de productos</h1>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Total</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>15/08/2024</td>
+                        <td class="product-name">iPhone 15 Pro Max</td>
+                        <td>25 unidades</td>
+                        <td class="price">$29,999.00</td>
+                        <td><button class="btn-details" onclick="showDetails('iPhone 15 Pro Max', '15/08/2024', '25', '$29,999.00', 'Smartphone premium con chip A17 Pro, sistema de cámara Pro de 48MP, pantalla Super Retina XDR de 6.7 pulgadas con ProMotion', 'Apple', 'Titanio Natural - 256GB - 5G')">Ver Detalles</button></td>
+                    </tr>
+                    <tr>
+                        <td>12/08/2024</td>
+                        <td class="product-name">Samsung Galaxy S24 Ultra</td>
+                        <td>18 unidades</td>
+                        <td class="price">$24,999.00</td>
+                        <td><button class="btn-details" onclick="showDetails('Samsung Galaxy S24 Ultra', '12/08/2024', '18', '$24,999.00', 'Smartphone flagship con S Pen integrado, procesador Snapdragon 8 Gen 3, cámara de 200MP con zoom óptico 10x', 'Samsung', 'Titanium Black - 512GB - 5G')">Ver Detalles</button></td>
+                    </tr>
+                    <tr>
+                        <td>10/08/2024</td>
+                        <td class="product-name">MacBook Pro M3 Max</td>
+                        <td>12 unidades</td>
+                        <td class="price">$89,999.00</td>
+                        <td><button class="btn-details" onclick="showDetails('MacBook Pro M3 Max', '10/08/2024', '12', '$89,999.00', 'Laptop profesional con chip M3 Max, pantalla Liquid Retina XDR de 16 pulgadas, hasta 22 horas de batería', 'Apple', 'Space Black - 36GB RAM - 1TB SSD')">Ver Detalles</button></td>
+                    </tr>
+                    <tr>
+                        <td>08/08/2024</td>
+                        <td class="product-name">AirPods Pro 3ra Gen</td>
+                        <td>45 unidades</td>
+                        <td class="price">$7,999.00</td>
+                        <td><button class="btn-details" onclick="showDetails('AirPods Pro 3ra Gen', '08/08/2024', '45', '$7,999.00', 'Audífonos inalámbricos premium con cancelación activa de ruido adaptativa, audio espacial personalizado y chip H2', 'Apple', 'USB-C - MagSafe - Resistente al agua')">Ver Detalles</button></td>
+                    </tr>
+                    <tr>
+                        <td>05/08/2024</td>
+                        <td class="product-name">iPad Pro M4</td>
+                        <td>8 unidades</td>
+                        <td class="price">$34,999.00</td>
+                        <td><button class="btn-details" onclick="showDetails('iPad Pro M4', '05/08/2024', '8', '$34,999.00', 'Tablet profesional revolucionaria con chip M4, pantalla OLED Tandem Ultra Retina XDR de 13 pulgadas, compatible con Apple Pencil Pro', 'Apple', 'Space Black - 1TB WiFi + Cellular')">Ver Detalles</button></td>
+                    </tr>
+                    <tr>
+                        <td>03/08/2024</td>
+                        <td class="product-name">Sony WH-1000XM5</td>
+                        <td>30 unidades</td>
+                        <td class="price">$9,999.00</td>
+                        <td><button class="btn-details" onclick="showDetails('Sony WH-1000XM5', '03/08/2024', '30', '$9,999.00', 'Audífonos over-ear premium con la tecnología de cancelación de ruido más avanzada, 30 horas de batería, sonido Hi-Res', 'Sony', 'Midnight Black - Bluetooth 5.2 - LDAC')">Ver Detalles</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Detalles del Producto</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="detail-item">
+                    <span class="detail-label">Producto</span>
+                    <span class="detail-value" id="modalProduct"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Marca</span>
+                    <span class="detail-value" id="modalBrand"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Fecha de Ingreso</span>
+                    <span class="detail-value" id="modalDate"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Stock Disponible</span>
+                    <span class="detail-value" id="modalQuantity"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Especificaciones</span>
+                    <span class="detail-value" id="modalSpecs"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Descripción</span>
+                    <span class="detail-value" id="modalDescription"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Precio Total</span>
+                    <span class="detail-value price-highlight" id="modalPrice"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showDetails(product, date, quantity, price, description, brand, specs) {
+            document.getElementById('modalProduct').textContent = product;
+            document.getElementById('modalDate').textContent = date;
+            document.getElementById('modalQuantity').textContent = quantity + ' unidades';
+            document.getElementById('modalPrice').textContent = price;
+            document.getElementById('modalDescription').textContent = description;
+            document.getElementById('modalBrand').textContent = brand;
+            document.getElementById('modalSpecs').textContent = specs;
+            
+            const modal = document.getElementById('productModal');
+            modal.style.display = 'block';
+            
+            // Animar elementos del modal
+            const detailItems = document.querySelectorAll('.detail-item');
+            detailItems.forEach((item, index) => {
+                item.style.animationDelay = `${index * 0.1}s`;
+            });
+            
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('productModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Cerrar modal al hacer click fuera
+        window.onclick = function(event) {
+            const modal = document.getElementById('productModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Cerrar modal con ESC
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Efecto parallax sutil en scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const shapes = document.querySelectorAll('.shape');
+            shapes.forEach((shape, index) => {
+                const speed = 0.5 + (index * 0.1);
+                shape.style.transform = `translateY(${scrolled * speed}px) rotate(${scrolled * 0.1}deg)`;
+            });
+        });
+    </script>
+</body>
+</html>
