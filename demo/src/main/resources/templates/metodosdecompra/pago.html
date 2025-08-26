@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago Seguro - Tarjeta</title>
+    <link rel="stylesheet" th:href="@{/css/pagodiseño.css}">
+</head>
+<body>
+    <div class="payment-container">
+        <div class="header">
+            <h1>Pago Seguro</h1>
+            <p>Completa tu compra de forma segura</p>
+        </div>
+
+        <div class="card-preview">
+            <div class="card-number" id="cardPreview">•••• •••• •••• ••••</div>
+            <div class="card-details">
+                <div>
+                    <div style="font-size: 12px; opacity: 0.7; margin-bottom: 4px;">TITULAR</div>
+                    <div class="cardholder-name" id="namePreview">NOMBRE APELLIDO</div>
+                </div>
+                <div>
+                    <div style="font-size: 12px; opacity: 0.7; margin-bottom: 4px;">VENCE</div>
+                    <div class="expiry" id="expiryPreview">MM/YY</div>
+                </div>
+            </div>
+        </div>
+
+        <form id="paymentForm">
+            <div class="form-group">
+                <label for="cardNumber">Número de Tarjeta</label>
+                <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+            </div>
+
+            <div class="form-group">
+                <label for="cardName">Nombre del Titular</label>
+                <input type="text" id="cardName" placeholder="Como aparece en la tarjeta">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="expiryDate">Fecha de Vencimiento</label>
+                    <input type="text" id="expiryDate" placeholder="MM/YY" maxlength="5">
+                </div>
+                <div class="form-group">
+                    <label for="cvv">CVV</label>
+                    <input type="text" id="cvv" placeholder="123" maxlength="4">
+                </div>
+            </div>
+
+            <div class="security-badge">
+                <div class="security-icon">🔒</div>
+                <span style="color: #2f855a; font-size: 14px;">Pago 100% seguro y encriptado</span>
+            </div>
+
+            <button type="submit" class="pay-button">
+                <div class="loading" id="loading"></div>
+                <span id="buttonText">Procesar Pago - $299.99</span>
+            </button>
+        </form>
+
+        <div class="card-icons">
+            <div class="card-icon">VISA</div>
+            <div class="card-icon">MC</div>
+            <div class="card-icon">AMEX</div>
+            <div class="card-icon">BBVA</div>
+        </div>
+    </div>
+
+    <script>
+        // Formateo del número de tarjeta
+        const cardNumberInput = document.getElementById('cardNumber');
+        const cardPreview = document.getElementById('cardPreview');
+        
+        cardNumberInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
+            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+            
+            e.target.value = formattedValue;
+            
+            // Actualizar vista previa
+            if (value.length > 0) {
+                let preview = formattedValue;
+                if (value.length < 16) {
+                    preview += '•'.repeat(16 - value.length).match(/.{1,4}/g)?.join(' ') || '';
+                }
+                cardPreview.textContent = preview;
+            } else {
+                cardPreview.textContent = '•••• •••• •••• ••••';
+            }
+        });
+
+        // Formateo del nombre
+        const cardNameInput = document.getElementById('cardName');
+        const namePreview = document.getElementById('namePreview');
+        
+        cardNameInput.addEventListener('input', function(e) {
+            let value = e.target.value.toUpperCase();
+            namePreview.textContent = value || 'NOMBRE APELLIDO';
+        });
+
+        // Formateo de fecha de expiración
+        const expiryInput = document.getElementById('expiryDate');
+        const expiryPreview = document.getElementById('expiryPreview');
+        
+        expiryInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            e.target.value = value;
+            expiryPreview.textContent = value || 'MM/YY';
+        });
+
+        // CVV solo números
+        const cvvInput = document.getElementById('cvv');
+        cvvInput.addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/[^0-9]/g, '');
+        });
+
+        // Manejo del formulario
+        const form = document.getElementById('paymentForm');
+        const loading = document.getElementById('loading');
+        const buttonText = document.getElementById('buttonText');
+        
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Mostrar loading
+            loading.style.display = 'inline-block';
+            buttonText.textContent = 'Procesando...';
+            
+            // Simular procesamiento
+            setTimeout(() => {
+                loading.style.display = 'none';
+                buttonText.textContent = '¡Pago Completado! ✓';
+                
+                setTimeout(() => {
+                    buttonText.textContent = 'Procesar Pago - $299.99';
+                }, 3000);
+            }, 2000);
+        });
+
+        // Efectos de focus en inputs
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

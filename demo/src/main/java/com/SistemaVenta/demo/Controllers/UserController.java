@@ -32,11 +32,11 @@ public class UserController {
     return "vistacliente/paginaprincipal";  
   }
 
-  
+  @GetMapping("/pago")
+  public String pago() {
+    return "metodosdecompra/pago";
+  }
 
-
-    
-    
        
    
 

@@ -40,8 +40,6 @@
                 <a href="#" class="category-item">👕 Ropa</a>
                 <a href="#" class="category-item">🏠 Hogar</a>
                 <a href="#" class="category-item">📚 Libros</a>
-                <a href="#" class="category-item">🎮 Gaming</a>
-                <a href="#" class="category-item">⚽ Deportes</a>
                 <a href="#" class="category-item logout-btn" onclick="confirmarCerrarSesion()">🚪 Cerrar Sesión</a>
             </div>
         </nav>
@@ -99,16 +97,7 @@
                 <h3 class="category-title">Hogar</h3>
                 <p class="category-count">3,421 productos</p>
             </div>
-            <div class="category-card">
-                <div class="category-icon">⚽</div>
-                <h3 class="category-title">Deportes</h3>
-                <p class="category-count">1,876 productos</p>
-            </div>
-            <div class="category-card">
-                <div class="category-icon">🎮</div>
-                <h3 class="category-title">Gaming</h3>
-                <p class="category-count">5,123 productos</p>
-            </div>
+           
            
         </section>
 
@@ -182,7 +171,7 @@
             <button class="btn-seguir-comprando" onclick="document.getElementById('carritoModal').style.display='none'">
                 Seguir Comprando
             </button>
-            <button id="btnPagar" class="btn-pagar">
+            <button id="btnPagar" class="btn-pagar" onclick="window.location.href='/user/pago'">
                 Proceder al Pago
             </button>
         </div>
