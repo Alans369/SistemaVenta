@@ -160,7 +160,8 @@ xmlns:th="http://www.thymeleaf.org">
                                     th:data-imagen2="${item.imagenbase64}">
                                 Detalles
                                 </button>
-                               <button class="edit-btn btn btn-edit" 
+                               <button class="edit-btn btn btn-edit"
+                                    th:data-product="${item}"
                                     th:data-nombre="${item.nombre}"
                                     th:data-precio-venta="${item.precioVenta}"
                                     th:data-precio-compra="${item.precioCompra}"
@@ -263,12 +264,14 @@ xmlns:th="http://www.thymeleaf.org">
     <div id="productModal" class="modal">
         <div class="modal-content">
 
+         
+
 
             <div class="modal-header">
                 <h2 class="modal-title" id="modalTitle">Agregar Producto</h2>
                 <button class="close" onclick="closeModal()">&times;</button>
             </div>
-            <form id="productForm">
+            <form id="productForm" method="post" th:action="@{/admin/product/update} enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="productImage">Imagen del Producto</label>
 
@@ -469,6 +472,8 @@ xmlns:th="http://www.thymeleaf.org">
             const precioCompra = button.dataset.precioCompra;
             const stock = button.dataset.stock;
             const imagen = button.dataset.imagen;
+
+            console.log(button.dataset.product)
             
             // Establecer los valores en el modal
             document.getElementById('modalTitle').textContent = 'Editar Producto';
