@@ -37,7 +37,10 @@ public class UserController {
     return "metodosdecompra/pago";
   }
 
-       
+   @GetMapping("/Historial")
+  public String Historial() {
+    return "vistacliente/Historial";
+  }    
    
 
    
