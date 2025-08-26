@@ -50,24 +50,10 @@
             height: 120px;
         }
 
-        /* Estilos para los botones de perfil y cerrar sesión */
-        .profile-btn, .logout-btn {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .profile-btn {
-            background: linear-gradient(135deg, #3498db, #2980b9) !important;
-            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.2);
-        }
-
-        .profile-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
-            animation: pulse 1s infinite;
-        }
-
+        /* Estilos para el botón de cerrar sesión */
         .logout-btn {
             background: linear-gradient(135deg, #ff4757, #ff6b81) !important;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 0 4px 15px rgba(255, 71, 87, 0.2);
         }
 
@@ -160,11 +146,7 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
-            top: 60%;
-            right: 15%;
-            animation-delay: 2s;
-        }
-
+        
         .floating-shape:nth-child(3) {
             width: 60px;
             height: 60px;

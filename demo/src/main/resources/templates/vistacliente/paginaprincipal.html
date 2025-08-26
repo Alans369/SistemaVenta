@@ -42,7 +42,6 @@
                 <a href="#" class="category-item">📚 Libros</a>
                 <a href="#" class="category-item">🎮 Gaming</a>
                 <a href="#" class="category-item">⚽ Deportes</a>
-                <a href="/perfil" class="category-item profile-btn">👤 Mi Perfil</a>
                 <a href="#" class="category-item logout-btn" onclick="confirmarCerrarSesion()">🚪 Cerrar Sesión</a>
             </div>
         </nav>
@@ -66,6 +65,7 @@
 
         function cerrarModal() {
             document.getElementById('modalCerrarSesion').style.display = 'none';
+            window.location.href = '/';  // Redirige a la página de inicio
         }
 
         function cerrarSesion() {
