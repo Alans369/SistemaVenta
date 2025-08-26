@@ -264,9 +264,6 @@ xmlns:th="http://www.thymeleaf.org">
     <div id="productModal" class="modal">
         <div class="modal-content">
 
-         
-
-
             <div class="modal-header">
                 <h2 class="modal-title" id="modalTitle">Agregar Producto</h2>
                 <button class="close" onclick="closeModal()">&times;</button>
@@ -450,7 +447,7 @@ xmlns:th="http://www.thymeleaf.org">
             document.getElementById('detailPurchasePrice').textContent = '$' + btn.dataset.precioCompra;
             document.getElementById('detailStock').textContent = btn.dataset.stock;
             document.getElementById('detailModal').style.display = 'block';
-            console.log(btn.dataset.imagen2)
+     
             document.getElementById('detailImagen').innerHTML=`<img src='${btn.dataset.imagen2}'/>`;
 
         }
@@ -484,6 +481,8 @@ xmlns:th="http://www.thymeleaf.org">
             document.getElementById('purchasePrice').value = precioCompra;
             document.getElementById('stock').value = stock;
             document.getElementById('updateProductId').value = button.dataset.product;
+            document.getElementById('imagePreview').innerHTML=`<img src='${button.dataset.imagen2}'/>`;
+            //imagePreview.innerHTML=`<img src='${btn.dataset.imagen2}'/>`;
             
             // Si tienes un campo de imagen, también puedes manejarlo
             // document.getElementById('productImage').value = imagen;
