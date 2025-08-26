@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.SistemaVenta.demo.Model.Product;
 import com.SistemaVenta.demo.Services.Implementation.ProductService;
+import com.SistemaVenta.demo.Utils.DtoProduct;
 import com.SistemaVenta.demo.Utils.PdfGeneratorService;
 import com.SistemaVenta.demo.Utils.Util;
 
@@ -61,6 +62,7 @@ public class AdminController {
        Page<Product> productos = productService.searchBynameOrCategory(nombre.orElse(null), categoriaId.orElse(null), marcaId, pageable);
 
        model.addAttribute("productos", productos);
+       model.addAttribute("pojo", new DtoProduct());
 
        for (Product producto : productos) {
            String imagenBase64 = producto.getImagenDataUri();

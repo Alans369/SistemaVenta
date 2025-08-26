@@ -161,7 +161,7 @@ xmlns:th="http://www.thymeleaf.org">
                                 Detalles
                                 </button>
                                <button class="edit-btn btn btn-edit"
-                                    th:data-product="${item}"
+                                    th:data-product="${item.id}"
                                     th:data-nombre="${item.nombre}"
                                     th:data-precio-venta="${item.precioVenta}"
                                     th:data-precio-compra="${item.precioCompra}"
@@ -271,39 +271,41 @@ xmlns:th="http://www.thymeleaf.org">
                 <h2 class="modal-title" id="modalTitle">Agregar Producto</h2>
                 <button class="close" onclick="closeModal()">&times;</button>
             </div>
-            <form id="productForm" method="post" th:action="@{/admin/product/update} enctype="multipart/form-data">
+            <form id="productForm" method="post" th:object="${pojo}"th:action="@{/admin/product/update}" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="productImage">Imagen del Producto</label>
-
                     <div class="image-preview-container">
                         <div class="image-preview" id="imagePreview">
                             <p class="image-preview-text">Arrastra una imagen aquí o haz clic para seleccionar</p>
                         </div>
-                        <input type="file" id="productImage" class="custom-file-input" accept="image/*">
+                        <input type="file" id="productImage" name="imagenFile" class="custom-file-input" accept="image/*">
                         <label for="productImage" class="custom-file-label">Seleccionar Imagen</label>
                     </div>
 
                 </div>
+                <input type="hidden" name="id"  th:field="*{id}" id="updateProductId" />
+
                 <div class="form-group">
                     <label for="productName">Nombre del Producto</label>
-                    <input type="text" id="productName" required>
+                    <input type="text" name="nombre" th:field="*{nombre}" id="productName" requred/>
                 </div>
                 <div class="form-group">
-                    <label for="salePrice">Precio de Venta</label>
-                    <input type="number" id="salePrice" step="0.01" required>
+                    <label for="salePrice">Precio de Compra</label>
+                    <input type="number" name="precioCompra" th:field="*{precioCompra}" id="salePrice" step="0.01" required/>
                 </div>
                 <div class="form-group">
-                    <label for="purchasePrice">Precio de Compra</label>
-                    <input type="number" id="purchasePrice" step="0.01" required>
+                    <label for="purchasePrice">Precio de Venta</label>
+                    <input type="number" name="precioVenta"th:field="*{precioVenta}" id="purchasePrice" step="0.01" required/>
                 </div>
                 <div class="form-group">
                     <label for="stock">Stock</label>
-                    <input type="number" id="stock" required>
+                    <input type="number" name="stock" id="stock" th:field="*{stock}" required/>
                 </div>
                 <div class="modal-buttons">
                     <button type="button" class="btn-secondary" onclick="closeModal()">Cancelar</button>
                     <button type="submit" class="btn-primary">Guardar</button>
                 </div>
+
             </form>
         </div>
     </div>
@@ -473,7 +475,7 @@ xmlns:th="http://www.thymeleaf.org">
             const stock = button.dataset.stock;
             const imagen = button.dataset.imagen;
 
-            console.log(button.dataset.product)
+            
             
             // Establecer los valores en el modal
             document.getElementById('modalTitle').textContent = 'Editar Producto';
@@ -481,6 +483,7 @@ xmlns:th="http://www.thymeleaf.org">
             document.getElementById('salePrice').value = precioVenta;
             document.getElementById('purchasePrice').value = precioCompra;
             document.getElementById('stock').value = stock;
+            document.getElementById('updateProductId').value = button.dataset.product;
             
             // Si tienes un campo de imagen, también puedes manejarlo
             // document.getElementById('productImage').value = imagen;
@@ -511,25 +514,7 @@ xmlns:th="http://www.thymeleaf.org">
             closeDeleteModal();
         }
 
-        document.getElementById('productForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const product = {
-                name: document.getElementById('productName').value,
-                salePrice: parseFloat(document.getElementById('salePrice').value),
-                purchasePrice: parseFloat(document.getElementById('purchasePrice').value),
-                stock: parseInt(document.getElementById('stock').value)
-            };
-
-            if (editIndex === -1) {
-                products.push(product);
-            } else {
-                products[editIndex] = product;
-            }
-
-            renderTable();
-            closeModal();
-        });
+        
 
         // Close modal when clicking outside
         window.onclick = function(event) {

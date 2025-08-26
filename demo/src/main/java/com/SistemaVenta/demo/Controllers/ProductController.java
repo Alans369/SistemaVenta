@@ -11,7 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +26,7 @@ import com.SistemaVenta.demo.Services.Implementation.BrandService;
 import com.SistemaVenta.demo.Services.Implementation.CategoryService;
 import com.SistemaVenta.demo.Services.Implementation.ProductService;
 import com.SistemaVenta.demo.Services.Implementation.UserServices;
+import com.SistemaVenta.demo.Utils.DtoProduct;
 import com.SistemaVenta.demo.Utils.Util;
 
 import jakarta.servlet.http.Cookie;
@@ -147,6 +150,32 @@ public class ProductController {
 
        return "redirect:/admin/admin";
     }
+
+    @PostMapping("/product/update")
+    public String editar(DtoProduct dtoProduct,Model model,@RequestParam("imagenFile") MultipartFile imagenFile){
+        System.out.println("llego al controlador"+ dtoProduct);
+
+        Product producto = productService.selectById(dtoProduct.getId());
+                producto.setNombre((dtoProduct.getNombre())!=null? dtoProduct.getNombre():producto.getNombre());
+                producto.setPrecioCompra((dtoProduct.getPrecioCompra())!=0.0? dtoProduct.getPrecioCompra():producto.getPrecioCompra());
+                producto.setPrecioVenta((dtoProduct.getPrecioVenta()) !=0.0? dtoProduct.getPrecioVenta():producto.getPrecioVenta());
+                producto.setStock((dtoProduct.getStock() )!=null? dtoProduct.getStock():producto.getStock());
+
+           try {
+            if (!imagenFile.isEmpty()) {
+                producto.setImagen(imagenFile.getBytes());
+            }
+            } catch (IOException e) {
+              return "redirect:/admin/admin";
+            }
+
+        productService.createOrEdit(producto);
+
+            
+
+            return "redirect:/admin/admin";
+        
+        }
    
     
 
