@@ -69,21 +69,9 @@ xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
                 <div class="invalid-feedback" id="passwordError"></div>
             </div>
 
-            <!-- Opciones del formulario -->
-            <div class="form-options">
-                <label class="remember-me">
-                    <input type="checkbox" class="remember-input" id="rememberMe">
-                    <div class="remember-checkbox"></div>
-                    <span>Recordarme</span>
-                </label>
-                <a href="#" class="forgot-password" onclick="forgotPassword()">
-                    ¿Olvidaste tu contraseña?
-                </a>
-            </div>
-
             <!-- Botones -->
             <div class="btn-group">
-                <button type="button" class="btn-custom btn-cancel" onclick="cancelLogin()">
+                <button type="button" class="btn-custom btn-cancel" onclick="window.location.href='/'">
                     <i class="fas fa-times"></i>
                     Cancelar
                 </button>
@@ -101,7 +89,7 @@ xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
 
         <!-- Link de registro -->
         <div class="register-link">
-            <a href="#" onclick="goToRegister()">Crear cuenta nueva</a>
+            <a th:href="@{/register}" onclick="goToRegister()">Crear cuenta nueva</a>
         </div>
     </div>
 
