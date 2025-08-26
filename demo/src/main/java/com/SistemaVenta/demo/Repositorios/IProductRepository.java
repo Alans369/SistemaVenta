@@ -20,10 +20,12 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
     @Query("SELECT p FROM Product p WHERE " +
            "(:nombre IS NULL OR p.nombre LIKE (CONCAT(:nombre, '%'))) AND " +
            "(:categoryId IS NULL OR p.category.id = :categoryId) AND" +
-           "(p.marca.id = :marcaId)")
+           "(p.marca.id = :marcaId) AND" +
+           "(p.estado =:estado)" )
     Page<Product> findWithFilters(@Param("nombre") String nombre, 
                                @Param("categoryId") Integer categoryId,
                                @Param("marcaId") Integer marcaId,
+                                @Param("estado") boolean  estado,
                                Pageable pageable);
 
    

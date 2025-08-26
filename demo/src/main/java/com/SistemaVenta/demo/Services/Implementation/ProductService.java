@@ -30,7 +30,7 @@ public class ProductService implements IProduct {
 
     @Override
     public Page<Product> searchBynameOrCategory(String nombre, Integer categoryId, Integer marcaId, Pageable page) {
-        return repository.findWithFilters(nombre,categoryId,marcaId,page);
+        return repository.findWithFilters(nombre,categoryId,marcaId,true,page);
     }
 
     @Override

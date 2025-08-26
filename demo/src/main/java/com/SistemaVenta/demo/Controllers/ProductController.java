@@ -3,6 +3,7 @@ package com.SistemaVenta.demo.Controllers;
 
 
 import java.io.IOException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +30,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+
 
 @Controller
 @RequestMapping("/admin")
@@ -129,6 +131,24 @@ public class ProductController {
 
         
     }
+    @GetMapping("/product/delete")
+    public String getMethodName(@RequestParam("id") Optional<Integer> id ) {
+        System.out.println(id);
+
+
+       Boolean result = productService.delet(id.orElse(null));
+
+       if(result){
+        System.out.println("se aborrado el producto correctamente" + result);
+        return "redirect:/admin/admin";
+       }
+
+       
+
+       return "redirect:/admin/admin";
+    }
+   
+    
 
 
 

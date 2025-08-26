@@ -187,7 +187,7 @@ xmlns:th="http://www.thymeleaf.org">
                                     th:onclick="openEditModal(this)">
                                 Editar
                             </button>
-                                <button class="btn btn-delete" onclick="openDeleteModal()">🗑️ Eliminar</button>
+                                <button class="btn btn-delete" th:data-id="${item.id}"  th:onclick="openDeleteModal(this)">🗑️ Eliminar</button>
                             </div>
                         </td>
                     </tr>
@@ -326,13 +326,22 @@ xmlns:th="http://www.thymeleaf.org">
     <!-- Delete Confirmation Modal -->
     <div id="deleteModal" class="modal confirm-modal">
         <div class="modal-content">
+            <form method="get" th:action="@{/admin/product/delete}">
+            <div id="objetos">
+                
+                
+
+            </div>
             <div class="confirm-icon">⚠️</div>
             <h2 class="modal-title">Confirmar Eliminación</h2>
             <p class="confirm-message">¿Estás seguro de que quieres eliminar este producto?<br>Esta acción no se puede deshacer.</p>
             <div class="modal-buttons">
+                <input id="imagen" type="hidden" name="id" value="2">
                 <button type="button" class="btn-secondary" onclick="closeDeleteModal()">Cancelar</button>
-                <button type="button" class="btn-danger" onclick="confirmDelete()">Eliminar</button>
+                <button type="submit" class="btn-danger">Eliminar</button>
             </div>
+            </form>
+
         </div>
     </div>
 </div>
@@ -492,9 +501,10 @@ xmlns:th="http://www.thymeleaf.org">
             document.getElementById('productModal').style.display = 'block';
         }
 
-        function openDeleteModal(index) {
-            deleteIndex = index;
+        function openDeleteModal(button) {
+           
             document.getElementById('deleteModal').style.display = 'block';
+            document.getElementById('imagen').value=button.dataset.id
         }
 
         function closeModal() {
