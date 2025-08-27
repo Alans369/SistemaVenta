@@ -22,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.SistemaVenta.demo.Model.Product;
+import com.SistemaVenta.demo.Model.Sale;
 import com.SistemaVenta.demo.Services.Implementation.ProductService;
+import com.SistemaVenta.demo.Services.Implementation.SaleService;
 import com.SistemaVenta.demo.Utils.DtoProduct;
 import com.SistemaVenta.demo.Utils.PdfGeneratorService;
 import com.SistemaVenta.demo.Utils.Util;
@@ -40,6 +42,9 @@ public class AdminController {
 
     @Autowired
     private PdfGeneratorService pdfGeneratorService;
+
+     @Autowired
+    private SaleService Saleservice;
 
     @GetMapping("/admin")
     public String admin1( Model model, @RequestParam("page") Optional<Integer> page,
@@ -111,8 +116,31 @@ public class AdminController {
     
 
   @GetMapping("/ventasproductos")
-  public String ventasproductos() {
-    return "ventasproductos/ventasproducos";  
+  public String ventasproductos(Model model,HttpServletRequest request,
+  @RequestParam("size") Optional<Integer> size,
+  @RequestParam("page") Optional<Integer> page) {
+
+    Integer marcaId = null;
+        String marca = Util.extractTokenFromCookie(request,"marca");
+         System.out.println("Marca extraída de la cookie: " + marca);
+         if (marca == null) {
+          return "redirect:/admin/admin"; // Redirige al usuario a la página de login si no se encuentra la cookie
+            
+         }
+          marcaId = Integer.parseInt(marca);
+          ;
+
+       int currentPage = page.orElse(1)-1; // si no está seteado se asigna 0
+        int pageSize = size.orElse(5); // tamaño de la página, se asigna 5
+        Pageable pageable = PageRequest.of(currentPage, pageSize);
+        
+
+      Page<Sale> ventas = Saleservice.obtenerTodos(marcaId, pageable);
+      System.out.println("Ventas encontradas: " + ventas.toString());
+
+       model.addAttribute("ventas", ventas);
+
+      return "ventasproductos/ventasproducos";  
   }
   }
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/css/Ventas.css}">
+    <link rel="stylesheet" th:href="@{/css/ventas.css}">
     <title>LuxeStore - Tienda Premium</title>>
 </head>
 <body>
@@ -34,55 +34,22 @@
                 <thead>
                     <tr>
                         <th>Fecha</th>
-                        <th>Producto</th>
+                        <th>Metodo de pago</th>
                         <th>Cantidad</th>
                         <th>Total</th>
                         <th>Acción</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>15/08/2024</td>
-                        <td class="product-name">iPhone 15 Pro Max</td>
+                    <tr  th:each="item : ${ventas}">
+                        <td th:text="${#temporals.format(item.fecha, 'dd/MM/yyyy')}">15/08/2024</td>
+                        <td class="product-name"th:text="'Tarjeta'+${item.metodoPago}">iPhone 15 Pro Max</td>
                         <td>25 unidades</td>
-                        <td class="price">$29,999.00</td>
+                        <td class="price" th:text="${item.total}" >$29,999.00</td>
                         <td><button class="btn-details" onclick="showDetails('iPhone 15 Pro Max', '15/08/2024', '25', '$29,999.00', 'Smartphone premium con chip A17 Pro, sistema de cámara Pro de 48MP, pantalla Super Retina XDR de 6.7 pulgadas con ProMotion', 'Apple', 'Titanio Natural - 256GB - 5G')">Ver Detalles</button></td>
                     </tr>
-                    <tr>
-                        <td>12/08/2024</td>
-                        <td class="product-name">Samsung Galaxy S24 Ultra</td>
-                        <td>18 unidades</td>
-                        <td class="price">$24,999.00</td>
-                        <td><button class="btn-details" onclick="showDetails('Samsung Galaxy S24 Ultra', '12/08/2024', '18', '$24,999.00', 'Smartphone flagship con S Pen integrado, procesador Snapdragon 8 Gen 3, cámara de 200MP con zoom óptico 10x', 'Samsung', 'Titanium Black - 512GB - 5G')">Ver Detalles</button></td>
-                    </tr>
-                    <tr>
-                        <td>10/08/2024</td>
-                        <td class="product-name">MacBook Pro M3 Max</td>
-                        <td>12 unidades</td>
-                        <td class="price">$89,999.00</td>
-                        <td><button class="btn-details" onclick="showDetails('MacBook Pro M3 Max', '10/08/2024', '12', '$89,999.00', 'Laptop profesional con chip M3 Max, pantalla Liquid Retina XDR de 16 pulgadas, hasta 22 horas de batería', 'Apple', 'Space Black - 36GB RAM - 1TB SSD')">Ver Detalles</button></td>
-                    </tr>
-                    <tr>
-                        <td>08/08/2024</td>
-                        <td class="product-name">AirPods Pro 3ra Gen</td>
-                        <td>45 unidades</td>
-                        <td class="price">$7,999.00</td>
-                        <td><button class="btn-details" onclick="showDetails('AirPods Pro 3ra Gen', '08/08/2024', '45', '$7,999.00', 'Audífonos inalámbricos premium con cancelación activa de ruido adaptativa, audio espacial personalizado y chip H2', 'Apple', 'USB-C - MagSafe - Resistente al agua')">Ver Detalles</button></td>
-                    </tr>
-                    <tr>
-                        <td>05/08/2024</td>
-                        <td class="product-name">iPad Pro M4</td>
-                        <td>8 unidades</td>
-                        <td class="price">$34,999.00</td>
-                        <td><button class="btn-details" onclick="showDetails('iPad Pro M4', '05/08/2024', '8', '$34,999.00', 'Tablet profesional revolucionaria con chip M4, pantalla OLED Tandem Ultra Retina XDR de 13 pulgadas, compatible con Apple Pencil Pro', 'Apple', 'Space Black - 1TB WiFi + Cellular')">Ver Detalles</button></td>
-                    </tr>
-                    <tr>
-                        <td>03/08/2024</td>
-                        <td class="product-name">Sony WH-1000XM5</td>
-                        <td>30 unidades</td>
-                        <td class="price">$9,999.00</td>
-                        <td><button class="btn-details" onclick="showDetails('Sony WH-1000XM5', '03/08/2024', '30', '$9,999.00', 'Audífonos over-ear premium con la tecnología de cancelación de ruido más avanzada, 30 horas de batería, sonido Hi-Res', 'Sony', 'Midnight Black - Bluetooth 5.2 - LDAC')">Ver Detalles</button></td>
-                    </tr>
+                   
+                    
                 </tbody>
             </table>
         </div>

@@ -13,8 +13,9 @@ public interface ISaleRepository extends JpaRepository <Sale,Integer> {
      @Query("SELECT DISTINCT v FROM Sale v " +
            "JOIN v.detallesVenta d " +
            "JOIN d.producto p " +
-           "WHERE p.marca = :marca")
-    Page<Sale> findVentasByMarcaProducto(@Param("marca") Integer marca, Pageable pageable);
+           "JOIN p.marca m " +
+           "WHERE m.id = :marcaId")
+    Page<Sale> findVentasByMarcaProducto(@Param("marcaId") Integer marcaId, Pageable pageable);
     
 
 

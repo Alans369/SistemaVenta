@@ -67,6 +67,7 @@ public class SaleService implements ISale{
 
     @Override
     public Page<Sale> obtenerTodos(Integer marca,Pageable pageable) {
+        System.out.println("Marca recibida en el servicio: " + marca);
         
         return repository.findVentasByMarcaProducto(marca,pageable);
     }
