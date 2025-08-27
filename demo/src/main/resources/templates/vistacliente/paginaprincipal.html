@@ -36,7 +36,7 @@
         <!-- Navigation Categories -->
         <nav class="nav-categories" >
             <div class="categories-container">
-                <a href="#" class="category-item" th:each="item : ${categories}" th:text="${item.nombre}">📱 Electrónicos</a>
+                <a class="category-item" th:each="item : ${categories}" th:href="@{|/user/principal?categoria=${item.id}|}" th:text="${item.nombre}" >📱 Electrónicos</a>
                  <a th:href="@{/user/Historial}" class="category-item">📑 Historial</a>
                 <a href="#" class="category-item logout-btn" onclick="confirmarCerrarSesion()">🚪 Cerrar Sesión</a>
             </div>
