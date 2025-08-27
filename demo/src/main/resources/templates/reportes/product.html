@@ -258,15 +258,15 @@
                 <div class="client-details">
                     <div class="client-field">
                         <label>Nombre</label>
-                        <div class="value">Juan Carlos Pérez</div>
+                        <div class="value" th:text="${usuario != null? usuario.username +' '+ usuario.apellido :'xxx xxx'}">Juan Carlos Pérez</div>
                     </div>
                     <div class="client-field">
                         <label>Correo</label>
-                        <div class="value">juan.perez@email.com</div>
+                        <div class="value" th:text="${usuario != null? usuario.correo:'xxxxx@gmail.com'}">juan.perez@email.com</div>
                     </div>
                     <div class="client-field">
                         <label>Teléfono</label>
-                        <div class="value">+503 7000-0000</div>
+                        <div class="value">+xxx xxxx-xxxx</div>
                     </div>
                 </div>
             </div>
@@ -301,7 +301,7 @@
             <div class="total-card">
                 <h3>Total de la Venta</h3>
                 <div class="total-amount"  th:text="'$'+${total}" >$40.00</div>
-                <div class="total-details">4 productos • 2 artículos</div>
+                <div class="total-details"  th:text="${productos}+' productos • '+${articulos}+' artículos'">4 productos • 2 artículos</div>
             </div>
         </div>
 

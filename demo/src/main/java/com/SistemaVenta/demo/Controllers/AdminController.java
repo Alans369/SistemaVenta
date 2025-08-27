@@ -1,8 +1,6 @@
 package com.SistemaVenta.demo.Controllers;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,8 +23,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.SistemaVenta.demo.Model.DetailsSale;
 import com.SistemaVenta.demo.Model.Product;
 import com.SistemaVenta.demo.Model.Sale;
+import com.SistemaVenta.demo.Model.User;
 import com.SistemaVenta.demo.Services.Implementation.ProductService;
 import com.SistemaVenta.demo.Services.Implementation.SaleService;
 import com.SistemaVenta.demo.Utils.DtoProduct;
@@ -97,12 +97,26 @@ public class AdminController {
             
           Sale venta = Saleservice.obtenerVentaPorId(id);
 
+          User usuario=venta.getUsuario();
+          System.out.println(usuario==null ? "el usaurio es nullo":"no es nulo");
+
          
 
           Map<String, Object> otrosDatos = new HashMap<>();
             otrosDatos.put("fecha", venta.getFecha());
             otrosDatos.put("total", venta.getTotal());
             otrosDatos.put("metodoPago", venta);
+            otrosDatos.put("usuario", venta.getUsuario()==null?null:venta.getUsuario());
+            otrosDatos.put("productos",venta.getDetallesVenta().size());
+            
+
+          int articulos=0;
+
+          for (DetailsSale producto:venta.getDetallesVenta()){
+              
+            articulos+=producto.getCantidad();
+          }
+          otrosDatos.put("articulos",articulos);
             
           //  System.out.println("Productos encontrados: " + product);
 
