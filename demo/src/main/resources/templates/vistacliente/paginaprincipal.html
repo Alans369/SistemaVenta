@@ -34,13 +34,10 @@
         </div>
 
         <!-- Navigation Categories -->
-        <nav class="nav-categories">
+        <nav class="nav-categories" >
             <div class="categories-container">
-                <a href="#" class="category-item">📱 Electrónicos</a>
-                <a href="#" class="category-item">👕 Ropa</a>
-                <a href="#" class="category-item">🏠 Hogar</a>
-                <a href="#" class="category-item">📚 Libros</a>
-                <a th:href="@{/user/Historial}" class="category-item">📑 Historial</a>
+                <a href="#" class="category-item" th:each="item : ${categories}" th:text="${item.nombre}">📱 Electrónicos</a>
+                 <a th:href="@{/user/Historial}" class="category-item">📑 Historial</a>
                 <a href="#" class="category-item logout-btn" onclick="confirmarCerrarSesion()">🚪 Cerrar Sesión</a>
             </div>
         </nav>
@@ -106,8 +103,8 @@
         <section class="products-section" id="productos">
             <h2 class="section-title" >Productos Destacados</h2>
             
-            <div class="products-grid"  th:each="item : ${productos}" >
-                <div class="product-card">
+            <div class="products-grid"  >
+                <div class="product-card"  th:each="item : ${productos}">
                     <input type="hidden" class="product-id" name="id" th:value="${item.id}" />
                     <input type="hidden" class="product-marca" name="marca" th:value="${item.marca.id}" />
                     <div class="product-image" ><img class="product-imagen" th:src="@{${item.imagenbase64}}" /></div>

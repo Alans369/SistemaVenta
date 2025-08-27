@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.SistemaVenta.demo.Model.Product;
+import com.SistemaVenta.demo.Services.Implementation.CategoryService;
 import com.SistemaVenta.demo.Services.Implementation.ProductService;
 
 
@@ -20,6 +21,9 @@ public class UserController {
   @Autowired
   private ProductService productService;
 
+   @Autowired
+    private CategoryService categoryService;
+
   @GetMapping("/dashboard")
   public String dashboard() {
     return "users/index";  
@@ -28,6 +32,8 @@ public class UserController {
   @GetMapping("/principal")
   public String principal(Model model) {
     List<Product> productos = productService.productos();
+
+     model.addAttribute("categories", categoryService.findAll());
 
     for (Product producto : productos) {
            String imagenBase64 = producto.getImagenDataUri();
