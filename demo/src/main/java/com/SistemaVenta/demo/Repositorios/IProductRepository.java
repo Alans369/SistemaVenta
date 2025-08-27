@@ -30,6 +30,15 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
 
      @Query("SELECT p FROM Product p WHERE p.estado = true")
      List<Product> findByEstadoTrue();
+     
+     @Query("SELECT p FROM Product p WHERE " +
+           "(:nombre IS NULL OR p.nombre LIKE (CONCAT(:nombre, '%'))) AND " +
+           "(:categoryId IS NULL OR p.category.id = :categoryId) AND" +
+           "(p.stock != 0) AND" +
+           "(p.estado =  true)" )
+     Page<Product> encontarTodosConFiltro(@Param("nombre") String nombre, 
+                               @Param("categoryId") Integer categoryId,
+                               Pageable pageable);
 
    
     

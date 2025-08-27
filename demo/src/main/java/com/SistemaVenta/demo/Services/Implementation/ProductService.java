@@ -48,5 +48,13 @@ public class ProductService implements IProduct {
         return repository.findByEstadoTrue();
     }
 
+    @Override
+    public Page<Product> searchBynameOrCategory1(String nombre, Integer categoryId, Pageable page) {
+        // TODO Auto-generated method stub
+        return repository.encontarTodosConFiltro(nombre,categoryId,page);
+    }
+
+
+
 
 }

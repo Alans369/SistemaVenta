@@ -17,4 +17,6 @@ public interface IProduct {
     Product selectById(Integer id);
 
     List<Product> findAll();
+
+     Page<Product> searchBynameOrCategory1(String nombre,Integer categoryId,Pageable page);
 }
