@@ -35,13 +35,15 @@ public class PdfGeneratorService {
         }
     }
 
-    public <T> byte[] generatePdfFromHtml(String templateName, String nameModelo, List<T> dataList)
+    public byte[] generatePdfFromHtml(String templateName, Map<String, Object> ... modelMaps)
             throws IOException {
-
         // Crea un nuevo contexto para pasar los datos a la plantilla
         Context context = new Context();
-        // Agrega la lista al contexto con un nombre de variable específico
-        context.setVariable(nameModelo, dataList);
+        
+        // Agrega todas las variables del modelo al contexto
+        for (Map<String, Object> modelMap : modelMaps) {
+            modelMap.forEach((key, value) -> context.setVariable(key, value));
+        }
 
         // Procesa la plantilla HTML con los datos
         String htmlContent = templateEngine.process(templateName, context);

@@ -1,28 +1,314 @@
 <!DOCTYPE html>
-<html lang="es"  xmlns:th="http://www.thymeleaf.org">
-
+<html lang="es">
 <head>
-    <title>Factura Electrónica</title>
-    <style> </style>
+  
+    <title>Reporte de Venta</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: #000;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: normal;
+            margin-bottom: 5px;
+        }
+
+        .header .subtitle {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .report-info {
+            padding: 25px;
+            background-color: #fafafa;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .info-card {
+            background: white;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #e0e0e0;
+            flex: 1;
+            margin: 0 10px;
+        }
+
+        .info-card:first-child {
+            margin-left: 0;
+        }
+
+        .info-card:last-child {
+            margin-right: 0;
+        }
+
+        .info-card h3 {
+            color: #000;
+            font-size: 14px;
+            margin-bottom: 8px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .info-card .value {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .client-section {
+            background: white;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .client-section h3 {
+            color: #000;
+            font-size: 14px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .client-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .client-field label {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .client-field .value {
+            font-size: 15px;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .products-section {
+            padding: 25px;
+        }
+
+        .section-title {
+            color: #000;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+        }
+
+        .products-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border: 1px solid #000;
+        }
+
+        .products-table th {
+            background-color: #000;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+            border-right: 1px solid #333;
+        }
+
+        .products-table th:last-child {
+            border-right: none;
+        }
+
+        .products-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+            border-right: 1px solid #e0e0e0;
+        }
+
+        .products-table td:last-child {
+            border-right: none;
+        }
+
+        .products-table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .products-table tbody tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        .price-cell {
+            text-align: right;
+            font-weight: bold;
+        }
+
+        .quantity-cell {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .total-section {
+            background-color: #fafafa;
+            padding: 25px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+        }
+
+        .total-card {
+            background: white;
+            border: 2px solid #000;
+            padding: 20px;
+            border-radius: 4px;
+            display: inline-block;
+            min-width: 300px;
+        }
+
+        .total-card h3 {
+            color: #000;
+            font-size: 16px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .total-amount {
+            font-size: 32px;
+            font-weight: bold;
+            color: #000;
+            margin: 10px 0;
+        }
+
+        .total-details {
+            color: #666;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .footer {
+            background-color: #000;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+       
+    </style>
 </head>
-
 <body>
-    <table>
-        <thead>
-            <th>Id</th>
-            <th>Nombre</th>
-         
-   
-        </thead>
-        <tbody>
-            <tr th:each="item : ${productos}">
-                <td th:text="${item.id}"></td>
-                <td th:text="${item.nombre}"></td>
-        
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>REPORTE DE VENTA</h1>
+            <div class="subtitle">Detalle de la transacción</div>
+        </div>
 
-            </tr>
-        </tbody>
-    </table>
+        <!-- Información del reporte -->
+        <div class="report-info">
+            <div class="info-row">
+                <div class="info-card">
+                    <h3>Fecha</h3>
+                    <div class="value" th:text="${#temporals.format(fecha, 'dd/MM/yyyy')}" >26/08/2025</div>
+                </div>
+                <div class="info-card">
+                    <h3>Método de Pago</h3>
+                    <div class="value">Tarjeta</div>
+                </div>
+            </div>
+
+            <div class="client-section">
+                <h3>Información del Cliente</h3>
+                <div class="client-details">
+                    <div class="client-field">
+                        <label>Nombre</label>
+                        <div class="value">Juan Carlos Pérez</div>
+                    </div>
+                    <div class="client-field">
+                        <label>Correo</label>
+                        <div class="value">juan.perez@email.com</div>
+                    </div>
+                    <div class="client-field">
+                        <label>Teléfono</label>
+                        <div class="value">+503 7000-0000</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de productos -->
+        <div class="products-section">
+            <h2 class="section-title">Productos Vendidos</h2>
+            <table class="products-table">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitario</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${detalles}">
+                        <td th:text="${item.producto.nombre}">Producto Editado</td>
+                        <td class="quantity-cell" th:text="${item.cantidad}">2</td>
+                        <td class="price-cell"th:text="'$'+${item.precio}">$4.00</td>
+                        <td class="price-cell" th:text="'$'+${item.subtotal}">$12.00</td>
+                    </tr>
+                   
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Total -->
+        <div class="total-section">
+            <div class="total-card">
+                <h3>Total de la Venta</h3>
+                <div class="total-amount"  th:text="'$'+${total}" >$40.00</div>
+                <div class="total-details">4 productos • 2 artículos</div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            Reporte generado automáticamente - Sistema de Ventas
+        </div>
+    </div>
 </body>
-
 </html>

@@ -16,6 +16,9 @@ public interface ISaleRepository extends JpaRepository <Sale,Integer> {
            "JOIN p.marca m " +
            "WHERE m.id = :marcaId")
     Page<Sale> findVentasByMarcaProducto(@Param("marcaId") Integer marcaId, Pageable pageable);
+
+   
+    
     
 
 

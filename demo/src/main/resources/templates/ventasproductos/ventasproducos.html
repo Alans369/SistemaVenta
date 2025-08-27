@@ -43,17 +43,80 @@
                 <tbody>
                     <tr  th:each="item : ${ventas}">
                         <td th:text="${#temporals.format(item.fecha, 'dd/MM/yyyy')}">15/08/2024</td>
-                        <td class="product-name"th:text="'Tarjeta'+${item.metodoPago}">iPhone 15 Pro Max</td>
-                        <td>25 unidades</td>
-                        <td class="price" th:text="${item.total}" >$29,999.00</td>
-                        <td><button class="btn-details" onclick="showDetails('iPhone 15 Pro Max', '15/08/2024', '25', '$29,999.00', 'Smartphone premium con chip A17 Pro, sistema de cámara Pro de 48MP, pantalla Super Retina XDR de 6.7 pulgadas con ProMotion', 'Apple', 'Titanio Natural - 256GB - 5G')">Ver Detalles</button></td>
+                        <td class="product-name">Tarjeta</td>
+                        <td th:text="${#aggregates.sum(item.detallesVenta.![cantidad])+' Unidades'}">25 unidades</td>
+                        <td class="price" th:text="'$ '+${item.total}" >$29,999.00</td>
+                        <td>
+                            <form action="/admin/reporte/inline" method="get" >
+                                <input type="hidden" name="id" th:value="${item.id}">
+                                <button type="submit"class="btn-details">ver detalles</button>
+                            </form>
+          
+                        </td>
                     </tr>
-                   
-                    
                 </tbody>
+                <tr></tr>
+                <tr></tr>
+                    <!-- Pagination -->
+                <div class="pagination-container">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center" >
+                            <li class="page-item" th:each="pageNumber : ${pageNumbers}">
+                                <a class="page-link" th:href="@{|/admin/ventasproductos?page=${pageNumber}|}" th:text="${pageNumber}"></a>
+                            </li>
+                            </ul>
+
+                    </nav>
+                </div>
             </table>
         </div>
     </main>
+    <style>.pagination {
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.pagination li {
+    list-style: none;
+}
+
+.page-link {
+    display: block;
+    padding: 0.375rem 0.75rem;
+    color: #0d6efd;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+}
+
+.page-link:hover {
+    color: #0a58ca;
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+}
+
+#detailModal #detailImagen {
+    width: 100%;
+    text-align: center;
+    margin: 15px 0;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+#detailModal #detailImagen img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin: 0 auto;
+    display: block;
+}</style>
 
     <!-- Modal -->
     <div id="productModal" class="modal">
