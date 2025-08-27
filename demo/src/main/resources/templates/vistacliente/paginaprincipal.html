@@ -195,6 +195,7 @@
         
         if (productoExistente) {
             productoExistente.cantidad++;
+           
         } else {
             carrito.push({
                 id:id,
@@ -202,7 +203,8 @@
                 nombre: nombre,
                 precio: precio,
                 imagen: imagen,
-                cantidad: 1
+                cantidad: 1,
+               
             });
         }
 
@@ -218,7 +220,7 @@
 
         console.log(carrito);
 
-        localStorage.setItem('listaproductos', JSON.stringify(carrito));
+        localStorage.setItem('listaproductos', JSON.stringify(productosPorMarca));
         
         actualizarContadorCarrito();
     }
@@ -255,16 +257,16 @@
                             <div class="item-nombre">${item.nombre}</div>
                             <div class="item-precio">$${item.precio}</div>
                             <div class="cantidad-control">
-                                <button class="btn-cantidad" onclick="cambiarCantidad('${item.nombre}', -1)">−</button>
+                                <button class="btn-cantidad" onclick="cambiarCantidad('${item.id}', -1)">−</button>
                                 <span class="cantidad">${item.cantidad}</span>
-                                <button class="btn-cantidad" onclick="cambiarCantidad('${item.nombre}', 1)">+</button>
+                                <button class="btn-cantidad" onclick="cambiarCantidad('${item.id}', 1)">+</button>
                             </div>
                         </div>
                         <div class="item-subtotal">
                             <div class="subtotal-label">Subtotal</div>
                             <div class="subtotal-valor">$${(subtotal).toFixed(2)}</div>
                         </div>
-                        <button class="btn-eliminar" onclick="eliminarDelCarrito('${item.nombre}')">
+                        <button class="btn-eliminar" onclick="eliminarDelCarrito('${item.id}')">
                             <span class="eliminar-icon">×</span>
                         </button>
                     </div>

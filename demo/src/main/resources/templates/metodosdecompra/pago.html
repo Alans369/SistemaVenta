@@ -124,22 +124,39 @@
         const loading = document.getElementById('loading');
         const buttonText = document.getElementById('buttonText');
         
-        form.addEventListener('submit', function(e) {
+        form.addEventListener('submit', async function(e) {
             e.preventDefault();
             
             // Mostrar loading
             loading.style.display = 'inline-block';
             buttonText.textContent = 'Procesando...';
+
+            const productos = localStorage.getItem('listaproductos');
+
+             try {
+                const response = await fetch('http://localhost:8081/user/sale/create', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: productos
+                });
+                
+                if (response.ok) {
+                    console.log('✅ Enviado correctamente');
+                }
+            } catch (error) {
+                console.error('❌ Error:', error);
+            }
+
             
             // Simular procesamiento
-            setTimeout(() => {
+            /*setTimeout(() => {
                 loading.style.display = 'none';
                 buttonText.textContent = '¡Pago Completado! ✓';
                 
                 setTimeout(() => {
                     buttonText.textContent = 'Procesar Pago - $299.99';
                 }, 3000);
-            }, 2000);
+            }, 2000);*/
         });
 
         // Efectos de focus en inputs

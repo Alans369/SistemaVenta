@@ -1,7 +1,10 @@
 package com.SistemaVenta.demo.Model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,17 +17,17 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "detalles_venta")
-@Getter @Setter @ToString
+@Getter @Setter
+@ToString(exclude = "venta")
 public class DetailsSale {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "venta_id")
+    @JsonBackReference 
     private Sale venta;
-
-    
     @ManyToOne
     @JoinColumn(name = "producto_id")
     private Product producto;
