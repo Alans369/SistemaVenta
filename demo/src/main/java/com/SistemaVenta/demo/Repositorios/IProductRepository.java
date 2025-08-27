@@ -28,6 +28,9 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
                                 @Param("estado") boolean  estado,
                                Pageable pageable);
 
+     @Query("SELECT p FROM Product p WHERE p.estado = true")
+     List<Product> findByEstadoTrue();
+
    
     
 

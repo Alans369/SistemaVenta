@@ -27,8 +27,10 @@ public class UserController {
 
   @GetMapping("/principal")
   public String principal(Model model) {
-    List<Product> productos = productService.findAll();
-   // model.addAttribute("productos", productos);
+    List<Product> productos = productService.productos();
+
+    System.out.println(productos.size());
+    model.addAttribute("productos", productos);
     return "vistacliente/paginaprincipal";  
   }
 

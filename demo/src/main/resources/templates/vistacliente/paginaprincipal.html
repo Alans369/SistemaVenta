@@ -104,38 +104,22 @@
 
         <!-- Products Section -->
         <section class="products-section" id="productos">
-            <h2 class="section-title">Productos Destacados</h2>
+            <h2 class="section-title" >Productos Destacados</h2>
             
-            <div class="products-grid">
+            <div class="products-grid"  th:each="item : ${productos}" >
                 <div class="product-card">
-                    <div class="product-image">📱 iPhone 15</div>
-                    <h3 class="product-title">iPhone 15 Pro Max</h3>
+                    <input type="hidden" class="product-id" name="id" th:value="${item.id}" />
+                    <input type="hidden" class="product-marca" name="marca" th:value="${item.marca.id}" />
+                    <div class="product-image" ><img class="product-imagen" th:src="@{${item.imagenbase64}}" /></div>
+                    <h3 class="product-title" th:text="${item.nombre}"></h3>
+                    
                     <p class="product-description">El smartphone más avanzado con cámara profesional de 48MP y chip A17 Pro.</p>
-                    <div class="product-price">$1,299.99</div>
+                    <div class="product-price" th:text="${item.precioVenta}" >$1,299.99</div>
                     <button class="add-to-cart">Agregar al Carrito</button>
                 </div>
 
-                <div class="product-card">
-                    <div class="product-image">💻 MacBook</div>
-                    <h3 class="product-title">MacBook Air M3</h3>
-                    <p class="product-description">Ultraportátil con chip M3, pantalla Liquid Retina de 13" y batería de hasta 18 horas.</p>
-                    <div class="product-price">$1,099.99</div>
-                    <button class="add-to-cart">Agregar al Carrito</button>
-                </div>
-                <div class="product-card">
-                    <div class="product-image">👕 Camiseta</div>
-                    <h3 class="product-title">Camiseta de Algodón Orgánico</h3>
-                    <p class="product-description">Camiseta cómoda y ecológica, disponible en varios colores.</p>
-                    <div class="product-price">$19.99</div>
-                    <button class="add-to-cart">Agregar al Carrito</button>
-                </div>
-                <div class="product-card">
-                    <div class="product-image">📚 Libro</div>
-                    <h3 class="product-title">El Alquimista</h3>
-                    <p class="product-description">Una novela inspiradora de Paulo Coelho sobre seguir tus sueños.</p>
-                    <div class="product-price">$14.99</div>
-                    <button class="add-to-cart">Agregar al Carrito</button>
-                </div>
+               
+               
             </div>
         </section>
     </main>
@@ -206,19 +190,35 @@
         }
     }
 
-    function agregarAlCarrito(nombre, precio, imagen) {
-        const productoExistente = carrito.find(item => item.nombre === nombre);
+    function agregarAlCarrito(id,marca,nombre, precio, imagen) {
+        const productoExistente = carrito.find(item => item.id === id);
         
         if (productoExistente) {
             productoExistente.cantidad++;
         } else {
             carrito.push({
+                id:id,
+                marca:marca,
                 nombre: nombre,
                 precio: precio,
                 imagen: imagen,
                 cantidad: 1
             });
         }
+
+        let productosPorMarca = carrito.reduce((acc, producto) => {
+            if (!acc[producto.marca]) {
+                acc[producto.marca] = [];
+            }
+            acc[producto.marca].push(producto);
+            return acc;
+        }, {});
+
+        console.log(productosPorMarca);
+
+        console.log(carrito);
+
+        localStorage.setItem('listaproductos', JSON.stringify(carrito));
         
         actualizarContadorCarrito();
     }
@@ -298,11 +298,13 @@
     // Agregar eventos a los botones "Agregar al Carrito"
     document.querySelectorAll('.add-to-cart').forEach(button => {
         button.addEventListener('click', (e) => {
+            const id = e.target.closest('.product-card').querySelector('.product-id').value;
+            const marca = e.target.closest('.product-card').querySelector('.product-marca').value;
             const card = e.target.closest('.product-card');
             const nombre = card.querySelector('.product-title').textContent;
             const precio = parseFloat(card.querySelector('.product-price').textContent.replace('$', ''));
             const imagen = card.querySelector('.product-image').textContent;
-            agregarAlCarrito(nombre, precio, imagen);
+            agregarAlCarrito(id,marca,nombre, precio, imagen);
         });
     });
 </script>

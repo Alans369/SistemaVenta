@@ -44,5 +44,9 @@ public class ProductService implements IProduct {
        return repository.findAll();
     }
 
+    public List<Product> productos() {
+        return repository.findByEstadoTrue();
+    }
+
 
 }
