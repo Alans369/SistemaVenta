@@ -1,7 +1,11 @@
 package com.SistemaVenta.demo.Controllers;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -87,19 +91,32 @@ public class AdminController {
         return "Registros/admin";
 
     }
-
-
-
-
        @GetMapping("/reporte/{visualizacion}")
-       public ResponseEntity<byte[]> ReporteGeneral(@PathVariable("visualizacion") String visualizacion) {
+       public ResponseEntity<byte[]> ReporteGeneral(@PathVariable("visualizacion") String visualizacion,@RequestParam("id") Integer id) {
         try {
-            List<Product> product = productService.findAll();
+            
+          Sale venta = Saleservice.obtenerVentaPorId(id);
+
+         
+
+          Map<String, Object> otrosDatos = new HashMap<>();
+            otrosDatos.put("fecha", venta.getFecha());
+            otrosDatos.put("total", venta.getTotal());
+            otrosDatos.put("metodoPago", venta);
+            
           //  System.out.println("Productos encontrados: " + product);
+
+          Map<String, Object> ventasData = new HashMap<>();
+          ventasData.put("ventas", venta);
+
+          Map<String, Object> productosData = new HashMap<>();
+          productosData.put("detalles", venta.getDetallesVenta());
+
+
 
 
             // Genera el PDF. Si hay un error aquí, la excepción será capturada.
-            byte[] pdfBytes = pdfGeneratorService.generatePdfFromHtml("reportes/product", "productos", product);
+            byte[] pdfBytes = pdfGeneratorService.generatePdfFromHtml("reportes/product",ventasData,otrosDatos,productosData);
 
             HttpHeaders headers = new HttpHeaders();
           headers.setContentType(MediaType.APPLICATION_PDF);           
@@ -131,12 +148,20 @@ public class AdminController {
           ;
 
        int currentPage = page.orElse(1)-1; // si no está seteado se asigna 0
-        int pageSize = size.orElse(5); // tamaño de la página, se asigna 5
+        int pageSize = size.orElse(1); // tamaño de la página, se asigna 5
         Pageable pageable = PageRequest.of(currentPage, pageSize);
         
 
       Page<Sale> ventas = Saleservice.obtenerTodos(marcaId, pageable);
       System.out.println("Ventas encontradas: " + ventas.toString());
+
+      int totalPages = ventas.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
 
        model.addAttribute("ventas", ventas);
 
