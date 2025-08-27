@@ -22,7 +22,8 @@
             <div class="logo">ACKERMAN</div>
             
             <div class="search-container">
-                <input type="text" class="search-box" placeholder="Buscar productos, marcas y más...">
+                <input type="text" id="search-box" class="search-box" placeholder="Buscar productos, marcas y más...">
+                
             </div>
 
             <div class="cart-container">
@@ -71,33 +72,7 @@
 
     <!-- Main Content -->
     <main class="main-content">
-        <!-- Hero Section -->
-        <section class="hero-section">
-            <h1 class="hero-title">Descubre Productos Increíbles</h1>
-            <p class="hero-subtitle">Miles de productos con los mejores precios y envío gratis</p>
-            <a href="#productos" class="cta-button">Explorar Productos</a>
-        </section>
-
-        <!-- Categories Showcase -->
-        <section class="categories-showcase">
-            <div class="category-card">
-                <div class="category-icon">📱</div>
-                <h3 class="category-title">Tecnología</h3>
-                <p class="category-count">2,547 productos</p>
-            </div>
-            <div class="category-card">
-                <div class="category-icon">👕</div>
-                <h3 class="category-title">Moda</h3>
-                <p class="category-count">8,932 productos</p>
-            </div>
-            <div class="category-card">
-                <div class="category-icon">🏠</div>
-                <h3 class="category-title">Hogar</h3>
-                <p class="category-count">3,421 productos</p>
-            </div>
-           
-           
-        </section>
+       
 
         <!-- Products Section -->
         <section class="products-section" id="productos">
@@ -367,6 +342,45 @@
             agregarAlCarrito(id,marca,nombre, precio, imagen);
         });
     });
+
+    function realizarAccionConElValor(valorDelInput) {
+        if (valorDelInput.trim() === '') {
+            console.log('El input está vacío o solo contiene espacios en blanco.');
+        } else {
+            window.location.href = `/user/principal?nombre=${valorDelInput.trim()}`;
+        }
+        }
+
+    // Obtén el elemento input
+        const miInput = document.getElementById('search-box');
+
+        let timeoutId=null ;
+
+
+
+        // Agrega un 'event listener' para el evento 'input'
+        miInput.addEventListener('keyup', function() {
+            console.log('El usuario está escribiendo...', miInput.value);
+  // 1. Limpiamos el temporizador anterior
+  // Si el usuario sigue escribiendo, cancelamos el temporizador que estaba corriendo
+            clearTimeout(timeoutId);
+
+            // 2. Definimos la acción que queremos ejecutar y la programamos para 2 segundos
+            timeoutId = setTimeout(() => {
+                // Esta es la acción que se ejecutará 2 segundos después de la última tecla soltada
+                const valor = miInput.value;
+                console.log('Han pasado 2 segundos. El valor final es:', valor);
+
+                // Aquí puedes llamar a otra función, hacer una petición a una API, etc.
+                // Por ejemplo, podrías validar el formulario o hacer una búsqueda dinámica.
+                realizarAccionConElValor(valor);
+    
+  }, 2000); // 2000 milisegundos = 2 segundos
+  
+});
+
+
+
 </script>
 </body>
 </html>
