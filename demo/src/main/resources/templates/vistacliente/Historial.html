@@ -131,6 +131,39 @@
         </div>
     </div>
 
+    <!-- Modal de detalles -->
+    <div class="purchase-modal" id="purchaseModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h2>Detalles de la Compra</h2>
+                <div class="purchase-date-modal"></div>
+            </div>
+            <div class="modal-body">
+                <table class="purchase-details-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Marca</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio Unitario</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="purchaseDetailsBody">
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="total-label">Total</td>
+                            <td class="total-amount"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Animación suave para las tarjetas al hacer scroll
         const observerOptions = {
@@ -146,6 +179,75 @@
                 }
             });
         }, observerOptions);
+
+        // Funcionalidad del Modal
+        const modal = document.getElementById('purchaseModal');
+        const closeBtn = document.querySelector('.close-modal');
+        
+        // Agregar click event a todas las tarjetas de compra
+        document.querySelectorAll('.purchase-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const date = card.querySelector('.purchase-date').textContent;
+                const productName = card.querySelector('.product-name').textContent;
+                const brandName = card.querySelector('.product-brand').textContent;
+                const price = card.querySelector('.purchase-price').textContent.replace('$', '');
+                
+                // Mostrar fecha en el modal
+                document.querySelector('.purchase-date-modal').textContent = date;
+                
+                // Simular datos de compra (aquí deberías obtener los datos reales de tu backend)
+                const purchaseDetails = [
+                    {
+                        name: "Cliente Regular", // Aquí podrías poner el nombre real del cliente
+                        brand: brandName,
+                        product: productName,
+                        quantity: 1,
+                        price: parseFloat(price),
+                        subtotal: parseFloat(price)
+                    }
+                ];
+                
+                // Limpiar y llenar la tabla
+                const tbody = document.getElementById('purchaseDetailsBody');
+                tbody.innerHTML = '';
+                let total = 0;
+                
+                purchaseDetails.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${item.name}</td>
+                        <td>${item.brand}</td>
+                        <td>${item.product}</td>
+                        <td>${item.quantity}</td>
+                        <td>$${item.price.toFixed(2)}</td>
+                        <td>$${item.subtotal.toFixed(2)}</td>
+                    `;
+                    tbody.appendChild(row);
+                    total += item.subtotal;
+                });
+                
+                // Actualizar total
+                document.querySelector('.total-amount').textContent = `$${total.toFixed(2)}`;
+                
+                // Mostrar modal
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        // Cerrar modal
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+        
+        // Cerrar modal al hacer click fuera
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
 
         // Funcionalidad de búsqueda
         const searchInput = document.querySelector('.search-input');
