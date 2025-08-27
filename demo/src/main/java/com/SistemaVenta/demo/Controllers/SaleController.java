@@ -1,5 +1,6 @@
 package com.SistemaVenta.demo.Controllers;
 
+import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.SistemaVenta.demo.Model.DetailsSale;
 import com.SistemaVenta.demo.Model.Product;
 import com.SistemaVenta.demo.Model.Sale;
+import com.SistemaVenta.demo.Model.User;
 import com.SistemaVenta.demo.Services.Implementation.SaleService;
+import com.SistemaVenta.demo.Services.Implementation.UserServices;
+import com.SistemaVenta.demo.Utils.Util;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/user")
@@ -24,10 +30,13 @@ public class SaleController {
     @Autowired
     private SaleService service;
 
+     @Autowired
+    private UserServices userServices;
+
 
     @PostMapping("/sale/create")
     @ResponseBody
-    public ResponseEntity<Void> recibirProductosAgrupados(@RequestBody Map<String, Object> datos) {
+    public ResponseEntity<Void> recibirProductosAgrupados(@RequestBody Map<String, Object> datos,HttpServletRequest request) {
         
         System.out.println("=== Datos recibidos ===");
 
@@ -43,8 +52,17 @@ public class SaleController {
          datos.forEach((marca, productos) -> {
             System.out.println("\n--- Marca: " + marca + " ---");
             Sale sale = new Sale();
-       
+            System.out.println("extraendo cookie");
             
+            String token = Util.extractTokenFromCookie(request,"JWT_TOKEN");
+
+            String username = Util.obtenerUser(token);
+            System.out.println("Usuario extraído del token buscandolo en base de datos: " + username);
+
+            User user = userServices.findByUsername(username);
+
+            sale.setUsuario(user);
+       
             // Convertir a lista para recorrer los objetos
             if (productos instanceof List) {
                 List<Map<String, Object>> listaProductos = (List<Map<String, Object>>) productos;

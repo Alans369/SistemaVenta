@@ -251,7 +251,7 @@
                 carritoItems.innerHTML += `
                     <div class="carrito-item">
                         <div class="item-imagen-container">
-                            <div class="item-imagen">${item.imagen}</div>
+                            <div class="item-imagen"><img src='${item.imagen}'/></div>
                         </div>
                         <div class="item-detalles">
                             <div class="item-nombre">${item.nombre}</div>
@@ -305,7 +305,7 @@
             const card = e.target.closest('.product-card');
             const nombre = card.querySelector('.product-title').textContent;
             const precio = parseFloat(card.querySelector('.product-price').textContent.replace('$', ''));
-            const imagen = card.querySelector('.product-image').textContent;
+            const imagen = card.querySelector('.product-imagen').src;
             agregarAlCarrito(id,marca,nombre, precio, imagen);
         });
     });

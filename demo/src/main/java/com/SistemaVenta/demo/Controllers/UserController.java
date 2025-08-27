@@ -29,6 +29,11 @@ public class UserController {
   public String principal(Model model) {
     List<Product> productos = productService.productos();
 
+    for (Product producto : productos) {
+           String imagenBase64 = producto.getImagenDataUri();
+           producto.setImagenbase64(imagenBase64);
+       }
+
     System.out.println(productos.size());
     model.addAttribute("productos", productos);
     return "vistacliente/paginaprincipal";  
