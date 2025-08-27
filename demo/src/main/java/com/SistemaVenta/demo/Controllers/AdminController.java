@@ -27,6 +27,7 @@ import com.SistemaVenta.demo.Model.DetailsSale;
 import com.SistemaVenta.demo.Model.Product;
 import com.SistemaVenta.demo.Model.Sale;
 import com.SistemaVenta.demo.Model.User;
+import com.SistemaVenta.demo.Services.Implementation.CategoryService;
 import com.SistemaVenta.demo.Services.Implementation.ProductService;
 import com.SistemaVenta.demo.Services.Implementation.SaleService;
 import com.SistemaVenta.demo.Utils.DtoProduct;
@@ -49,6 +50,9 @@ public class AdminController {
 
      @Autowired
     private SaleService Saleservice;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @GetMapping("/admin")
     public String admin1( Model model, @RequestParam("page") Optional<Integer> page,
@@ -78,6 +82,8 @@ public class AdminController {
            producto.setImagenbase64(imagenBase64);
        }
 
+        model.addAttribute("categories", categoryService.findAll());
+
         int totalPages = productos.getTotalPages();
         if (totalPages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
@@ -98,6 +104,7 @@ public class AdminController {
           Sale venta = Saleservice.obtenerVentaPorId(id);
 
           User usuario=venta.getUsuario();
+
           System.out.println(usuario==null ? "el usaurio es nullo":"no es nulo");
 
          

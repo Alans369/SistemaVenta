@@ -111,11 +111,8 @@ xmlns:th="http://www.thymeleaf.org">
 
                     <div class="category-filter">
                         <div class="select-wrapper">
-                            <select class="custom-select" id="categoria" name="categoria" onchange="filterByCategory(this.value)">
-                                <option value="1">Electrónicos</option>
-                                <option value="2">Computadoras</option>
-                                <option value="3">Accesorios</option>
-                                <option value="4">Periféricos</option>
+                            <select class="custom-select" id="categoria" name="categoria" >
+                                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.nombre}"></option>
                             </select>
                             <span class="select-icon">▼</span>
                         </div>
@@ -507,10 +504,7 @@ console.log(marca); // Muestra "Juan" si la cookie "nombre" exist
         }
 
         function openAddModal() {
-            document.getElementById('modalTitle').textContent = 'Agregar Producto';
-            document.getElementById('productForm').reset();
-            editIndex = -1;
-            document.getElementById('productModal').style.display = 'block';
+            window.location.href="/admin/product/add"
         }
 
         function openEditModal(button) {

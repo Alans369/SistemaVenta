@@ -17,9 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.SistemaVenta.demo.Model.Product;
+import com.SistemaVenta.demo.Model.Sale;
+import com.SistemaVenta.demo.Model.User;
 import com.SistemaVenta.demo.Services.Implementation.CategoryService;
 import com.SistemaVenta.demo.Services.Implementation.ProductService;
-import com.SistemaVenta.demo.Utils.DtoProduct;
+import com.SistemaVenta.demo.Services.Implementation.SaleService;
+import com.SistemaVenta.demo.Services.Implementation.UserServices;
 import com.SistemaVenta.demo.Utils.Util;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,6 +37,13 @@ public class UserController {
 
    @Autowired
     private CategoryService categoryService;
+
+
+    @Autowired
+    private SaleService service;
+
+     @Autowired
+    private UserServices userServices;
 
   @GetMapping("/dashboard")
   public String dashboard() {
@@ -82,7 +92,35 @@ public class UserController {
   }
 
    @GetMapping("/Historial")
-  public String Historial() {
+  public String Historial( HttpServletRequest request,Model model, @RequestParam("page") Optional<Integer> page,@RequestParam("size") Optional<Integer> size) {
+
+    String token = Util.extractTokenFromCookie(request,"JWT_TOKEN");
+
+    String username = Util.obtenerUser(token);
+    System.out.println("Usuario extraído del token buscandolo en base de datos: " + username);
+
+    User user = userServices.findByUsername(username);
+
+    int currentPage = page.orElse(1)-1; // si no está seteado se asigna 0
+        int pageSize = size.orElse(3); // tamaño de la página, se asigna 5
+        Pageable pageable = PageRequest.of(currentPage, pageSize);
+
+    Page<Sale> ventas = service.obtenerVentasPorUsuario(user.getId(),pageable);
+
+
+    int totalPages = ventas.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+  
+    model.addAttribute("compras", ventas);
+
+
+
     return "vistacliente/Historial";
   }    
 

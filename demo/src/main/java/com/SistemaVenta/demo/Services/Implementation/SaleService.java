@@ -77,6 +77,10 @@ public class SaleService implements ISale{
         return repository.findById(id).orElse(null);
     }
 
+    public Page<Sale> obtenerVentasPorUsuario(Integer userId, Pageable pageable) {
+        return repository.findVentasByUser(userId, pageable);
+    }
+
     
 
 

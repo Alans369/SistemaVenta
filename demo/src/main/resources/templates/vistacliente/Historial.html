@@ -29,106 +29,85 @@
     <div class="container">
         <h1 class="page-title">Mi Historial de Compras</h1>
 
-        <div class="stats-container">
-            <div class="stat-card">
-                <div class="stat-number">6</div>
-                <div class="stat-label">Total Compras</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">$2,847</div>
-                <div class="stat-label">Total Gastado</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">125</div>
-                <div class="stat-label">Productos Comprados</div>
-            </div>
-        </div>
 
         <div class="purchases-grid">
-            <div class="purchase-card">
+            <div class="purchase-card" th:each="item : ${compras}">
                 <div class="purchase-header">
-                    <div class="purchase-date">24 Agosto 2025</div>
-                    <div class="purchase-price">$589.99</div>
+                    <input type="hidden" id="ventas" name="venta" th:value="${item.detallesVenta}">
+                    <div class="purchase-date" th:text="${#temporals.format(item.fecha, 'dd/MM/yyyy')}" >24 Agosto 2025</div>
+                    <div class="purchase-price" th:text="'$ '+${item.total}" >$589.99</div>
                 </div>
                 <div class="purchase-details">
                     <div class="product-info">
-                        <div class="product-name">iPhone 15 Pro</div>
-                        <div class="product-brand">Apple</div>
+                        <div class="product-name" >xxxx xxxx x</div>
+                        <div class="product-brand"  >Apple</div>
                     </div>
-                    <div class="stock-badge">Stock: 12</div>
-                </div>
-            </div>
-
-            <div class="purchase-card">
-                <div class="purchase-header">
-                    <div class="purchase-date">20 Agosto 2025</div>
-                    <div class="purchase-price">$299.50</div>
-                </div>
-                <div class="purchase-details">
-                    <div class="product-info">
-                        <div class="product-name">Zapatillas Running</div>
-                        <div class="product-brand">Nike</div>
-                    </div>
-                    <div class="stock-badge">Stock: 8</div>
-                </div>
-            </div>
-
-            <div class="purchase-card">
-                <div class="purchase-header">
-                    <div class="purchase-date">18 Agosto 2025</div>
-                    <div class="purchase-price">$1,299.00</div>
-                </div>
-                <div class="purchase-details">
-                    <div class="product-info">
-                        <div class="product-name">MacBook Air M2</div>
-                        <div class="product-brand">Apple</div>
-                    </div>
-                    <div class="stock-badge stock-low">Stock: 3</div>
-                </div>
-            </div>
-
-            <div class="purchase-card">
-                <div class="purchase-header">
-                    <div class="purchase-date">15 Agosto 2025</div>
-                    <div class="purchase-price">$89.99</div>
-                </div>
-                <div class="purchase-details">
-                    <div class="product-info">
-                        <div class="product-name">Auriculares Bluetooth</div>
-                        <div class="product-brand">Sony</div>
-                    </div>
-                    <div class="stock-badge">Stock: 25</div>
-                </div>
-            </div>
-
-            <div class="purchase-card">
-                <div class="purchase-header">
-                    <div class="purchase-date">12 Agosto 2025</div>
-                    <div class="purchase-price">$449.00</div>
-                </div>
-                <div class="purchase-details">
-                    <div class="product-info">
-                        <div class="product-name">Smart TV 55"</div>
-                        <div class="product-brand">Samsung</div>
-                    </div>
-                    <div class="stock-badge stock-medium">Stock: 6</div>
-                </div>
-            </div>
-
-            <div class="purchase-card">
-                <div class="purchase-header">
-                    <div class="purchase-date">08 Agosto 2025</div>
-                    <div class="purchase-price">$159.99</div>
-                </div>
-                <div class="purchase-details">
-                    <div class="product-info">
-                        <div class="product-name">Cafetera Espresso</div>
-                        <div class="product-brand">Nespresso</div>
-                    </div>
-                    <div class="stock-badge">Stock: 15</div>
+                    <div class="stock-badge" th:text="${#aggregates.sum(item.detallesVenta.![cantidad])+' Articulos'}">Stock: 12</div>
                 </div>
             </div>
         </div>
+        <br><br>
+              <!-- Pagination -->
+        <div class="pagination-container">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center" >
+                    <li class="page-item" th:each="pageNumber : ${pageNumbers}">
+                        <a class="page-link" th:href="@{|/admin/admin?page=${pageNumber}|}" th:text="${pageNumber}"></a>
+                    </li>
+                    </ul>
+
+            </nav>
+        </div>
+
+        <style>.pagination {
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.pagination li {
+    list-style: none;
+}
+
+.page-link {
+    display: block;
+    padding: 0.375rem 0.75rem;
+    color: #0d6efd;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+}
+
+.page-link:hover {
+    color: #0a58ca;
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+}
+
+#detailModal #detailImagen {
+    width: 100%;
+    text-align: center;
+    margin: 15px 0;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+#detailModal #detailImagen img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin: 0 auto;
+    display: block;
+}</style>
+
+
+
     </div>
 
     <!-- Modal de detalles -->
@@ -187,6 +166,14 @@
         // Agregar click event a todas las tarjetas de compra
         document.querySelectorAll('.purchase-card').forEach(card => {
             card.addEventListener('click', () => {
+                ventas = card.querySelector('#ventas').value;
+
+
+                const listaDetailsSale = parseDetailsSaleArray(ventas);
+
+                console.log('Lista de DetailsSale parseada:', listaDetailsSale);
+                console.log('Número de elementos:', listaDetailsSale.length);
+
                 const date = card.querySelector('.purchase-date').textContent;
                 const productName = card.querySelector('.product-name').textContent;
                 const brandName = card.querySelector('.product-brand').textContent;
@@ -212,14 +199,14 @@
                 tbody.innerHTML = '';
                 let total = 0;
                 
-                purchaseDetails.forEach(item => {
+                listaDetailsSale.forEach(item => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                        <td>${item.name}</td>
-                        <td>${item.brand}</td>
-                        <td>${item.product}</td>
-                        <td>${item.quantity}</td>
-                        <td>$${item.price.toFixed(2)}</td>
+                        <td>xxx</td>
+                        <td>${item.producto.marca.nombre}</td>
+                        <td>${item.producto.nombre}</td>
+                        <td>${item.cantidad}</td>
+                        <td>$${item.precio.toFixed(2)}</td>
                         <td>$${item.subtotal.toFixed(2)}</td>
                     `;
                     tbody.appendChild(row);
@@ -303,6 +290,139 @@
             }
         `;
         document.head.appendChild(style);
+
+
+        function parseDetailsSaleArray(str) {
+    // Función auxiliar para encontrar el cierre de paréntesis correspondiente
+    function findClosingParen(str, startIndex) {
+        let count = 0;
+        for (let i = startIndex; i < str.length; i++) {
+            if (str[i] === '(') count++;
+            else if (str[i] === ')') {
+                count--;
+                if (count === 0) return i;
+            }
+        }
+        return -1;
+    }
+    
+    // Función auxiliar para parsear un valor
+    function parseValue(value) {
+        value = value.trim();
+        
+        // Si es null
+        if (value === 'null') return null;
+        
+        // Si es boolean
+        if (value === 'true') return true;
+        if (value === 'false') return false;
+        
+        // Si es número
+        if (!isNaN(value) && !isNaN(parseFloat(value))) {
+            return parseFloat(value);
+        }
+        
+        // Si es array vacío o con elementos vacíos
+        if (value === '[]' || value === '[,]') return [];
+        
+        // Si es un objeto anidado
+        if (value.includes('(') && value.includes(')')) {
+            return parseObjectString(value);
+        }
+        
+        // Si es string
+        return value;
+    }
+    
+    // Función para parsear un objeto individual
+    function parseObjectString(str) {
+        const objectMatch = str.match(/^(\w+)\(/);
+        if (!objectMatch) return null;
+        
+        const objectName = objectMatch[1];
+        const startContent = str.indexOf('(') + 1;
+        const endContent = findClosingParen(str, str.indexOf('('));
+        const content = str.substring(startContent, endContent);
+        
+        const result = { _type: objectName };
+        
+        // Parsear propiedades
+        let i = 0;
+        while (i < content.length) {
+            // Encontrar el nombre de la propiedad
+            const equalIndex = content.indexOf('=', i);
+            if (equalIndex === -1) break;
+            
+            const propName = content.substring(i, equalIndex).trim();
+            
+            // Encontrar el valor de la propiedad
+            let valueStart = equalIndex + 1;
+            let valueEnd;
+            
+            // Si el siguiente carácter después del = es una letra seguida de (, es un objeto anidado
+            const nextPart = content.substring(valueStart).trim();
+            if (nextPart.match(/^\w+\(/)) {
+                const openParen = nextPart.indexOf('(');
+                const closeParen = findClosingParen(nextPart, openParen);
+                valueEnd = valueStart + nextPart.length - nextPart.length + closeParen + 1;
+            } else {
+                // Buscar la siguiente coma que no esté dentro de paréntesis
+                let parenCount = 0;
+                valueEnd = valueStart;
+                while (valueEnd < content.length) {
+                    if (content[valueEnd] === '(') parenCount++;
+                    else if (content[valueEnd] === ')') parenCount--;
+                    else if (content[valueEnd] === ',' && parenCount === 0) break;
+                    valueEnd++;
+                }
+            }
+            
+            const valueStr = content.substring(valueStart, valueEnd).trim();
+            result[propName] = parseValue(valueStr);
+            
+            i = valueEnd + 1;
+            
+            // Saltar espacios y comas
+            while (i < content.length && (content[i] === ',' || content[i] === ' ')) {
+                i++;
+            }
+        }
+        
+        return result;
+    }
+    
+    // Extraer todos los objetos DetailsSale del string
+    const detailsArray = [];
+    let currentIndex = 0;
+    
+    while (currentIndex < str.length) {
+        // Buscar el inicio de un DetailsSale
+        const startPattern = str.indexOf('DetailsSale(', currentIndex);
+        if (startPattern === -1) break;
+        
+        // Encontrar el final del objeto DetailsSale
+        const openParen = str.indexOf('(', startPattern);
+        const closeParen = findClosingParen(str, openParen);
+        
+        if (closeParen !== -1) {
+            // Extraer el objeto completo
+            const objectStr = str.substring(startPattern, closeParen + 1);
+            const parsedObject = parseObjectString(objectStr);
+            
+            if (parsedObject) {
+                detailsArray.push(parsedObject);
+            }
+            
+            currentIndex = closeParen + 1;
+        } else {
+            break;
+        }
+    }
+    
+    return detailsArray;
+}
+
+        
     </script>
 </body>
 </html>
