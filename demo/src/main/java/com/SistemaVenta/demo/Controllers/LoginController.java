@@ -80,7 +80,7 @@ public class LoginController {
         }
         
         Cookie cookie = new Cookie("JWT_TOKEN",token);
-        cookie.setHttpOnly(true); 
+        //cookie.setHttpOnly(true); 
         cookie.setPath("/"); 
         response.addCookie(cookie);
         return "redirect:/"; 
@@ -136,13 +136,13 @@ public class LoginController {
     @GetMapping("/logout")
     public String logout(HttpServletResponse response) {
         Cookie cookie = new Cookie("JWT_TOKEN", "");
-        cookie.setHttpOnly(true);
+        //cookie.setHttpOnly(true);
         cookie.setPath("/");
         cookie.setMaxAge(0); // Expira inmediatamente
        
 
         Cookie cookie1 = new Cookie("marca", "");
-        cookie.setHttpOnly(true);
+        //cookie.setHttpOnly(true);
         cookie1.setPath("/");
         cookie1.setMaxAge(0); 
 

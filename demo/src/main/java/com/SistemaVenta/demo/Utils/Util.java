@@ -32,7 +32,7 @@ public class Util {
     public static Cookie Crear_cokie(String name,Integer marca) {
         System.out.println("creando cookie de marca");
         Cookie cookie = new Cookie(name,String.valueOf(marca));
-        cookie.setHttpOnly(true);
+        //cookie.setHttpOnly(true);
         cookie.setPath("/");
         cookie.setMaxAge(60 * 60 * 24); // 1 día
 

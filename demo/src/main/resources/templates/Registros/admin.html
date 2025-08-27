@@ -29,7 +29,7 @@ xmlns:th="http://www.thymeleaf.org">
                             Crear Productos
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" id="crear_marca" style="display: none;">
                         <a th:href="@{/admin/marcas}" class="nav-link">
                             <span class="nav-icon">📃</span>
                             Crear Marcas
@@ -340,6 +340,38 @@ xmlns:th="http://www.thymeleaf.org">
         // Manejo de la vista previa de imagen
         const imagePreview = document.getElementById('imagePreview');
         const productImage = document.getElementById('productImage');
+
+        function obtenerCookie(nombre) {
+  // Añade el signo de igual al nombre para buscarlo de forma exacta.
+  const nombreConIgual = nombre + "="; 
+  // Divide el string de cookies por el punto y coma.
+  const cookiesDecodificadas = decodeURIComponent(document.cookie);
+  const arrayCookies = cookiesDecodificadas.split(';');
+
+  // Itera sobre el array para encontrar la cookie.
+  for(let i = 0; i < arrayCookies.length; i++) {
+    let cookie = arrayCookies[i];
+    // Elimina los espacios en blanco al principio de cada cookie.
+    while (cookie.charAt(0) === ' ') {
+      cookie = cookie.substring(1);
+    }
+    // Si la cookie empieza con el nombre que buscamos, extrae el valor.
+    if (cookie.indexOf(nombreConIgual) === 0) {
+      return 1;
+    }
+  }
+  return 0; // Devuelve un string vacío si la cookie no se encuentra.
+}
+
+// Ejemplo de uso
+let marca = obtenerCookie("marca");
+console.log(marca); // Muestra "Juan" si la cookie "nombre" exist
+
+ if (marca===0) {
+    document.getElementById("crear_marca").style.display = "block";
+ } else {
+    
+ }
 
         // Función para mostrar la vista previa
         function showImagePreview(file) {
