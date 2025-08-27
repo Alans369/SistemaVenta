@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.method.P;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,10 +16,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.SistemaVenta.demo.Model.DetailsSale;
 import com.SistemaVenta.demo.Model.Product;
 import com.SistemaVenta.demo.Model.Sale;
+import com.SistemaVenta.demo.Services.Implementation.SaleService;
 
 @Controller
 @RequestMapping("/user")
 public class SaleController {
+    @Autowired
+    private SaleService service;
 
 
     @PostMapping("/sale/create")
@@ -33,16 +37,7 @@ public class SaleController {
         // ... otros campos
         // Luego agrega el detalle a la venta
         
-
-
         List<Sale> ventas =  new ArrayList<>();
-       
-       
-
-       
-        
-
-        
         
         // Imprimir todo el map como clave-valor
          datos.forEach((marca, productos) -> {
@@ -53,8 +48,6 @@ public class SaleController {
             // Convertir a lista para recorrer los objetos
             if (productos instanceof List) {
                 List<Map<String, Object>> listaProductos = (List<Map<String, Object>>) productos;
-                
-                
                 
                 for (int i = 0; i < listaProductos.size(); i++) {
                     Map<String, Object> producto = listaProductos.get(i);
@@ -89,8 +82,22 @@ public class SaleController {
         });
 
          System.out.println("=== Ventas ===");  
-        System.out.println(ventas);
+       
         System.out.println(ventas.size());
+
+        for (Sale sale : ventas) {
+           /*  System.out.println("Detalles de la venta:");
+            for (DetailsSale detalle : sale.getDetallesVenta()) {
+                System.out.println("  Producto ID: " + detalle.getProducto().getId());
+                System.out.println("  Cantidad: " + detalle.getCantidad());
+                System.out.println("  Precio: " + detalle.getPrecio());
+                System.out.println("  Subtotal: " + detalle.getSubtotal());
+            }*/
+            // Aquí puedes guardar cada venta usando el servicio
+            service.save(sale);
+        }
+
+
 
         
         return ResponseEntity.ok().build();

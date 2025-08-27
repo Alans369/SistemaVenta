@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import com.SistemaVenta.demo.Model.DetailsSale;
 import com.SistemaVenta.demo.Model.Product;
@@ -15,6 +16,7 @@ import com.SistemaVenta.demo.Services.Interfaces.ISale;
 
 import jakarta.persistence.EntityNotFoundException;
 
+@Service
 public class SaleService implements ISale{
     @Autowired
     private ISaleRepository repository;
