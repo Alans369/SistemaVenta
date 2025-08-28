@@ -267,7 +267,11 @@
     function actualizarContadorCarrito() {
         const contador = document.querySelector('.cart-count');
         const total = carrito.reduce((sum, item) => sum + item.cantidad, 0);
+        
         contador.textContent = total;
+
+       
+
     }
 
     function actualizarCarritoModal() {
@@ -315,6 +319,12 @@
 
         document.getElementById('subtotalPagar').textContent = `$${total.toFixed(2)}`;
         totalElement.textContent = `$${total.toFixed(2)}`;
+
+
+
+
+
+         localStorage.setItem('total',total.toFixed(2));
     }
 
     function cambiarCantidad(nombre, cambio) {

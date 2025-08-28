@@ -56,7 +56,7 @@
 
             <button type="submit" class="pay-button">
                 <div class="loading" id="loading"></div>
-                <span id="buttonText">Procesar Pago - $299.99</span>
+                <span id="buttonText" >Procesar Pago - $299.99</span>
             </button>
         </form>
 
@@ -172,6 +172,20 @@
                 this.parentElement.style.transform = 'scale(1)';
             });
         });
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const productos = localStorage.getItem('listaproductos');
+            console.log('Productos en el carrito:', productos);
+
+            const total = localStorage.getItem('total') || '0.00';
+
+
+
+            document.getElementById('buttonText').textContent = 'Procesar Pago - $' + total.tofixed(2);
+        });
+
+
     </script>
 </body>
 </html>
