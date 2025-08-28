@@ -17,11 +17,11 @@
         <div class="header-content">
             <div class="logo">🛍️ ShopTracker</div>
             <div class="search-container">
-                <div class="search-icon">🔍</div>
-                <input type="text" class="search-input" placeholder="Buscar productos...">
+                
+                
             </div>
             <div class="user-info">
-                <span>👤 María González</span>
+                <span>👤 user</span>
             </div>
         </div>
     </header>
@@ -122,7 +122,7 @@
                 <table class="purchase-details-table">
                     <thead>
                         <tr>
-                            <th>Nombre</th>
+                            <th>Imagen</th>
                             <th>Marca</th>
                             <th>Producto</th>
                             <th>Cantidad</th>
@@ -202,7 +202,7 @@
                 listaDetailsSale.forEach(item => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                        <td>xxx</td>
+                        <td><img src="${item.producto.imagenbase64}" alt="descripción" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;"></td>
                         <td>${item.producto.marca.nombre}</td>
                         <td>${item.producto.nombre}</td>
                         <td>${item.cantidad}</td>
@@ -291,7 +291,6 @@
         `;
         document.head.appendChild(style);
 
-
         function parseDetailsSaleArray(str) {
     // Función auxiliar para encontrar el cierre de paréntesis correspondiente
     function findClosingParen(str, startIndex) {
@@ -359,9 +358,19 @@
             let valueStart = equalIndex + 1;
             let valueEnd;
             
+            // Caso especial para campos que contienen base64 o texto largo
+            if (propName === 'imagenbase64' || propName === 'password') {
+                // Para base64 o passwords, buscar hasta la siguiente propiedad
+                let nextPropPattern = content.substring(valueStart).search(/,\s*\w+=/);
+                if (nextPropPattern !== -1) {
+                    valueEnd = valueStart + nextPropPattern;
+                } else {
+                    valueEnd = content.length;
+                }
+            }
             // Si el siguiente carácter después del = es una letra seguida de (, es un objeto anidado
-            const nextPart = content.substring(valueStart).trim();
-            if (nextPart.match(/^\w+\(/)) {
+            else if (content.substring(valueStart).trim().match(/^\w+\(/)) {
+                const nextPart = content.substring(valueStart).trim();
                 const openParen = nextPart.indexOf('(');
                 const closeParen = findClosingParen(nextPart, openParen);
                 valueEnd = valueStart + nextPart.length - nextPart.length + closeParen + 1;
@@ -421,6 +430,7 @@
     
     return detailsArray;
 }
+
 
         
     </script>

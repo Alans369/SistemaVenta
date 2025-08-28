@@ -119,7 +119,7 @@ public class UserController {
         for(DetailsSale detalle : item.getDetallesVenta()) {
            String imagenBase64 = detalle.getProducto().getImagenDataUri();
            detalle.getProducto().setImagenbase64(imagenBase64);
-           detalle.getProducto().setImagen(null);
+           
            detalle.getProducto().getMarca().setImagen(null);
        }
 
