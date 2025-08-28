@@ -72,7 +72,10 @@ public class UserController {
 
     for (Product producto : productos) {
            String imagenBase64 = producto.getImagenDataUri();
+           String imagenmarca = producto.getMarca().getImagenDataUri();
            producto.setImagenbase64(imagenBase64);
+           //producto.getMarca().setImagen(null); // Limpiar la imagen de la marca para evitar datos innecesarios
+           producto.getMarca().setImagenbase64(imagenmarca);
        }
 
     int totalPages = productos.getTotalPages();
@@ -104,7 +107,7 @@ public class UserController {
     User user = userServices.findByUsername(username);
 
     int currentPage = page.orElse(1)-1; // si no está seteado se asigna 0
-        int pageSize = size.orElse(3); // tamaño de la página, se asigna 5
+        int pageSize = size.orElse(1); // tamaño de la página, se asigna 5
         Pageable pageable = PageRequest.of(currentPage, pageSize);
 
     Page<Sale> ventas = service.obtenerVentasPorUsuario(user.getId(),pageable);

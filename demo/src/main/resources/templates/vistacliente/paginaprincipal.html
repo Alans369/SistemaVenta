@@ -19,7 +19,7 @@
     <!-- Header -->
     <header class="header">
         <div class="header-container">
-            <div class="logo">ACKERMAN</div>
+            <div class="logo">LuxeStore</div>
             
             <div class="search-container">
                 <input type="text" id="search-box" class="search-box" placeholder="Buscar productos, marcas y más...">
@@ -84,9 +84,15 @@
                     <input type="hidden" class="product-marca" name="marca" th:value="${item.marca.id}" />
                     <div class="product-image" ><img class="product-imagen" th:src="@{${item.imagenbase64}}" /></div>
                     <h3 class="product-title" th:text="${item.nombre}"></h3>
+
+                    <div class="product-title" th:style="'position: absolute; top: 60%; right: 60px; width: 50px; height: 50px; background: url(' + @{${item.marca.imagenbase64}} + ') center/cover, linear-gradient(45deg, rgb(78, 205, 196), rgb(68, 160, 141)); border-radius: 50%; '">
+                        <br><br>
+                        <p th:text="${item.marca.nombre}" style="margin-left: -6px; font-size: 15px;">marca</p>
+                    </div>
                     
-                    <p class="product-description" th:text="${item.marca.nombre}"></p>
-                     <img src="imagen" alt="imagen de marca">
+                    
+                
+                     
                      <h3 th:text="'stock: '+${item.stock}"></h3>
                     <div class="product-price" th:text="'$ '+${item.precioVenta}" >$1,299.99</div>
                     <button class="add-to-cart">Agregar al Carrito</button>

@@ -142,9 +142,11 @@
                 
                 if (response.ok) {
                     console.log('✅ Enviado correctamente');
+                    window.location.href = '/user/principal';
                 }
             } catch (error) {
                 console.error('❌ Error:', error);
+                window.location.href = '/user/principal';
             }
 
             
