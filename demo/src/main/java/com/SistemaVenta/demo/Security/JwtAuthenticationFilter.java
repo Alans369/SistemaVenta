@@ -131,7 +131,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements IJw
             String role = claimsJws.get("role", String.class);
 
             if(role.equals("ROLE_CLIENTE")){
-                ruta = "/user/dashboard";
+                ruta = "/user/principal";
+                //ggbgbg
+                System.out.println("rol cliente");
             }
             if(role.equals("ROLE_VENDEDOR")){
                 ruta = "/admin/admin";
