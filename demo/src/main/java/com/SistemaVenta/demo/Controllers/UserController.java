@@ -1,6 +1,7 @@
 package com.SistemaVenta.demo.Controllers;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.SistemaVenta.demo.Model.DetailsSale;
 import com.SistemaVenta.demo.Model.Product;
 import com.SistemaVenta.demo.Model.Sale;
 import com.SistemaVenta.demo.Model.User;
@@ -106,6 +108,33 @@ public class UserController {
         Pageable pageable = PageRequest.of(currentPage, pageSize);
 
     Page<Sale> ventas = service.obtenerVentasPorUsuario(user.getId(),pageable);
+
+
+
+    for(Sale item : ventas){
+      System.out.println("Venta ID: " + item.getId());
+
+        
+
+        for(DetailsSale detalle : item.getDetallesVenta()) {
+           String imagenBase64 = detalle.getProducto().getImagenDataUri();
+           detalle.getProducto().setImagenbase64(imagenBase64);
+           detalle.getProducto().setImagen(null);
+           detalle.getProducto().getMarca().setImagen(null);
+       }
+
+       
+    }
+
+    
+
+       
+       
+      
+
+        
+
+
 
 
     int totalPages = ventas.getTotalPages();
