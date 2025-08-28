@@ -178,11 +178,12 @@
             const productos = localStorage.getItem('listaproductos');
             console.log('Productos en el carrito:', productos);
 
-            const total = localStorage.getItem('total') || '0.00';
+            const total = localStorage.getItem('total');
+            console.log('Total a pagar:', total);
 
 
 
-            document.getElementById('buttonText').textContent = 'Procesar Pago - $' + total.tofixed(2);
+            document.getElementById('buttonText').textContent = 'Procesar Pago - $' + total;
         });
 
 
